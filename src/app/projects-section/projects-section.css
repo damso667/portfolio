@@ -1,0 +1,343 @@
+/* ============================================================
+   projects-section.component.css — Section "Mes réalisations"
+   ============================================================ */
+
+.projects-section {
+  background-color: var(--bg-secondary);
+  position: relative;
+}
+
+/* Séparateur supérieur */
+.projects-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent-border), transparent);
+}
+
+/* ============================================================
+   EN-TÊTE DE SECTION
+   ============================================================ */
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  letter-spacing: -0.03em;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   GRILLE DE PROJETS
+   ============================================================ */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Deux colonnes sur desktop */
+  gap: 24px;
+}
+
+/* ── Carte projet ── */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  overflow: hidden; /* Pour que l'image respecte le border-radius */
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* ── Carte mise en avant : occupe toute la largeur ── */
+.project-featured {
+  grid-column: 1 / -1; /* Pleine largeur */
+}
+
+/* Sur la carte featured, l'image et le texte sont côte à côte */
+.project-featured {
+  flex-direction: row;
+}
+
+/* ============================================================
+   VISUEL DU PROJET
+   ============================================================ */
+.project-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;  /* Ratio constant pour toutes les cartes */
+  background: var(--gradient-card);
+  overflow: hidden;
+}
+
+/* Carte featured : image prend 45% de la largeur */
+.project-featured .project-image {
+  width: 45%;
+  aspect-ratio: auto; /* Hauteur définie par le flex parent */
+  flex-shrink: 0;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Recadre l'image sans déformation */
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.04); /* Léger zoom au survol */
+}
+
+/* ── Placeholder (si pas d'image) ── */
+.project-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--gradient-card);
+}
+
+.placeholder-icon {
+  font-size: 2.5rem;
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+.placeholder-text {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── Overlay de liens (apparaît au survol) ── */
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover .project-overlay {
+  opacity: 1;
+}
+
+.overlay-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: #f0f0f0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.overlay-link:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+.overlay-link i {
+  font-size: 1.1rem;
+}
+
+/* ── Badge "Projet phare" ── */
+.featured-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #facc15; /* Doré pour l'étoile */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2;
+}
+
+/* ============================================================
+   CONTENU TEXTUEL
+   ============================================================ */
+.project-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  flex: 1;
+}
+
+/* Carte featured : plus de padding et contenu centré verticalement */
+.project-featured .project-content {
+  padding: 32px;
+  justify-content: center;
+}
+
+.project-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.project-featured .project-title {
+  font-size: 1.4rem;
+}
+
+.project-description {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* ── Liste des technologies ── */
+.project-tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.tech-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.tech-badge i {
+  font-size: 0.85rem;
+}
+
+/* ── Liens en bas de carte ── */
+.project-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--accent-border);
+}
+
+.project-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease, gap 0.2s ease;
+}
+
+.project-link:hover {
+  color: var(--text-secondary);
+  opacity: 1;
+  gap: 9px; /* Léger décalage de l'icône au survol */
+}
+
+.project-link i {
+  font-size: 0.8rem;
+}
+
+/* ── Message si aucun lien disponible ── */
+.project-link-disabled {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   RESPONSIVE — TABLETTE
+   ============================================================ */
+@media (max-width: 900px) {
+  .projects-grid {
+    grid-template-columns: 1fr; /* Une seule colonne */
+  }
+
+  /* La carte featured redevient verticale comme les autres */
+  .project-featured {
+    flex-direction: column;
+  }
+
+  .project-featured .project-image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+
+  .project-featured .project-content {
+    padding: 24px;
+  }
+
+  .project-featured .project-title {
+    font-size: 1.1rem;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 480px) {
+  .project-content {
+    padding: 18px;
+  }
+
+  .project-links {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .overlay-link {
+    padding: 10px 16px;
+  }
+}

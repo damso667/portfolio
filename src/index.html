@@ -1,13 +1,48 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Portfolio</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- ── SEO ── -->
+    <title>Noubam Adrien — Développeur Full Stack</title>
+    <meta name="description" content="Portfolio de Noubam Adrien, développeur Full Stack niveau BTS. Spécialisé en Angular, Spring Boot, Java, MySQL. Disponible pour stage ou emploi à Yaoundé, Cameroun." />
+    <meta name="keywords" content="développeur, Angular, Spring Boot, Java, portfolio, BTS, Cameroun, Yaoundé" />
+    <meta name="author" content="Noubam Adrien" />
+
+    <!-- ── Open Graph ── -->
+    <meta property="og:title" content="Noubam Adrien — Développeur Full Stack" />
+    <meta property="og:description" content="Portfolio professionnel de Noubam Adrien, développeur BTS." />
+    <meta property="og:type" content="website" />
+
+    <!-- ── Favicon ── -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- ── Google Fonts : Inter ── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ── Font Awesome 6 (icônes) via CDN ── -->
+    <!-- Pas d'attribut "integrity" : le hash SHA doit correspondre exactement
+         à la version du fichier, sinon le navigateur bloque le CSS entier. -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- EmailJS (utilisé dans le ContactSectionComponent) -->
+
+  </head>
+
+  <body>
+    <!-- Point de montage Angular -->
+    <app-root></app-root>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  </body>
 </html>

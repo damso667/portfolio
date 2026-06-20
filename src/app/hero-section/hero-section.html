@@ -1,0 +1,133 @@
+<!-- ============================================================
+     hero-section.component.html — Section héros principale
+     ============================================================ -->
+
+<section id="accueil" class="hero-section">
+
+  <!-- Fond animé : particules / grille décorative -->
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-bg-glow"></div>
+  </div>
+
+  <div class="hero-container">
+
+    <!-- ════════════════════════════════
+         COLONNE GAUCHE : Texte + CTA
+         ════════════════════════════════ -->
+    <div class="hero-content">
+
+      <!-- Badge de disponibilité -->
+      <div class="hero-badge animate-on-scroll">
+        <span class="badge-dot"></span>
+        <span>Disponible pour un stage ou un emploi</span>
+      </div>
+
+      <!-- Nom principal -->
+      <h1 class="hero-name animate-on-scroll">
+        Noubam<br />
+        <span class="hero-name-highlight">Adrien</span>
+      </h1>
+
+      <!-- Slogan animé (typewriter) -->
+      <div class="hero-typewriter animate-on-scroll">
+        <span class="typewriter-text">{{ displayedText }}</span>
+        <!-- Curseur clignotant -->
+        <span class="typewriter-cursor" aria-hidden="true">|</span>
+      </div>
+
+      <!-- Description courte -->
+      <p class="hero-description animate-on-scroll">
+        Étudiant en <strong>BTS Génie Logiciel</strong> à l'ISMAT de Yaoundé,
+        je conçois des applications web et mobiles robustes avec
+        <strong>Angular</strong>, <strong>Spring Boot</strong> et <strong>Flutter</strong>.
+        Passionné par la création d'expériences numériques élégantes et performantes.
+      </p>
+
+      <!-- Boutons CTA -->
+      <div class="hero-ctas animate-on-scroll">
+        <!-- Télécharger le CV -->
+        <a
+          href="assets/cv-noubam-adrien.pdf"
+          download
+          class="btn-primary"
+          aria-label="Télécharger le CV de Noubam Adrien">
+          <i class="fa-solid fa-download"></i>
+          Télécharger le CV
+        </a>
+
+        <!-- Explorer les projets -->
+        <button
+          class="btn-secondary"
+          (click)="scrollToProjects()"
+          aria-label="Voir mes projets">
+          <i class="fa-solid fa-arrow-down"></i>
+          Explorer les projets
+        </button>
+      </div>
+
+      <!-- Liens réseaux sociaux -->
+      <div class="hero-socials animate-on-scroll">
+        <a
+          *ngFor="let social of socialLinks"
+          [href]="social.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+          [attr.aria-label]="social.ariaLabel">
+          <i [class]="social.icon"></i>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- ════════════════════════════════
+         COLONNE DROITE : Photo + Stats
+         ════════════════════════════════ -->
+    <div class="hero-visual animate-on-scroll">
+
+      <!-- ── Cadre photo de profil ── -->
+      <!-- Pour ajouter ta photo : remplace le contenu de .photo-placeholder
+           par une balise <img src="assets/ta-photo.jpg" alt="Noubam Adrien" /> -->
+      <div class="photo-frame">
+        <div class="photo-placeholder">
+          <!-- Icône par défaut (remplacer par <img> avec ta photo) -->
+          <i class="fa-solid fa-user photo-icon"></i>
+          <span class="photo-hint">Ajouter ta photo ici</span>
+        </div>
+
+        <!-- Anneaux décoratifs autour de la photo -->
+        <div class="photo-ring photo-ring-1" aria-hidden="true"></div>
+        <div class="photo-ring photo-ring-2" aria-hidden="true"></div>
+
+        <!-- Badge tech flottant -->
+        <div class="photo-badge badge-angular" aria-hidden="true">
+          <i class="fa-brands fa-angular"></i>
+          <span>Angular</span>
+        </div>
+        <div class="photo-badge badge-java" aria-hidden="true">
+          <i class="fa-brands fa-java"></i>
+          <span>Spring Boot</span>
+        </div>
+      </div>
+
+      <!-- ── Statistiques rapides ── -->
+      <div class="hero-stats">
+        <div
+          *ngFor="let stat of stats"
+          class="stat-item">
+          <span class="stat-value">{{ stat.value }}</span>
+          <span class="stat-label">{{ stat.label }}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Indicateur de scroll vers le bas -->
+  <div class="scroll-indicator" aria-hidden="true">
+    <div class="scroll-line"></div>
+  </div>
+
+</section>

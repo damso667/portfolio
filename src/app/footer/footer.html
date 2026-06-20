@@ -1,0 +1,76 @@
+<!-- ============================================================
+     footer.component.html — Pied de page
+     ============================================================ -->
+
+<footer class="footer">
+  <div class="container">
+
+    <!-- ── Partie supérieure : Logo + Liens + Socials ── -->
+    <div class="footer-top">
+
+      <!-- ── Colonne 1 : Logo + description ── -->
+      <div class="footer-brand">
+        <button class="footer-logo" (click)="scrollToTop()" aria-label="Retour en haut de la page">
+          <span class="logo-first">Noubam</span>
+          <span class="logo-last">Adrien</span>
+          <span class="logo-dot"></span>
+        </button>
+        <p class="footer-tagline">
+          Développeur Full Stack — Niveau BTS Génie Logiciel.
+          Créateur d'expériences numériques performantes et élégantes.
+        </p>
+      </div>
+
+      <!-- ── Colonne 2 : Navigation rapide ── -->
+      <div class="footer-links">
+        <h4 class="footer-heading">Navigation</h4>
+        <ul class="footer-link-list">
+          <li *ngFor="let link of quickLinks">
+            <button class="footer-link" (click)="navigateTo(link.anchor)">
+              {{ link.label }}
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── Colonne 3 : Réseaux sociaux ── -->
+      <div class="footer-socials">
+        <h4 class="footer-heading">Me retrouver</h4>
+        <div class="footer-social-list">
+          <a
+            *ngFor="let social of socialLinks"
+            [href]="social.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-social-link"
+            [attr.aria-label]="social.ariaLabel">
+            <i [class]="social.icon"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Séparateur ── -->
+    <div class="footer-divider" aria-hidden="true"></div>
+
+    <!-- ── Partie inférieure : Copyright + Liens légaux + Retour en haut ── -->
+    <div class="footer-bottom">
+
+      <!-- Copyright avec année dynamique -->
+      <p class="footer-copyright">
+        © {{ currentYear }} Noubam Adrien. Tous droits réservés.
+      </p>
+
+      <!-- Lien politique de confidentialité (placeholder) -->
+      <a href="#" class="footer-legal">Politique de confidentialité</a>
+
+      <!-- Bouton retour en haut -->
+      <button class="back-to-top" (click)="scrollToTop()" aria-label="Retour en haut de la page">
+        <i class="fa-solid fa-arrow-up"></i>
+      </button>
+
+    </div>
+
+  </div>
+</footer>

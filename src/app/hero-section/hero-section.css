@@ -1,0 +1,463 @@
+/* ============================================================
+   hero-section.component.css — Section héros principale
+   ============================================================ */
+
+/* ── Section globale ── */
+.hero-section {
+  position: relative;
+  min-height: 100vh;          /* Occupe toute la hauteur de l'écran */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-top: 72px;          /* Compense le header fixe */
+}
+
+/* ============================================================
+   FOND ANIMÉ
+   ============================================================ */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Grille de points subtile en arrière-plan */
+.hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, var(--accent-border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.4;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+}
+
+/* Lueur centrale douce */
+.hero-bg-glow {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(120, 120, 200, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+/* ============================================================
+   CONTENEUR PRINCIPAL (deux colonnes)
+   ============================================================ */
+.hero-container {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Deux colonnes égales sur desktop */
+  align-items: center;
+  gap: 64px;
+  max-width: 1200px;
+  width: 100%;
+  padding: 64px 24px;
+}
+
+/* ============================================================
+   COLONNE GAUCHE — Texte
+   ============================================================ */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Badge de disponibilité ── */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  width: fit-content;
+}
+
+/* Point vert animé (indicateur de disponibilité) */
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;            /* Vert doux */
+  box-shadow: 0 0 6px #4ade80;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.85); }
+}
+
+/* ── Nom principal ── */
+.hero-name {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Partie du nom en dégradé */
+.hero-name-highlight {
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Typewriter ── */
+.hero-typewriter {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 1.6rem;           /* Évite les sauts de mise en page */
+}
+
+.typewriter-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Curseur clignotant */
+.typewriter-cursor {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  font-weight: 300;
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Description ── */
+.hero-description {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  max-width: 480px;
+}
+
+.hero-description strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ── Boutons CTA ── */
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ── Réseaux sociaux ── */
+.hero-socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.social-link:hover {
+  color: var(--text-primary);
+  background: var(--accent-glow);
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+/* ============================================================
+   COLONNE DROITE — Photo + Stats
+   ============================================================ */
+.hero-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+/* ── Cadre photo ── */
+.photo-frame {
+  position: relative;
+  width: 280px;
+  height: 280px;
+}
+
+/* Placeholder photo (remplacer par <img> avec ta vraie photo) */
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Si tu ajoutes une vraie photo, utilise ce style sur le <img> :
+   .photo-placeholder img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     border-radius: 50%;
+   }
+*/
+
+.photo-icon {
+  font-size: 4rem;
+  color: var(--text-muted);
+}
+
+.photo-hint {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0 16px;
+}
+
+/* Anneaux décoratifs rotatifs */
+.photo-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--accent-border);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.photo-ring-1 {
+  width: 310px;
+  height: 310px;
+  animation: rotate-ring 12s linear infinite;
+  border-style: dashed;
+}
+
+.photo-ring-2 {
+  width: 340px;
+  height: 340px;
+  animation: rotate-ring 20s linear infinite reverse;
+  opacity: 0.4;
+}
+
+@keyframes rotate-ring {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Badges tech flottants autour de la photo */
+.photo-badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 3;
+  white-space: nowrap;
+  animation: float-badge 3s ease-in-out infinite;
+}
+
+/* Badge Angular en bas à gauche */
+.badge-angular {
+  bottom: 10px;
+  left: -20px;
+  color: #dd1b16;               /* Couleur Angular */
+  animation-delay: 0s;
+}
+
+/* Badge Spring Boot en haut à droite */
+.badge-java {
+  top: 20px;
+  right: -20px;
+  color: #6db33f;               /* Couleur Spring */
+  animation-delay: 1.5s;
+}
+
+@keyframes float-badge {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+
+/* ── Statistiques rapides ── */
+.hero-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  min-width: 72px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.stat-item:hover {
+  background: var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ============================================================
+   INDICATEUR DE SCROLL
+   ============================================================ */
+.scroll-indicator {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+/* Ligne animée qui descend */
+.scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--text-primary), transparent);
+  animation: scroll-down 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-down {
+  0%   { opacity: 0; transform: scaleY(0); transform-origin: top; }
+  50%  { opacity: 1; transform: scaleY(1); transform-origin: top; }
+  100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+}
+
+/* ============================================================
+   RESPONSIVE — TABLETTE
+   ============================================================ */
+@media (max-width: 900px) {
+  .hero-container {
+    grid-template-columns: 1fr;   /* Une seule colonne */
+    gap: 48px;
+    text-align: center;
+    padding: 48px 24px;
+  }
+
+  .hero-content {
+    align-items: center;
+  }
+
+  .hero-description {
+    max-width: 100%;
+  }
+
+  .hero-ctas {
+    justify-content: center;
+  }
+
+  .hero-socials {
+    justify-content: center;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 480px) {
+  .photo-frame {
+    width: 200px;
+    height: 200px;
+  }
+
+  .photo-ring-1 {
+    width: 220px;
+    height: 220px;
+  }
+
+  .photo-ring-2 {
+    width: 245px;
+    height: 245px;
+  }
+
+  .hero-stats {
+    gap: 12px;
+  }
+
+  .stat-item {
+    padding: 12px 14px;
+    min-width: 60px;
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-ctas .btn-primary,
+  .hero-ctas .btn-secondary {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .badge-angular,
+  .badge-java {
+    display: none; /* Masqués sur très petit écran */
+  }
+}

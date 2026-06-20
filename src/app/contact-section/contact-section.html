@@ -1,0 +1,189 @@
+<!-- ============================================================
+     contact-section.component.html — Section "Entrons en contact"
+     ============================================================ -->
+
+<section id="contact" class="contact-section section">
+  <div class="container">
+
+    <!-- ── En-tête de section ── -->
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Contact</span>
+      <h2 class="section-title">Entrons en contact</h2>
+      <p class="section-subtitle">
+        Une question, une opportunité de stage ou simplement envie d'échanger ?
+        N'hésite pas à m'écrire.
+      </p>
+    </div>
+
+    <!-- ── Grille principale : Infos + Formulaire ── -->
+    <div class="contact-grid">
+
+      <!-- ════════════════════════════
+           COLONNE GAUCHE : Infos de contact
+           ════════════════════════════ -->
+      <div class="contact-info animate-on-scroll">
+
+        <h3 class="contact-info-title">Discutons de votre projet</h3>
+        <p class="contact-info-text">
+          Je suis actuellement disponible pour des stages, des missions freelance
+          ou un premier emploi en développement Full Stack. Réponse garantie
+          sous 48h.
+        </p>
+
+        <!-- ── Liste des infos (email, localisation) ── -->
+        <div class="contact-details">
+          <div *ngFor="let info of contactInfo" class="contact-detail-item">
+            <div class="detail-icon">
+              <i [class]="info.icon"></i>
+            </div>
+            <div class="detail-text">
+              <span class="detail-label">{{ info.label }}</span>
+              <!-- Si un lien existe, affiche un <a>, sinon un simple texte -->
+              <a *ngIf="info.link" [href]="info.link" class="detail-value detail-link">
+                {{ info.value }}
+              </a>
+              <span *ngIf="!info.link" class="detail-value">{{ info.value }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Réseaux sociaux ── -->
+        <div class="contact-socials">
+          <a
+            *ngFor="let social of socialLinks"
+            [href]="social.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+            [attr.aria-label]="social.ariaLabel">
+            <i [class]="social.icon"></i>
+            <span>{{ social.label }}</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- ════════════════════════════
+           COLONNE DROITE : Formulaire
+           ════════════════════════════ -->
+      <div class="contact-form-wrapper animate-on-scroll">
+
+        <form
+          #contactForm="ngForm"
+          (ngSubmit)="onSubmit(contactForm)"
+          class="contact-form"
+          novalidate>
+
+          <!-- ── Champ Nom ── -->
+          <div class="form-group">
+            <label for="name" class="form-label">Nom complet</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="form-input"
+              [(ngModel)]="formData.name"
+              #nameField="ngModel"
+              required
+              minlength="2"
+              placeholder="Votre nom"
+              [class.input-error]="nameField.invalid && nameField.touched" />
+            <span class="form-error" *ngIf="nameField.invalid && nameField.touched">
+              Le nom doit contenir au moins 2 caractères.
+            </span>
+          </div>
+
+          <!-- ── Champ Email ── -->
+          <div class="form-group">
+            <label for="email" class="form-label">Adresse email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-input"
+              [(ngModel)]="formData.email"
+              #emailField="ngModel"
+              required
+              email
+              placeholder="votre.email@exemple.com"
+              [class.input-error]="emailField.invalid && emailField.touched" />
+            <span class="form-error" *ngIf="emailField.invalid && emailField.touched">
+              Merci de saisir une adresse email valide.
+            </span>
+          </div>
+
+          <!-- ── Champ Sujet ── -->
+          <div class="form-group">
+            <label for="subject" class="form-label">Sujet</label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              class="form-input"
+              [(ngModel)]="formData.subject"
+              #subjectField="ngModel"
+              required
+              minlength="3"
+              placeholder="Ex : Proposition de stage"
+              [class.input-error]="subjectField.invalid && subjectField.touched" />
+            <span class="form-error" *ngIf="subjectField.invalid && subjectField.touched">
+              Merci d'indiquer un sujet (3 caractères minimum).
+            </span>
+          </div>
+
+          <!-- ── Champ Message ── -->
+          <div class="form-group">
+            <label for="message" class="form-label">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              class="form-input form-textarea"
+              [(ngModel)]="formData.message"
+              #messageField="ngModel"
+              required
+              minlength="10"
+              rows="5"
+              placeholder="Votre message..."
+              [class.input-error]="messageField.invalid && messageField.touched"></textarea>
+            <span class="form-error" *ngIf="messageField.invalid && messageField.touched">
+              Le message doit contenir au moins 10 caractères.
+            </span>
+          </div>
+
+          <!-- ── Bouton d'envoi ── -->
+          <button
+            type="submit"
+            class="btn-primary form-submit"
+            [disabled]="sendStatus === 'sending'">
+
+            <!-- Icône dynamique selon l'état -->
+            <i class="fa-solid fa-paper-plane"   *ngIf="sendStatus === 'idle' || sendStatus === 'error'"></i>
+            <i class="fa-solid fa-spinner fa-spin" *ngIf="sendStatus === 'sending'"></i>
+            <i class="fa-solid fa-check"          *ngIf="sendStatus === 'success'"></i>
+
+            <!-- Texte dynamique selon l'état -->
+            <span *ngIf="sendStatus === 'idle' || sendStatus === 'error'">Envoyer le message</span>
+            <span *ngIf="sendStatus === 'sending'">Envoi en cours...</span>
+            <span *ngIf="sendStatus === 'success'">Message envoyé !</span>
+          </button>
+
+          <!-- ── Message de succès ── -->
+          <div class="form-feedback form-success" *ngIf="sendStatus === 'success'">
+            <i class="fa-solid fa-circle-check"></i>
+            Merci pour votre message ! Je vous répondrai dans les plus brefs délais.
+          </div>
+
+          <!-- ── Message d'erreur ── -->
+          <div class="form-feedback form-error-msg" *ngIf="sendStatus === 'error'">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            {{ errorMessage }}
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>

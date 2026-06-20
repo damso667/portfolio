@@ -1,0 +1,326 @@
+/* ============================================================
+   header.component.css — Styles de la barre de navigation
+   Toutes les couleurs viennent des variables CSS de styles.css
+   ============================================================ */
+
+/* ── Conteneur principal du header ── */
+.header {
+  position: fixed;           /* Fixe en haut, même au scroll */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;             /* Au-dessus de tout le contenu */
+  height: 72px;              /* Hauteur du header (multiple de 8px) */
+
+  /* Fond transparent par défaut */
+  background: transparent;
+  border-bottom: 1px solid transparent;
+
+  /* Transition fluide lors du scroll */
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    backdrop-filter 0.3s ease;
+}
+
+/* ── État scrollé : fond flouté (glassmorphism) ── */
+.header.scrolled {
+  background: var(--nav-bg);
+  border-bottom-color: var(--nav-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+/* ── Conteneur intérieur : flexbox centré ── */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ============================================================
+   LOGO
+   ============================================================ */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.75;
+}
+
+/* Prénom en couleur primaire */
+.logo-first {
+  color: var(--text-primary);
+}
+
+/* Nom de famille légèrement atténué */
+.logo-last {
+  color: var(--text-secondary);
+}
+
+/* Point décoratif après le nom */
+.logo-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  margin-left: 2px;
+  margin-bottom: 2px; /* Aligne visuellement avec la baseline */
+}
+
+/* ============================================================
+   NAVIGATION DESKTOP
+   ============================================================ */
+.nav-desktop {
+  display: flex; /* Visible sur desktop */
+}
+
+/* Supprime les puces de la liste */
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+}
+
+/* ── Lien de navigation ── */
+.nav-link {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+  background: var(--accent-glow);
+}
+
+/* ── Lien actif (section visible) ── */
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+/* Indicateur de soulignement animé sous le lien actif */
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 1px;
+  background: var(--text-primary);
+  border-radius: 1px;
+}
+
+/* ============================================================
+   ACTIONS (bouton CV + toggle thème + hamburger)
+   ============================================================ */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Bouton CV ── */
+.btn-cv {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-cv:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+  opacity: 1; /* Écrase le style global du a:hover */
+}
+
+.btn-cv i {
+  font-size: 0.75rem;
+}
+
+/* ── Bouton toggle thème ── */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--text-primary);
+  background: var(--accent-glow);
+  transform: rotate(15deg); /* Rotation subtile au survol */
+}
+
+/* ── Bouton hamburger (mobile) ── */
+.hamburger {
+  display: none; /* Masqué sur desktop */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* ── Barres du hamburger ── */
+.bar {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+/* Animation : transformation en croix quand le menu est ouvert */
+.hamburger .bar:nth-child(1).open { transform: translateY(6.5px) rotate(45deg); }
+.hamburger .bar:nth-child(2).open { opacity: 0; transform: scaleX(0); }
+.hamburger .bar:nth-child(3).open { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ============================================================
+   MENU MOBILE
+   ============================================================ */
+.nav-mobile {
+  display: none; /* Masqué sur desktop */
+  overflow: hidden;
+  max-height: 0;             /* Fermé par défaut */
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  background: var(--nav-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-top: 1px solid var(--nav-border);
+}
+
+.nav-mobile.open {
+  max-height: 400px; /* Ouvert : hauteur suffisante pour les liens */
+  padding: 8px 0 16px;
+}
+
+.nav-mobile-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+  gap: 4px;
+}
+
+/* ── Lien mobile ── */
+.nav-mobile-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav-mobile-link:hover,
+.nav-mobile-link.active {
+  color: var(--text-primary);
+  background: var(--accent-glow);
+}
+
+/* Lien CV dans le menu mobile */
+.nav-mobile-cv {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  border-top: 1px solid var(--accent-border);
+  padding-top: 16px !important;
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Masquer la nav desktop et le bouton CV sur mobile */
+  .nav-desktop {
+    display: none;
+  }
+
+  .btn-cv {
+    display: none;
+  }
+
+  /* Afficher le hamburger */
+  .hamburger {
+    display: flex;
+  }
+
+  /* Afficher le menu mobile */
+  .nav-mobile {
+    display: block;
+  }
+
+  .header-inner {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 0.95rem;
+  }
+}

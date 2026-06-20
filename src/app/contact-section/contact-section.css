@@ -1,0 +1,323 @@
+/* ============================================================
+   contact-section.component.css — Section "Entrons en contact"
+   ============================================================ */
+
+.contact-section {
+  background-color: var(--bg-primary);
+  position: relative;
+}
+
+.contact-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent-border), transparent);
+}
+
+/* ============================================================
+   EN-TÊTE DE SECTION
+   ============================================================ */
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  letter-spacing: -0.03em;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   GRILLE PRINCIPALE
+   ============================================================ */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr; /* Formulaire légèrement plus large */
+  gap: 64px;
+  align-items: start;
+}
+
+/* ============================================================
+   COLONNE GAUCHE — Infos de contact
+   ============================================================ */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.contact-info-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.contact-info-text {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* ── Détails de contact (email, localisation) ── */
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.contact-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.detail-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.detail-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.detail-value {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.detail-link {
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.detail-link:hover {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+/* ── Réseaux sociaux ── */
+.contact-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.social-link:hover {
+  color: var(--text-primary);
+  background: var(--accent-glow);
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+/* ============================================================
+   COLONNE DROITE — Formulaire
+   ============================================================ */
+.contact-form-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 40px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Groupe de champ ── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ── Champs de saisie ── */
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── État focus ── */
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  background: var(--accent-glow);
+}
+
+/* ── État erreur ── */
+.form-input.input-error {
+  border-color: #f87171; /* Rouge doux */
+}
+
+/* ── Textarea ── */
+.form-textarea {
+  resize: vertical;       /* Redimensionnement vertical uniquement */
+  min-height: 120px;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+/* ── Message d'erreur de validation ── */
+.form-error {
+  font-size: 0.75rem;
+  color: #f87171;
+  font-weight: 500;
+}
+
+/* ── Bouton d'envoi ── */
+.form-submit {
+  margin-top: 8px;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 28px;
+  font-size: 0.95rem;
+}
+
+.form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Animation de l'icône spinner pendant l'envoi */
+.fa-spin {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Messages de feedback (succès / erreur) ── */
+.form-feedback {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  animation: fade-in-feedback 0.3s ease;
+}
+
+@keyframes fade-in-feedback {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Succès : vert doux */
+.form-success {
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+}
+
+/* Erreur : rouge doux */
+.form-error-msg {
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  color: #f87171;
+}
+
+/* ============================================================
+   RESPONSIVE — TABLETTE
+   ============================================================ */
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .contact-form-wrapper {
+    padding: 32px 24px;
+    order: -1; /* Le formulaire apparaît en premier sur mobile */
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 480px) {
+  .contact-form-wrapper {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .contact-socials {
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    flex: 1;
+    justify-content: center;
+  }
+}

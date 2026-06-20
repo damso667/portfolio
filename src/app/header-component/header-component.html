@@ -1,0 +1,96 @@
+<!-- ============================================================
+     header.component.html — Template de la barre de navigation
+     ============================================================ -->
+
+<!-- 
+  [class.scrolled]     : ajoute la classe .scrolled quand l'utilisateur scrolle
+  [class.menu-open]    : ajoute la classe .menu-open quand le menu mobile est ouvert
+-->
+<header class="header" [class.scrolled]="isScrolled" [class.menu-open]="isMobileMenuOpen">
+  <div class="header-inner">
+
+    <!-- ── Logo / Nom ── -->
+    <button class="logo" (click)="navigateTo('accueil')" aria-label="Retour à l'accueil">
+      <span class="logo-first">Noubam</span>
+      <span class="logo-last">Adrien</span>
+      <span class="logo-dot"></span>
+    </button>
+
+    <!-- ── Navigation desktop ── -->
+    <nav class="nav-desktop" role="navigation" aria-label="Navigation principale">
+      <ul class="nav-list">
+        <li *ngFor="let link of navLinks">
+          <button
+            class="nav-link"
+            [class.active]="isActive(link.anchor)"
+            (click)="navigateTo(link.anchor)"
+            [attr.aria-current]="isActive(link.anchor) ? 'page' : null">
+            {{ link.label }}
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- ── Actions : bouton thème + CTA ── -->
+    <div class="header-actions">
+
+      <!-- Bouton télécharger CV -->
+      <a
+        href="cv.pdf"
+        download
+        class="btn-cv"
+        aria-label="Télécharger le CV de Noubam Adrien">
+        <i class="fa-solid fa-download"></i>
+        <span>CV</span>
+      </a>
+
+      <!-- Bouton toggle thème (icône soleil / lune) -->
+      <button
+        class="theme-toggle"
+        (click)="onThemeToggle()"
+        [attr.aria-label]="currentTheme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'">
+        <!-- Lune : visible en mode sombre -->
+        <i class="fa-solid fa-moon"  *ngIf="currentTheme === 'dark'"></i>
+        <!-- Soleil : visible en mode clair -->
+        <i class="fa-solid fa-sun"   *ngIf="currentTheme === 'light'"></i>
+      </button>
+
+      <!-- Bouton hamburger (mobile uniquement) -->
+      <button
+        class="hamburger"
+        (click)="toggleMobileMenu()"
+        [attr.aria-expanded]="isMobileMenuOpen"
+        aria-label="Ouvrir le menu de navigation">
+        <span class="bar" [class.open]="isMobileMenuOpen"></span>
+        <span class="bar" [class.open]="isMobileMenuOpen"></span>
+        <span class="bar" [class.open]="isMobileMenuOpen"></span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ── Menu mobile (affiché uniquement sur petits écrans) ── -->
+  <nav
+    class="nav-mobile"
+    [class.open]="isMobileMenuOpen"
+    role="navigation"
+    aria-label="Navigation mobile">
+    <ul class="nav-mobile-list">
+      <li *ngFor="let link of navLinks">
+        <button
+          class="nav-mobile-link"
+          [class.active]="isActive(link.anchor)"
+          (click)="navigateTo(link.anchor)">
+          {{ link.label }}
+        </button>
+      </li>
+      <!-- Lien CV dans le menu mobile -->
+      <li>
+        <a href="cv.pdf" download class="nav-mobile-link nav-mobile-cv">
+          <i class="fa-solid fa-download"></i> Télécharger le CV
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+</header>

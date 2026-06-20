@@ -1,0 +1,158 @@
+<!-- ============================================================
+     about-section.component.html — Section "À propos de moi"
+     ============================================================ -->
+
+<section id="apropos" class="about-section section">
+  <div class="container">
+
+    <!-- ── En-tête de section ── -->
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">À propos</span>
+      <h2 class="section-title">Qui suis-je ?</h2>
+      <p class="section-subtitle">
+        Développeur passionné, je transforme des idées en applications robustes et élégantes.
+      </p>
+    </div>
+
+    <!-- ── Grille principale : Texte + Compétences ── -->
+    <div class="about-grid">
+
+      <!-- ════════════════════════════
+           COLONNE GAUCHE : Présentation + Timeline
+           ════════════════════════════ -->
+      <div class="about-left">
+
+        <!-- Description personnelle -->
+        <div class="about-bio animate-on-scroll">
+          <p>
+            Étudiant en <strong>BTS Génie Logiciel</strong> à l'ISMAT de Yaoundé, je me passionne
+            pour la création d'applications web et mobiles complètes. Mon approche combine
+            rigueur technique et sens du détail pour produire des solutions performantes.
+          </p>
+          <p>
+            Mon expérience en stage chez <strong>MCA Conseils Sarl</strong> m'a permis de
+            concevoir une application de gestion de laboratoire hospitalier de bout en bout,
+            de la modélisation des données à l'intégration de l'authentification JWT.
+          </p>
+          <p>
+            Je cherche constamment à approfondir mes compétences en explorant de nouvelles
+            technologies et en construisant des projets concrets qui résolvent de vrais problèmes.
+          </p>
+        </div>
+
+        <!-- Timeline parcours -->
+        <div class="timeline animate-on-scroll">
+          <h3 class="subsection-title">Mon parcours</h3>
+
+          <div class="timeline-list">
+            <div
+              *ngFor="let item of timeline"
+              class="timeline-item"
+              [class.timeline-work]="item.type === 'work'"
+              [class.timeline-academic]="item.type === 'academic'">
+
+              <!-- Icône + ligne verticale -->
+              <div class="timeline-icon-wrap">
+                <div class="timeline-icon">
+                  <i [class]="item.icon"></i>
+                </div>
+                <div class="timeline-line"></div>
+              </div>
+
+              <!-- Contenu -->
+              <div class="timeline-content">
+                <span class="timeline-period">{{ item.period }}</span>
+                <h4 class="timeline-title">{{ item.title }}</h4>
+                <span class="timeline-org">{{ item.organization }}</span>
+                <p class="timeline-desc">{{ item.description }}</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ════════════════════════════
+           COLONNE DROITE : Compétences
+           ════════════════════════════ -->
+      <div class="about-right">
+
+        <!-- ── Frontend ── -->
+        <div class="skills-group animate-on-scroll">
+          <h3 class="subsection-title">Frontend & Mobile</h3>
+          <div class="skills-grid">
+            <div
+              *ngFor="let skill of frontendSkills"
+              class="skill-item"
+              (mouseenter)="showTooltip(skill.label)"
+              (mouseleave)="hideTooltip()"
+              [attr.aria-label]="skill.label">
+
+              <!-- Icône de la compétence -->
+              <i [class]="skill.icon" [style.color]="skill.color"></i>
+
+              <!-- Tooltip au survol -->
+              <span class="skill-tooltip" [class.visible]="activeTooltip === skill.label">
+                {{ skill.label }}
+              </span>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Backend ── -->
+        <div class="skills-group animate-on-scroll">
+          <h3 class="subsection-title">Backend & API</h3>
+          <div class="skills-grid">
+            <div
+              *ngFor="let skill of backendSkills"
+              class="skill-item"
+              (mouseenter)="showTooltip(skill.label)"
+              (mouseleave)="hideTooltip()"
+              [attr.aria-label]="skill.label">
+              <i [class]="skill.icon" [style.color]="skill.color"></i>
+              <span class="skill-tooltip" [class.visible]="activeTooltip === skill.label">
+                {{ skill.label }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Outils & BDD ── -->
+        <div class="skills-group animate-on-scroll">
+          <h3 class="subsection-title">Bases de données & Outils</h3>
+          <div class="skills-grid">
+            <div
+              *ngFor="let skill of toolSkills"
+              class="skill-item"
+              (mouseenter)="showTooltip(skill.label)"
+              (mouseleave)="hideTooltip()"
+              [attr.aria-label]="skill.label">
+              <i [class]="skill.icon" [style.color]="skill.color"></i>
+              <span class="skill-tooltip" [class.visible]="activeTooltip === skill.label">
+                {{ skill.label }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Carte "Ce que je cherche" ── -->
+        <div class="about-card animate-on-scroll">
+          <div class="card-icon">
+            <i class="fa-solid fa-compass"></i>
+          </div>
+          <div class="card-body">
+            <h4>Ce que je recherche</h4>
+            <p>
+              Un environnement stimulant où je peux contribuer, apprendre
+              et évoluer en tant que développeur Full Stack junior.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>

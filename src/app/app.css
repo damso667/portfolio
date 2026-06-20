@@ -1,0 +1,38 @@
+/* ============================================================
+   app.component.css — Styles du composant racine
+   
+   Note : Les styles globaux (variables, reset, typographie)
+   sont dans src/styles.css. Ce fichier ne contient que
+   ce qui est spécifique au wrapper racine.
+   ============================================================ */
+
+/* ── Wrapper principal de l'application ── */
+.app-wrapper {
+  min-height: 100vh;                    /* Hauteur minimale = hauteur de l'écran */
+  background-color: var(--bg-primary);  /* Fond principal selon le thème actif */
+  display: flex;
+  flex-direction: column;               /* Empilement vertical : header → main → footer */
+  position: relative;
+  overflow: hidden;                     /* Empêche les débordements horizontaux */
+}
+
+/* ── Effet de fond dégradé radial (inspiré de Codex) ── */
+/* Crée une légère lueur en haut de la page */
+.app-wrapper::before {
+  content: '';
+  position: fixed;        /* Fixed pour que le dégradé reste en place au scroll */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60vh;
+  background: var(--gradient-hero);
+  pointer-events: none;   /* N'interfère pas avec les clics */
+  z-index: 0;             /* Derrière tout le contenu */
+}
+
+/* ── Contenu principal ── */
+.main-content {
+  flex: 1;        /* Pousse le footer vers le bas (flex stretch) */
+  position: relative;
+  z-index: 1;     /* Au-dessus de l'effet de fond */
+}

@@ -1,0 +1,125 @@
+<!-- ============================================================
+     projects-section.component.html — Section "Mes réalisations"
+     ============================================================ -->
+
+<section id="projets" class="projects-section section">
+  <div class="container">
+
+    <!-- ── En-tête de section ── -->
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Portfolio</span>
+      <h2 class="section-title">Mes réalisations</h2>
+      <p class="section-subtitle">
+        Une sélection de projets reflétant mes compétences en développement
+        Full Stack, de la conception à la mise en production.
+      </p>
+    </div>
+
+    <!-- ── Grille de projets ── -->
+    <div class="projects-grid">
+
+      <article
+        *ngFor="let project of projects"
+        class="project-card animate-on-scroll"
+        [class.project-featured]="project.featured">
+
+        <!-- ── Visuel du projet ── -->
+        <div class="project-image">
+
+          <!-- Si une image est fournie -->
+          <img
+            *ngIf="hasImage(project)"
+            [src]="'assets/projects/' + project.image"
+            [alt]="'Capture d\'écran du projet ' + project.title"
+            loading="lazy" />
+
+          <!-- Placeholder si aucune image (dégradé + icône) -->
+          <div class="project-image-placeholder" *ngIf="!hasImage(project)">
+            <i class="fa-solid fa-code placeholder-icon"></i>
+            <span class="placeholder-text">Capture à venir</span>
+          </div>
+
+          <!-- Overlay avec liens rapides au survol -->
+          <div class="project-overlay">
+            <a
+              *ngIf="hasLink(project.demoUrl)"
+              [href]="project.demoUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="overlay-link"
+              [attr.aria-label]="'Voir la démo de ' + project.title">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              <span>Démo</span>
+            </a>
+            <a
+              *ngIf="hasLink(project.githubUrl)"
+              [href]="project.githubUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="overlay-link"
+              [attr.aria-label]="'Voir le code source de ' + project.title">
+              <i class="fa-brands fa-github"></i>
+              <span>Code</span>
+            </a>
+          </div>
+
+          <!-- Badge "Projet phare" -->
+          <span class="featured-badge" *ngIf="project.featured">
+            <i class="fa-solid fa-star"></i> Projet phare
+          </span>
+
+        </div>
+
+        <!-- ── Contenu textuel ── -->
+        <div class="project-content">
+
+          <h3 class="project-title">{{ project.title }}</h3>
+
+          <p class="project-description">{{ project.description }}</p>
+
+          <!-- Liste des technologies -->
+          <div class="project-tech-list">
+            <span
+              *ngFor="let tech of project.technologies"
+              class="tech-badge"
+              [attr.aria-label]="tech.name">
+              <i [class]="tech.icon" [style.color]="tech.color"></i>
+              <span class="tech-name">{{ tech.name }}</span>
+            </span>
+          </div>
+
+          <!-- Liens en bas de carte -->
+          <div class="project-links">
+            <a
+              *ngIf="hasLink(project.demoUrl)"
+              [href]="project.demoUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-link">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              Voir la démo
+            </a>
+            <a
+              *ngIf="hasLink(project.githubUrl)"
+              [href]="project.githubUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-link">
+              <i class="fa-brands fa-github"></i>
+              Code source
+            </a>
+            <!-- Message si aucun lien n'est encore disponible -->
+            <span class="project-link-disabled" *ngIf="!hasLink(project.demoUrl) && !hasLink(project.githubUrl)">
+              <i class="fa-solid fa-lock"></i>
+              Liens à venir
+            </span>
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+</section>
