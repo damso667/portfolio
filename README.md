@@ -84,8 +84,8 @@ Contact
 
 - Nom : Noubam adrien
 - Email : njassineadrien@gmail.com
-- LinkedIn : 
-- GitHub : [URL GitHub]
+- LinkedIn : https://linkedin.com/in/adrien-njassine-0b75a839a
+
 
 Remarques finales
 -----------------
