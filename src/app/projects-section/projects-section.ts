@@ -55,7 +55,7 @@ export class ProjectsSection {
         { icon: 'fa-solid fa-database',  name: 'MySQL',       color: '#4479a1' },
         { icon: 'fa-solid fa-shield-halved', name: 'JWT',     color: '#a0a0a0' },
       ],
-      image: '', // ← Place 'lab-app.jpg' dans assets/projects/ et indique-le ici
+      image: '/labo.jpg', // ← Place 'lab-app.jpg' dans assets/projects/ et indique-le ici
       demoUrl: 'https://mon-projet-frontend-9b5q.vercel.app/login',
       githubUrl: 'https://github.com/damso667/mon-projet-frontend.git',
       featured: true, // Carte mise en avant (plus grande)
@@ -70,8 +70,8 @@ export class ProjectsSection {
         { icon: 'fa-solid fa-database',  name: 'MySQL',       color: '#4479a1' },
         { icon: 'fa-solid fa-shield-halved', name: 'JWT',     color: '#a0a0a0' },
       ],
-      image: '', // ← Place 'lab-app.jpg' dans assets/projects/ et indique-le ici
-      demoUrl: 'https://mon-projet-frontend-9b5q.vercel.app/login',
+      image: '/bank.jpg', // ← Place 'lab-app.jpg' dans assets/projects/ et indique-le ici
+      demoUrl: 'https://projet-banque-front.vercel.app/',
       githubUrl: 'https://github.com/damso667/mon-projet-frontend.git',
       featured: false, // Carte mise en avant (plus grande)
     },
@@ -86,8 +86,8 @@ export class ProjectsSection {
         { icon: 'fa-brands fa-js',    name: 'JavaScript', color: '#f7df1e' },
         { icon: 'fa-solid fa-database', name: 'MySQL', color: '#4479a1' },
       ],
-      image: '',
-      demoUrl: 'http://simulation-qalf.free.je/?i=1',
+      image: '/epargne.jpg', // ← Place 'epargne.jpg' dans assets/projects/ et indique-le ici
+      demoUrl: 'http://simulation-qalf.free.je',
       githubUrl: 'https://github.com/damso667/simulation-epargne.git',
       featured: false,
     },
@@ -101,7 +101,7 @@ export class ProjectsSection {
         { icon: 'fa-brands fa-html5', name: 'HTML5', color: '#e34f26' },
         { icon: 'fa-brands fa-css3-alt', name: 'CSS3', color: '#1572b6' },
       ],
-      image: '',
+      image: '/musique.jpg', // ← Place 'musique.jpg' dans assets/projects/ et indique-le ici
       demoUrl: 'https://sharemusique.nfy.fyi/',
       githubUrl: 'https://github.com/damso667/shareMusique.git',
       featured: false,
@@ -115,7 +115,7 @@ export class ProjectsSection {
         // { icon: 'fa-solid fa-window-restore', name: 'NetBeans GUI', color: '#a0a0a0' },
         { icon: 'fa-brands fa-java',     name: 'Spring Boot', color: '#6db33f' },
       ],
-      image: '',
+      image: '/api.jpg',
       demoUrl: '',
       githubUrl: 'https://github.com/damso667/CommentaireApi.git',
       featured: false,

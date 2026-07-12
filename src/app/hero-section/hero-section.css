@@ -229,16 +229,17 @@
   position: relative;
   z-index: 2;
   overflow: hidden;
+  padding: 0;
 }
 
-/* Si tu ajoutes une vraie photo, utilise ce style sur le <img> :
-   .photo-placeholder img {
-     width: 100%;
-     height: 100%;
-     object-fit: cover;
-     border-radius: 50%;
-   }
-*/
+.photo-placeholder img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+}
 
 .photo-icon {
   font-size: 4rem;

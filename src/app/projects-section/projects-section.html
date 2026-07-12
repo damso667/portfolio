@@ -29,7 +29,7 @@
           <!-- Si une image est fournie -->
           <img
             *ngIf="hasImage(project)"
-            [src]="'assets/projects/' + project.image"
+            [src]="project.image"
             [alt]="'Capture d\'écran du projet ' + project.title"
             loading="lazy" />
 
