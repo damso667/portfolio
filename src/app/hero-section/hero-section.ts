@@ -63,7 +63,7 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
   stats = [
     { value: '2+',  label: "Ans d'expérience" },
     { value: '5+',  label: 'Projets réalisés'  },
-    { value: 'BTS', label: 'Génie Logiciel'    },
+    // { value: 'BTS', label: 'Génie Logiciel'    },
   ];
 
   ngOnInit(): void {

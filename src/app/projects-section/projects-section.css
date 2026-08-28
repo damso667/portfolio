@@ -351,3 +351,130 @@
     padding: 10px 16px;
   }
 }
+/* Relook 2026: grille portfolio plus visuelle */
+.projects-section {
+  background:
+    linear-gradient(180deg, var(--bg-secondary), var(--bg-primary));
+  overflow: hidden;
+}
+
+.projects-section::before {
+  left: 24px;
+  right: 24px;
+  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+}
+
+.section-header {
+  text-align: left;
+  max-width: 820px;
+}
+
+.section-title {
+  font-size: clamp(2.4rem, 6vw, 5.8rem);
+  line-height: 0.92;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.section-subtitle {
+  margin: 0;
+  max-width: 660px;
+  font-size: 1.05rem;
+}
+
+.projects-grid {
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px;
+}
+
+.project-card {
+  grid-column: span 6;
+  border-radius: 8px;
+  background: var(--gradient-card);
+  box-shadow: var(--shadow-card);
+  transform: translateZ(0);
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  border-color: color-mix(in srgb, var(--accent-primary) 55%, var(--glass-border));
+}
+
+.project-featured {
+  grid-column: span 12;
+  min-height: 430px;
+}
+
+.project-image {
+  aspect-ratio: 16 / 9;
+}
+
+.project-featured .project-image {
+  width: 52%;
+}
+
+.project-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, 0.5));
+  pointer-events: none;
+}
+
+.project-content {
+  padding: 26px;
+}
+
+.project-featured .project-content {
+  padding: clamp(28px, 5vw, 54px);
+}
+
+.project-title {
+  font-family: 'Space Grotesk', 'Archivo', sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 0;
+}
+
+.project-featured .project-title {
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
+  line-height: 0.96;
+}
+
+.project-description {
+  font-size: 0.94rem;
+}
+
+.tech-badge,
+.overlay-link,
+.featured-badge {
+  border-radius: 8px;
+}
+
+.project-links {
+  margin-top: auto;
+}
+
+.project-link {
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .section-header {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-subtitle {
+    margin: 0 auto;
+  }
+
+  .project-card,
+  .project-featured {
+    grid-column: span 12;
+  }
+
+  .project-featured {
+    min-height: auto;
+  }
+}

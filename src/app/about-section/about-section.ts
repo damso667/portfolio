@@ -53,15 +53,15 @@ export class AboutSectionComponent {
   // ── Parcours académique et professionnel ──
   timeline = [
     {
-      period:       '2023 — En cours',
+      period:       '2026',
       title:        'BTS Génie Logiciel',
-      organization: 'ISMAT — Yaoundé, Cameroun',
+      organization: 'ISMAT à Yaoundé, Cameroun',
       description:  'Formation en développement logiciel, algorithmique, bases de données, réseaux et gestion de projets.',
       icon:         'fa-solid fa-graduation-cap',
       type:         'academic',  // 'academic' | 'work'
     },
     {
-      period:       '2024',
+      period:       '2025',
       title:        'Développeur Stagiaire',
       organization: 'MCA Conseils Sarl — Yaoundé',
       description:  'Conception et développement d\'une application de gestion de laboratoire hospitalier avec Spring Boot, Angular et MySQL.',
@@ -70,10 +70,10 @@ export class AboutSectionComponent {
     },
     {
       period:       '2024',
-      title:        'Projet Personnel — QALF',
-      organization: 'Simulation d\'épargne web',
-      description:  'Application web de simulation d\'épargne avec calculs détaillés stockés en base de données MySQL.',
-      icon:         'fa-solid fa-rocket',
+      title:        'Baccaloreat Scientifique',
+      organization: 'Lycée d\'Ekorezok',
+      description:  'Apprentissage secondaire en mathematique',
+      icon:         'fa-solid fa-graduation-cap',
       type:         'work',
     },
   ];
