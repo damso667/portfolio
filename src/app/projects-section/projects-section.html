@@ -18,19 +18,14 @@
     <!-- ── Grille de projets ── -->
     <div class="projects-grid">
 
-      <article
-        *ngFor="let project of projects"
-        class="project-card animate-on-scroll"
+      <article *ngFor="let project of projects" class="project-card animate-on-scroll"
         [class.project-featured]="project.featured">
 
         <!-- ── Visuel du projet ── -->
         <div class="project-image">
 
           <!-- Si une image est fournie -->
-          <img
-            *ngIf="hasImage(project)"
-            [src]="project.image"
-            [alt]="'Capture d\'écran du projet ' + project.title"
+          <img *ngIf="hasImage(project)" [src]="project.image" [alt]="'Capture d\'écran du projet ' + project.title"
             loading="lazy" />
 
           <!-- Placeholder si aucune image (dégradé + icône) -->
@@ -41,23 +36,13 @@
 
           <!-- Overlay avec liens rapides au survol -->
           <div class="project-overlay">
-            <a
-              *ngIf="hasLink(project.demoUrl)"
-              [href]="project.demoUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="overlay-link"
-              [attr.aria-label]="'Voir la démo de ' + project.title">
+            <a *ngIf="hasLink(project.demoUrl)" [href]="project.demoUrl" target="_blank" rel="noopener noreferrer"
+              class="overlay-link" [attr.aria-label]="'Voir la démo de ' + project.title">
               <i class="fa-solid fa-arrow-up-right-from-square"></i>
               <span>Démo</span>
             </a>
-            <a
-              *ngIf="hasLink(project.githubUrl)"
-              [href]="project.githubUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="overlay-link"
-              [attr.aria-label]="'Voir le code source de ' + project.title">
+            <a *ngIf="hasLink(project.githubUrl)" [href]="project.githubUrl" target="_blank" rel="noopener noreferrer"
+              class="overlay-link" [attr.aria-label]="'Voir le code source de ' + project.title">
               <i class="fa-brands fa-github"></i>
               <span>Code</span>
             </a>
@@ -79,10 +64,7 @@
 
           <!-- Liste des technologies -->
           <div class="project-tech-list">
-            <span
-              *ngFor="let tech of project.technologies"
-              class="tech-badge"
-              [attr.aria-label]="tech.name">
+            <span *ngFor="let tech of project.technologies" class="tech-badge" [attr.aria-label]="tech.name">
               <i [class]="tech.icon" [style.color]="tech.color"></i>
               <span class="tech-name">{{ tech.name }}</span>
             </span>
@@ -90,20 +72,12 @@
 
           <!-- Liens en bas de carte -->
           <div class="project-links">
-            <a
-              *ngIf="hasLink(project.demoUrl)"
-              [href]="project.demoUrl"
-              target="_blank"
-              rel="noopener noreferrer"
+            <a *ngIf="hasLink(project.demoUrl)" [href]="project.demoUrl" target="_blank" rel="noopener noreferrer"
               class="project-link">
               <i class="fa-solid fa-arrow-up-right-from-square"></i>
               Voir la démo
             </a>
-            <a
-              *ngIf="hasLink(project.githubUrl)"
-              [href]="project.githubUrl"
-              target="_blank"
-              rel="noopener noreferrer"
+            <a *ngIf="hasLink(project.githubUrl)" [href]="project.githubUrl" target="_blank" rel="noopener noreferrer"
               class="project-link">
               <i class="fa-brands fa-github"></i>
               Code source

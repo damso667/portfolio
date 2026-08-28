@@ -14,7 +14,8 @@
    ============================================================ */
 .footer-top {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr; /* Marque plus large que les autres colonnes */
+  grid-template-columns: 1.5fr 1fr 1fr;
+  /* Marque plus large que les autres colonnes */
   gap: 48px;
   margin-bottom: 48px;
 }
@@ -186,7 +187,8 @@
   cursor: pointer;
   font-size: 0.85rem;
   transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-  margin-left: auto; /* Pousse le bouton à droite */
+  margin-left: auto;
+  /* Pousse le bouton à droite */
 }
 
 .back-to-top:hover {
@@ -201,7 +203,8 @@
    ============================================================ */
 @media (max-width: 768px) {
   .footer-top {
-    grid-template-columns: 1fr 1fr; /* Deux colonnes */
+    grid-template-columns: 1fr 1fr;
+    /* Deux colonnes */
     gap: 32px;
   }
 
@@ -224,7 +227,8 @@
   }
 
   .footer-top {
-    grid-template-columns: 1fr; /* Une seule colonne */
+    grid-template-columns: 1fr;
+    /* Une seule colonne */
     gap: 32px;
   }
 

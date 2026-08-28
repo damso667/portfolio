@@ -125,12 +125,14 @@
 
 /* Couleur de l'icône selon le type */
 .timeline-academic .timeline-icon {
-  color: #818cf8; /* Violet pour académique */
+  color: #818cf8;
+  /* Violet pour académique */
   border-color: rgba(129, 140, 248, 0.2);
 }
 
 .timeline-work .timeline-icon {
-  color: #4ade80; /* Vert pour professionnel */
+  color: #4ade80;
+  /* Vert pour professionnel */
   border-color: rgba(74, 222, 128, 0.2);
 }
 
@@ -211,7 +213,8 @@
 
 /* ── Icône de compétence ── */
 .skill-item {
-  position: relative;  /* Pour positionner le tooltip */
+  position: relative;
+  /* Pour positionner le tooltip */
   width: 52px;
   height: 52px;
   display: flex;
@@ -234,7 +237,8 @@
 /* ── Tooltip au survol ── */
 .skill-tooltip {
   position: absolute;
-  bottom: calc(100% + 8px); /* Au-dessus de l'icône */
+  bottom: calc(100% + 8px);
+  /* Au-dessus de l'icône */
   left: 50%;
   transform: translateX(-50%);
   background: var(--bg-secondary);
@@ -245,7 +249,8 @@
   font-weight: 600;
   color: var(--text-primary);
   white-space: nowrap;
-  pointer-events: none;  /* N'interfère pas avec les clics */
+  pointer-events: none;
+  /* N'interfère pas avec les clics */
   opacity: 0;
   transform: translateX(-50%) translateY(4px);
   transition: opacity 0.2s ease, transform 0.2s ease;

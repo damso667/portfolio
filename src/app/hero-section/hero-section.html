@@ -20,13 +20,13 @@
       <!-- Badge de disponibilité -->
       <div class="hero-badge animate-on-scroll">
         <span class="badge-dot"></span>
-        <span>Disponible pour un stage ou un emploi</span>
+        <span></span>
       </div>
 
       <!-- Nom principal -->
       <h1 class="hero-name animate-on-scroll">
-        Noubam<br />
-        <span class="hero-name-highlight">Adrien</span>
+        Noubam Adrien<br />
+        <span class="hero-name-highlight"></span>
       </h1>
 
       <!-- Slogan animé (typewriter) -->
@@ -47,20 +47,13 @@
       <!-- Boutons CTA -->
       <div class="hero-ctas animate-on-scroll">
         <!-- Télécharger le CV -->
-        <a
-          href="/CV%20dev.pdf"
-          download
-          class="btn-primary"
-          aria-label="Télécharger le CV de Noubam Adrien">
+        <a href="/CV%20dev.pdf" download class="btn-primary" aria-label="Télécharger le CV de Noubam Adrien">
           <i class="fa-solid fa-download"></i>
           Télécharger le CV
         </a>
 
         <!-- Explorer les projets -->
-        <button
-          class="btn-secondary"
-          (click)="scrollToProjects()"
-          aria-label="Voir mes projets">
+        <button class="btn-secondary" (click)="scrollToProjects()" aria-label="Voir mes projets">
           <i class="fa-solid fa-arrow-down"></i>
           Explorer les projets
         </button>
@@ -68,13 +61,8 @@
 
       <!-- Liens réseaux sociaux -->
       <div class="hero-socials animate-on-scroll">
-        <a
-          *ngFor="let social of socialLinks"
-          [href]="social.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="social-link"
-          [attr.aria-label]="social.ariaLabel">
+        <a *ngFor="let social of socialLinks" [href]="social.url" target="_blank" rel="noopener noreferrer"
+          class="social-link" [attr.aria-label]="social.ariaLabel">
           <i [class]="social.icon"></i>
         </a>
       </div>
@@ -92,7 +80,7 @@
       <div class="photo-frame">
         <div class="photo-placeholder">
           <!-- Icône par défaut (remplacer par <img> avec ta photo) -->
-          <img src="/image.png" alt="Noubam Adrien" /> 
+          <img src="/image.png" alt="Noubam Adrien" />
           <span class="photo-hint"></span>
         </div>
 
@@ -113,9 +101,7 @@
 
       <!-- ── Statistiques rapides ── -->
       <div class="hero-stats">
-        <div
-          *ngFor="let stat of stats"
-          class="stat-item">
+        <div *ngFor="let stat of stats" class="stat-item">
           <span class="stat-value">{{ stat.value }}</span>
           <span class="stat-label">{{ stat.label }}</span>
         </div>

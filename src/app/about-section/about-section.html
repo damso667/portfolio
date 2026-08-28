@@ -45,10 +45,7 @@
           <h3 class="subsection-title">Mon parcours</h3>
 
           <div class="timeline-list">
-            <div
-              *ngFor="let item of timeline"
-              class="timeline-item"
-              [class.timeline-work]="item.type === 'work'"
+            <div *ngFor="let item of timeline" class="timeline-item" [class.timeline-work]="item.type === 'work'"
               [class.timeline-academic]="item.type === 'academic'">
 
               <!-- Icône + ligne verticale -->
@@ -82,12 +79,8 @@
         <div class="skills-group animate-on-scroll">
           <h3 class="subsection-title">Frontend & Mobile</h3>
           <div class="skills-grid">
-            <div
-              *ngFor="let skill of frontendSkills"
-              class="skill-item"
-              (mouseenter)="showTooltip(skill.label)"
-              (mouseleave)="hideTooltip()"
-              [attr.aria-label]="skill.label">
+            <div *ngFor="let skill of frontendSkills" class="skill-item" (mouseenter)="showTooltip(skill.label)"
+              (mouseleave)="hideTooltip()" [attr.aria-label]="skill.label">
 
               <!-- Icône de la compétence -->
               <i [class]="skill.icon" [style.color]="skill.color"></i>
@@ -105,12 +98,8 @@
         <div class="skills-group animate-on-scroll">
           <h3 class="subsection-title">Backend & API</h3>
           <div class="skills-grid">
-            <div
-              *ngFor="let skill of backendSkills"
-              class="skill-item"
-              (mouseenter)="showTooltip(skill.label)"
-              (mouseleave)="hideTooltip()"
-              [attr.aria-label]="skill.label">
+            <div *ngFor="let skill of backendSkills" class="skill-item" (mouseenter)="showTooltip(skill.label)"
+              (mouseleave)="hideTooltip()" [attr.aria-label]="skill.label">
               <i [class]="skill.icon" [style.color]="skill.color"></i>
               <span class="skill-tooltip" [class.visible]="activeTooltip === skill.label">
                 {{ skill.label }}
@@ -123,12 +112,8 @@
         <div class="skills-group animate-on-scroll">
           <h3 class="subsection-title">Bases de données & Outils</h3>
           <div class="skills-grid">
-            <div
-              *ngFor="let skill of toolSkills"
-              class="skill-item"
-              (mouseenter)="showTooltip(skill.label)"
-              (mouseleave)="hideTooltip()"
-              [attr.aria-label]="skill.label">
+            <div *ngFor="let skill of toolSkills" class="skill-item" (mouseenter)="showTooltip(skill.label)"
+              (mouseleave)="hideTooltip()" [attr.aria-label]="skill.label">
               <i [class]="skill.icon" [style.color]="skill.color"></i>
               <span class="skill-tooltip" [class.visible]="activeTooltip === skill.label">
                 {{ skill.label }}

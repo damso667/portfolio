@@ -5,12 +5,15 @@
 
 /* ── Conteneur principal du header ── */
 .header {
-  position: fixed;           /* Fixe en haut, même au scroll */
+  position: fixed;
+  /* Fixe en haut, même au scroll */
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;             /* Au-dessus de tout le contenu */
-  height: 72px;              /* Hauteur du header (multiple de 8px) */
+  z-index: 1000;
+  /* Au-dessus de tout le contenu */
+  height: 72px;
+  /* Hauteur du header (multiple de 8px) */
 
   /* Fond transparent par défaut */
   background: transparent;
@@ -82,14 +85,16 @@
   border-radius: 50%;
   background: var(--text-primary);
   margin-left: 2px;
-  margin-bottom: 2px; /* Aligne visuellement avec la baseline */
+  margin-bottom: 2px;
+  /* Aligne visuellement avec la baseline */
 }
 
 /* ============================================================
    NAVIGATION DESKTOP
    ============================================================ */
 .nav-desktop {
-  display: flex; /* Visible sur desktop */
+  display: flex;
+  /* Visible sur desktop */
 }
 
 /* Supprime les puces de la liste */
@@ -169,7 +174,8 @@
   background: var(--accent-glow);
   border-color: var(--accent-primary);
   transform: translateY(-1px);
-  opacity: 1; /* Écrase le style global du a:hover */
+  opacity: 1;
+  /* Écrase le style global du a:hover */
 }
 
 .btn-cv i {
@@ -195,12 +201,14 @@
 .theme-toggle:hover {
   color: var(--text-primary);
   background: var(--accent-glow);
-  transform: rotate(15deg); /* Rotation subtile au survol */
+  transform: rotate(15deg);
+  /* Rotation subtile au survol */
 }
 
 /* ── Bouton hamburger (mobile) ── */
 .hamburger {
-  display: none; /* Masqué sur desktop */
+  display: none;
+  /* Masqué sur desktop */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -226,17 +234,28 @@
 }
 
 /* Animation : transformation en croix quand le menu est ouvert */
-.hamburger .bar:nth-child(1).open { transform: translateY(6.5px) rotate(45deg); }
-.hamburger .bar:nth-child(2).open { opacity: 0; transform: scaleX(0); }
-.hamburger .bar:nth-child(3).open { transform: translateY(-6.5px) rotate(-45deg); }
+.hamburger .bar:nth-child(1).open {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.hamburger .bar:nth-child(2).open {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger .bar:nth-child(3).open {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
 
 /* ============================================================
    MENU MOBILE
    ============================================================ */
 .nav-mobile {
-  display: none; /* Masqué sur desktop */
+  display: none;
+  /* Masqué sur desktop */
   overflow: hidden;
-  max-height: 0;             /* Fermé par défaut */
+  max-height: 0;
+  /* Fermé par défaut */
   transition: max-height 0.35s ease, padding 0.35s ease;
   background: var(--nav-bg);
   backdrop-filter: var(--glass-blur);
@@ -245,7 +264,8 @@
 }
 
 .nav-mobile.open {
-  max-height: 400px; /* Ouvert : hauteur suffisante pour les liens */
+  max-height: 400px;
+  /* Ouvert : hauteur suffisante pour les liens */
   padding: 8px 0 16px;
 }
 
@@ -295,6 +315,7 @@
    RESPONSIVE — MOBILE
    ============================================================ */
 @media (max-width: 768px) {
+
   /* Masquer la nav desktop et le bouton CV sur mobile */
   .nav-desktop {
     display: none;

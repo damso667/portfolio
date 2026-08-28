@@ -45,7 +45,8 @@
    ============================================================ */
 .contact-grid {
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr; /* Formulaire légèrement plus large */
+  grid-template-columns: 0.8fr 1.2fr;
+  /* Formulaire légèrement plus large */
   gap: 64px;
   align-items: start;
 }
@@ -215,12 +216,14 @@
 
 /* ── État erreur ── */
 .form-input.input-error {
-  border-color: #f87171; /* Rouge doux */
+  border-color: #f87171;
+  /* Rouge doux */
 }
 
 /* ── Textarea ── */
 .form-textarea {
-  resize: vertical;       /* Redimensionnement vertical uniquement */
+  resize: vertical;
+  /* Redimensionnement vertical uniquement */
   min-height: 120px;
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
@@ -253,8 +256,13 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Messages de feedback (succès / erreur) ── */
@@ -270,8 +278,15 @@
 }
 
 @keyframes fade-in-feedback {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Succès : vert doux */
@@ -299,7 +314,8 @@
 
   .contact-form-wrapper {
     padding: 32px 24px;
-    order: -1; /* Le formulaire apparaît en premier sur mobile */
+    order: -1;
+    /* Le formulaire apparaît en premier sur mobile */
   }
 }
 

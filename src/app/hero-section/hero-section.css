@@ -5,13 +5,15 @@
 /* ── Section globale ── */
 .hero-section {
   position: relative;
-  min-height: 100vh;          /* Occupe toute la hauteur de l'écran */
+  min-height: 100vh;
+  /* Occupe toute la hauteur de l'écran */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding-top: 72px;          /* Compense le header fixe */
+  padding-top: 72px;
+  /* Compense le header fixe */
 }
 
 /* ============================================================
@@ -55,7 +57,8 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;  /* Deux colonnes égales sur desktop */
+  grid-template-columns: 1fr 1fr;
+  /* Deux colonnes égales sur desktop */
   align-items: center;
   gap: 64px;
   max-width: 1200px;
@@ -92,14 +95,24 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #4ade80;            /* Vert doux */
+  background: #4ade80;
+  /* Vert doux */
   box-shadow: 0 0 6px #4ade80;
   animation: pulse-dot 2s infinite;
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.6; transform: scale(0.85); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(0.85);
+  }
 }
 
 /* ── Nom principal ── */
@@ -125,7 +138,8 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  min-height: 1.6rem;           /* Évite les sauts de mise en page */
+  min-height: 1.6rem;
+  /* Évite les sauts de mise en page */
 }
 
 .typewriter-text {
@@ -143,8 +157,15 @@
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 /* ── Description ── */
@@ -278,8 +299,13 @@
 }
 
 @keyframes rotate-ring {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 /* Badges tech flottants autour de la photo */
@@ -306,7 +332,8 @@
 .badge-angular {
   bottom: 10px;
   left: -20px;
-  color: #dd1b16;               /* Couleur Angular */
+  color: #dd1b16;
+  /* Couleur Angular */
   animation-delay: 0s;
 }
 
@@ -314,13 +341,21 @@
 .badge-java {
   top: 20px;
   right: -20px;
-  color: #6db33f;               /* Couleur Spring */
+  color: #6db33f;
+  /* Couleur Spring */
   animation-delay: 1.5s;
 }
 
 @keyframes float-badge {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 /* ── Statistiques rapides ── */
@@ -385,9 +420,23 @@
 }
 
 @keyframes scroll-down {
-  0%   { opacity: 0; transform: scaleY(0); transform-origin: top; }
-  50%  { opacity: 1; transform: scaleY(1); transform-origin: top; }
-  100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
 }
 
 /* ============================================================
@@ -395,7 +444,8 @@
    ============================================================ */
 @media (max-width: 900px) {
   .hero-container {
-    grid-template-columns: 1fr;   /* Une seule colonne */
+    grid-template-columns: 1fr;
+    /* Une seule colonne */
     gap: 48px;
     text-align: center;
     padding: 48px 24px;
@@ -459,6 +509,7 @@
 
   .badge-angular,
   .badge-java {
-    display: none; /* Masqués sur très petit écran */
+    display: none;
+    /* Masqués sur très petit écran */
   }
 }

@@ -19,49 +19,59 @@
 :root,
 [data-theme="dark"] {
   /* Arrière-plans */
-  --bg-primary: #0a0a0a;         /* Noir profond principal */
-  --bg-secondary: #111111;       /* Légèrement plus clair */
-  --bg-card: #161616;            /* Fond des cartes */
-  --bg-glass: rgba(255,255,255,0.04); /* Effet verre dépoli */
+  --bg-primary: #0a0a0a;
+  /* Noir profond principal */
+  --bg-secondary: #111111;
+  /* Légèrement plus clair */
+  --bg-card: #161616;
+  /* Fond des cartes */
+  --bg-glass: rgba(255, 255, 255, 0.04);
+  /* Effet verre dépoli */
 
   /* Textes */
-  --text-primary: #f0f0f0;       /* Texte principal blanc cassé */
-  --text-secondary: #a0a0a0;     /* Texte secondaire gris */
-  --text-muted: #555555;         /* Texte discret */
+  --text-primary: #f0f0f0;
+  /* Texte principal blanc cassé */
+  --text-secondary: #a0a0a0;
+  /* Texte secondaire gris */
+  --text-muted: #555555;
+  /* Texte discret */
 
   /* Accents */
-  --accent-primary: #e0e0e0;     /* Accent clair (blanc doux) */
-  --accent-glow: rgba(224,224,224,0.08); /* Lueur subtile */
-  --accent-border: rgba(255,255,255,0.08); /* Bordure subtile */
+  --accent-primary: #e0e0e0;
+  /* Accent clair (blanc doux) */
+  --accent-glow: rgba(224, 224, 224, 0.08);
+  /* Lueur subtile */
+  --accent-border: rgba(255, 255, 255, 0.08);
+  /* Bordure subtile */
 
   /* Dégradés */
-  --gradient-hero: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(120,120,180,0.18) 0%, transparent 70%);
-  --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+  --gradient-hero: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(120, 120, 180, 0.18) 0%, transparent 70%);
+  --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
 
   /* Glassmorphism */
-  --glass-bg: rgba(255,255,255,0.04);
-  --glass-border: rgba(255,255,255,0.08);
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
   --glass-blur: blur(20px);
 
   /* Ombres */
-  --shadow-card: 0 4px 32px rgba(0,0,0,0.4);
-  --shadow-hover: 0 8px 48px rgba(0,0,0,0.6);
+  --shadow-card: 0 4px 32px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 8px 48px rgba(0, 0, 0, 0.6);
 
   /* Navigation */
-  --nav-bg: rgba(10,10,10,0.8);
-  --nav-border: rgba(255,255,255,0.06);
+  --nav-bg: rgba(10, 10, 10, 0.8);
+  --nav-border: rgba(255, 255, 255, 0.06);
 
   /* Boutons */
   --btn-primary-bg: #f0f0f0;
   --btn-primary-text: #0a0a0a;
   --btn-secondary-bg: transparent;
   --btn-secondary-text: #f0f0f0;
-  --btn-secondary-border: rgba(255,255,255,0.2);
+  --btn-secondary-border: rgba(255, 255, 255, 0.2);
 
   /* Formulaire */
-  --input-bg: rgba(255,255,255,0.04);
-  --input-border: rgba(255,255,255,0.1);
-  --input-focus: rgba(255,255,255,0.2);
+  --input-bg: rgba(255, 255, 255, 0.04);
+  --input-border: rgba(255, 255, 255, 0.1);
+  --input-focus: rgba(255, 255, 255, 0.2);
 
   /* Noise / grain (texture subtile) */
   --noise-opacity: 0.03;
@@ -74,38 +84,38 @@
   --bg-primary: #fafafa;
   --bg-secondary: #f0f0f0;
   --bg-card: #ffffff;
-  --bg-glass: rgba(0,0,0,0.02);
+  --bg-glass: rgba(0, 0, 0, 0.02);
 
   --text-primary: #0a0a0a;
   --text-secondary: #555555;
   --text-muted: #aaaaaa;
 
   --accent-primary: #1a1a1a;
-  --accent-glow: rgba(0,0,0,0.04);
-  --accent-border: rgba(0,0,0,0.08);
+  --accent-glow: rgba(0, 0, 0, 0.04);
+  --accent-border: rgba(0, 0, 0, 0.08);
 
-  --gradient-hero: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(100,100,160,0.1) 0%, transparent 70%);
-  --gradient-card: linear-gradient(135deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.005) 100%);
+  --gradient-hero: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(100, 100, 160, 0.1) 0%, transparent 70%);
+  --gradient-card: linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.005) 100%);
 
-  --glass-bg: rgba(255,255,255,0.7);
-  --glass-border: rgba(0,0,0,0.08);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.08);
   --glass-blur: blur(20px);
 
-  --shadow-card: 0 4px 32px rgba(0,0,0,0.08);
-  --shadow-hover: 0 8px 48px rgba(0,0,0,0.14);
+  --shadow-card: 0 4px 32px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 8px 48px rgba(0, 0, 0, 0.14);
 
-  --nav-bg: rgba(250,250,250,0.85);
-  --nav-border: rgba(0,0,0,0.06);
+  --nav-bg: rgba(250, 250, 250, 0.85);
+  --nav-border: rgba(0, 0, 0, 0.06);
 
   --btn-primary-bg: #0a0a0a;
   --btn-primary-text: #fafafa;
   --btn-secondary-bg: transparent;
   --btn-secondary-text: #0a0a0a;
-  --btn-secondary-border: rgba(0,0,0,0.2);
+  --btn-secondary-border: rgba(0, 0, 0, 0.2);
 
-  --input-bg: rgba(0,0,0,0.03);
-  --input-border: rgba(0,0,0,0.1);
-  --input-focus: rgba(0,0,0,0.2);
+  --input-bg: rgba(0, 0, 0, 0.03);
+  --input-border: rgba(0, 0, 0, 0.1);
+  --input-focus: rgba(0, 0, 0, 0.2);
 
   --noise-opacity: 0.015;
 }
@@ -113,15 +123,20 @@
 /* ============================================================
    RESET & BASE
    ============================================================ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Modèle de boîte uniforme */
+  box-sizing: border-box;
+  /* Modèle de boîte uniforme */
 }
 
 html {
-  scroll-behavior: smooth; /* Défilement fluide entre sections */
-  font-size: 16px;          /* Base typographique */
+  scroll-behavior: smooth;
+  /* Défilement fluide entre sections */
+  font-size: 16px;
+  /* Base typographique */
 }
 
 body {
@@ -129,9 +144,11 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;  /* Rendu de police lissé sur macOS */
+  -webkit-font-smoothing: antialiased;
+  /* Rendu de police lissé sur macOS */
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden; /* Évite le scroll horizontal indésirable */
+  overflow-x: hidden;
+  /* Évite le scroll horizontal indésirable */
 
   /* Texture de grain subtile en arrière-plan */
   background-image:
@@ -139,7 +156,8 @@ body {
 }
 
 /* Transition globale lors du changement de thème */
-body, body * {
+body,
+body * {
   transition:
     background-color 0.3s ease,
     color 0.3s ease,
@@ -149,16 +167,31 @@ body, body * {
 /* ============================================================
    TYPOGRAPHIE GLOBALE
    ============================================================ */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 700;
   line-height: 1.2;
   color: var(--text-primary);
-  letter-spacing: -0.02em; /* Resserrement des titres pour un rendu moderne */
+  letter-spacing: -0.02em;
+  /* Resserrement des titres pour un rendu moderne */
 }
 
-h1 { font-size: clamp(2.5rem, 6vw, 5rem); }   /* Responsive via clamp() */
-h2 { font-size: clamp(1.8rem, 4vw, 3rem); }
-h3 { font-size: clamp(1.2rem, 2.5vw, 1.8rem); }
+h1 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+}
+
+/* Responsive via clamp() */
+h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+}
 
 p {
   color: var(--text-secondary);
@@ -184,12 +217,14 @@ a:hover {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px; /* Marges latérales sur mobile */
+  padding: 0 24px;
+  /* Marges latérales sur mobile */
 }
 
 /* Section générique avec espacement vertical */
 .section {
-  padding: 96px 0; /* 96px = 12 × 8px (grille de 8px) */
+  padding: 96px 0;
+  /* 96px = 12 × 8px (grille de 8px) */
 }
 
 /* Titre de section avec ligne décorative */
@@ -232,7 +267,7 @@ a:hover {
 .btn-primary:hover {
   opacity: 0.9;
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(255,255,255,0.1);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
 }
 
 /* ── Bouton secondaire (contour) ── */
@@ -326,18 +361,26 @@ a:hover {
    ============================================================ */
 @media (max-width: 768px) {
   .section {
-    padding: 64px 0; /* Espacement réduit sur mobile */
+    padding: 64px 0;
+    /* Espacement réduit sur mobile */
   }
 
-  h1 { font-size: 2.2rem; }
-  h2 { font-size: 1.6rem; }
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
 
   .container {
-    padding: 0 16px; /* Marges réduites sur petits écrans */
+    padding: 0 16px;
+    /* Marges réduites sur petits écrans */
   }
 }
 
 @media (max-width: 480px) {
+
   .btn-primary,
   .btn-secondary {
     padding: 10px 20px;
@@ -356,7 +399,10 @@ a:hover {
 
 /* Respect de la préférence de l'utilisateur pour les animations réduites */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }

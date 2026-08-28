@@ -46,7 +46,8 @@
    ============================================================ */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Deux colonnes sur desktop */
+  grid-template-columns: repeat(2, 1fr);
+  /* Deux colonnes sur desktop */
   gap: 24px;
 }
 
@@ -57,7 +58,8 @@
   background: var(--bg-card);
   border: 1px solid var(--glass-border);
   border-radius: 16px;
-  overflow: hidden; /* Pour que l'image respecte le border-radius */
+  overflow: hidden;
+  /* Pour que l'image respecte le border-radius */
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -69,7 +71,8 @@
 
 /* ── Carte mise en avant : occupe toute la largeur ── */
 .project-featured {
-  grid-column: 1 / -1; /* Pleine largeur */
+  grid-column: 1 / -1;
+  /* Pleine largeur */
 }
 
 /* Sur la carte featured, l'image et le texte sont côte à côte */
@@ -83,7 +86,8 @@
 .project-image {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;  /* Ratio constant pour toutes les cartes */
+  aspect-ratio: 16 / 10;
+  /* Ratio constant pour toutes les cartes */
   background: var(--gradient-card);
   overflow: hidden;
 }
@@ -91,20 +95,23 @@
 /* Carte featured : image prend 45% de la largeur */
 .project-featured .project-image {
   width: 45%;
-  aspect-ratio: auto; /* Hauteur définie par le flex parent */
+  aspect-ratio: auto;
+  /* Hauteur définie par le flex parent */
   flex-shrink: 0;
 }
 
 .project-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Recadre l'image sans déformation */
+  object-fit: cover;
+  /* Recadre l'image sans déformation */
   display: block;
   transition: transform 0.4s ease;
 }
 
 .project-card:hover .project-image img {
-  transform: scale(1.04); /* Léger zoom au survol */
+  transform: scale(1.04);
+  /* Léger zoom au survol */
 }
 
 /* ── Placeholder (si pas d'image) ── */
@@ -192,7 +199,8 @@
   border-radius: 20px;
   font-size: 0.7rem;
   font-weight: 700;
-  color: #facc15; /* Doré pour l'étoile */
+  color: #facc15;
+  /* Doré pour l'étoile */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 2;
@@ -280,7 +288,8 @@
 .project-link:hover {
   color: var(--text-secondary);
   opacity: 1;
-  gap: 9px; /* Léger décalage de l'icône au survol */
+  gap: 9px;
+  /* Léger décalage de l'icône au survol */
 }
 
 .project-link i {
@@ -302,7 +311,8 @@
    ============================================================ */
 @media (max-width: 900px) {
   .projects-grid {
-    grid-template-columns: 1fr; /* Une seule colonne */
+    grid-template-columns: 1fr;
+    /* Une seule colonne */
   }
 
   /* La carte featured redevient verticale comme les autres */
