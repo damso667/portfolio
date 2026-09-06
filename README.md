@@ -1,10 +1,10 @@
-Portfolio personnel de [Votre Nom]
+Portfolio personnel de NOUBAM Adrien 
 ================================
 
 Présentation
 ------------
 
-Site web de présentation personnelle conçu pour exposer le parcours, les compétences et les projets.
+Mon Site web de ma présentation personnelle conçu pour exposer mon parcours, mes compétences et mes projets.
 
 Objectif
 -------
@@ -86,12 +86,6 @@ Contact
 - Email : njassineadrien@gmail.com
 - LinkedIn : https://linkedin.com/in/adrien-njassine-0b75a839a
 
-
-Remarques finales
------------------
-
-Ce README est une base. Dites-moi si vous souhaitez que j’insère votre nom et vos coordonnées directement dans ce fichier, ou si vous préférez que j’adapte le ton et le niveau de détail.
-# Portfolio
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
 
