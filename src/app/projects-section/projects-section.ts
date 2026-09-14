@@ -55,7 +55,7 @@ export class ProjectsSection {
         { icon: 'fa-solid fa-database',  name: 'MySQL',       color: '#4479a1' },
         { icon: 'fa-solid fa-shield-halved', name: 'JWT',     color: '#a0a0a0' },
       ],
-      image: '/labo.jpg', // ← Place 'lab-app.jpg' dans assets/projects/ et indique-le ici
+      image: '/labo2.jpg', // ← Place 'lab-app.jpg' dans assets/projects/ et indique-le ici
       demoUrl: 'https://mon-projet-frontend-9b5q.vercel.app/login',
       githubUrl: 'https://github.com/damso667/mon-projet-frontend.git',
       featured: true, // Carte mise en avant (plus grande)

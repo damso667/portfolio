@@ -59,13 +59,6 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
     },
   ];
 
-  // ── Statistiques rapides ──
-  stats = [
-    { value: '2+',  label: "Ans d'expérience" },
-    { value: '5+',  label: 'Projets réalisés'  },
-    // { value: 'BTS', label: 'Génie Logiciel'    },
-  ];
-
   ngOnInit(): void {
     setTimeout(() => this.startTypewriter(), 600);
   }
@@ -103,6 +96,15 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
   // ── Scroll vers la section Projets ──
   scrollToProjects(): void {
     const target = document.getElementById('projets');
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.scrollY - 72;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }
+
+  // ── Scroll vers la section À propos ──
+  scrollToAbout(): void {
+    const target = document.getElementById('apropos');
     if (target) {
       const top = target.getBoundingClientRect().top + window.scrollY - 72;
       window.scrollTo({ top, behavior: 'smooth' });

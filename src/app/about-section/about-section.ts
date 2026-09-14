@@ -27,9 +27,11 @@ export class AboutSectionComponent {
   frontendSkills = [
     { icon: 'fa-brands fa-angular',    label: 'Angular',     color: '#dd1b16' },
     { icon: 'fa-brands fa-html5',      label: 'HTML5',       color: '#e34f26' },
-    { icon: 'fa-brands fa-css3-alt',   label: 'CSS3',        color: '#1572b6' },
+    { icon: 'fa-brands fa-css3-alt',   label: 'CSS3',        color: '#22323dff' },
     { icon: 'fa-brands fa-js',         label: 'JavaScript',  color: '#f7df1e' },
     { icon: 'fa-brands fa-flutter',    label: 'Flutter',     color: '#54c5f8' },
+    { icon: 'fa-brands fa-react',    label: 'React',     color: '#54c5f8' },
+    
   ];
 
   // ── Compétences backend ──
@@ -48,6 +50,8 @@ export class AboutSectionComponent {
     { icon: 'fa-brands fa-git-alt',    label: 'Git',         color: '#f05032' },
     { icon: 'fa-brands fa-github',     label: 'GitHub',      color: '#a0a0a0' },
     { icon: 'fa-solid fa-server',      label: 'REST API',    color: '#6db33f' },
+    { icon: 'fa-brands fa-postgresql',      label: 'postgresql',    color: '#4479a1' },
+
   ];
 
   // ── Parcours académique et professionnel ──
