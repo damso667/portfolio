@@ -342,18 +342,48 @@ a:hover {
 }
 
 /* ============================================================
-   ANIMATION — APPARITION AU SCROLL (fade-in-up)
+   ANIMATION — APPARITION AU SCROLL (système dynamique)
    Utilisée dans plusieurs composants via la classe .animate-on-scroll
+   
+   Variantes de direction :
+     (défaut)     → fade-in depuis le bas
+     .anim-left   → fade-in depuis la gauche
+     .anim-right  → fade-in depuis la droite
+     .anim-scale  → fade-in avec zoom
+   
+   Délai échelonné :
+     --anim-delay (custom property) appliqué automatiquement
+     par l'IntersectionObserver pour un effet stagger
    ============================================================ */
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(40px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--anim-delay, 0s);
+  will-change: opacity, transform;
 }
 
+/* Direction : depuis la gauche */
+.animate-on-scroll.anim-left {
+  transform: translateX(-50px);
+}
+
+/* Direction : depuis la droite */
+.animate-on-scroll.anim-right {
+  transform: translateX(50px);
+}
+
+/* Direction : zoom-in */
+.animate-on-scroll.anim-scale {
+  transform: scale(0.92);
+}
+
+/* ── État visible (toutes variantes) ── */
 .animate-on-scroll.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) translateX(0) scale(1);
 }
 
 /* ============================================================

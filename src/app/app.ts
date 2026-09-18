@@ -6,9 +6,10 @@
 //  - Gérer le thème (dark/light) via le service ThemeService
 //  - Orchestrer l'affichage des composants enfants
 //  - Initialiser l'animation au scroll (IntersectionObserver)
+//    avec délais échelonnés (stagger) par section
 // ============================================================
 
-import { Component, OnInit, Renderer2, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Import des composants enfants (standalone components Angular 17+)
@@ -38,7 +39,7 @@ import { ContactSectionComponent } from './contact-section/contact-section';
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   // ── Injection du Renderer2 pour manipuler le DOM sans accès direct ──
   // Renderer2 est préféré à document.querySelector pour la compatibilité SSR
@@ -54,6 +55,13 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.loadSavedTheme();      // Récupère le thème sauvegardé (localStorage)
     this.applyTheme();           // Applique le thème au <html>
+  }
+
+  // ============================================================
+  // LIFECYCLE — AfterViewInit
+  // Appelé après le rendu initial du DOM
+  // ============================================================
+  ngAfterViewInit(): void {
     this.initScrollAnimations(); // Lance l'observateur d'animations
   }
 
@@ -110,20 +118,46 @@ export class AppComponent implements OnInit {
   }
 
   // ============================================================
-  // ANIMATIONS AU SCROLL — IntersectionObserver
+  // ANIMATIONS AU SCROLL — IntersectionObserver avec stagger
   // ============================================================
 
   /**
    * Initialise l'IntersectionObserver pour déclencher les animations
-   * de fade-in-up sur les éléments portant la classe .animate-on-scroll.
+   * avec un effet stagger : les éléments d'une même section
+   * apparaissent les uns après les autres avec un délai croissant.
    *
-   * L'observateur ajoute la classe .visible dès qu'un élément entre
-   * dans le viewport, ce qui déclenche la transition CSS définie
-   * dans styles.css.
+   * Le délai est appliqué via la custom property CSS --anim-delay
+   * qui est lue par la transition définie dans styles.css.
    */
   private initScrollAnimations(): void {
-    // Délai court pour s'assurer que le DOM est rendu
+    // Délai court pour s'assurer que tous les composants enfants sont rendus
     setTimeout(() => {
+
+      // ── Étape 1 : Grouper les éléments par section parente ──
+      const animatedElements = document.querySelectorAll('.animate-on-scroll');
+      const sectionMap = new Map<Element, Element[]>();
+
+      animatedElements.forEach((el) => {
+        // On remonte au <section> ou au conteneur le plus proche
+        const section = el.closest('section, .hero-section, footer') || el.parentElement;
+        if (section) {
+          if (!sectionMap.has(section)) {
+            sectionMap.set(section, []);
+          }
+          sectionMap.get(section)!.push(el);
+        }
+      });
+
+      // ── Étape 2 : Assigner un délai échelonné (stagger) par groupe ──
+      const STAGGER_MS = 120; // Délai entre chaque élément d'un même groupe
+
+      sectionMap.forEach((elements) => {
+        elements.forEach((el, index) => {
+          (el as HTMLElement).style.setProperty('--anim-delay', `${index * STAGGER_MS}ms`);
+        });
+      });
+
+      // ── Étape 3 : Observer les éléments ──
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -136,15 +170,13 @@ export class AppComponent implements OnInit {
           });
         },
         {
-          threshold: 0.1,    // Déclenche quand 10% de l'élément est visible
-          rootMargin: '0px 0px -40px 0px', // Légère marge pour un déclenchement anticipé
+          threshold: 0.08,    // Déclenche quand 8% de l'élément est visible
+          rootMargin: '0px 0px -60px 0px', // Marge pour un déclenchement élégant
         }
       );
 
-      // Sélectionne tous les éléments à animer
-      const animatedElements = document.querySelectorAll('.animate-on-scroll');
       animatedElements.forEach((el) => observer.observe(el));
 
-    }, 100);
+    }, 150);
   }
-}
+}

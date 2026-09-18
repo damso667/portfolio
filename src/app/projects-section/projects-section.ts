@@ -63,7 +63,7 @@ export class ProjectsSection {
         {
       title: 'Mini Gestion bancaire',
       description:
-        'Application complète de gestion de laboratoire médical : authentification JWT par rôle (médecin, technicien, caissière), gestion des analyses, prescriptions et facturation. Développée durant mon stage chez MCA Conseils.',
+        'Application de gestion de compte bancaire avec tranfert d\'argent entre comptes et mise à jour de compte avec tous role (admin,user,caissiere)',
       technologies: [
         { icon: 'fa-brands fa-java',     name: 'Spring Boot', color: '#6db33f' },
         { icon: 'fa-brands fa-angular',  name: 'Angular',     color: '#dd1b16' },
@@ -92,7 +92,7 @@ export class ProjectsSection {
       featured: false,
     },
     {
-      title: 'share Music — Site de music',
+      title: 'share Music Site de music',
       description:
         'ShareMusic est une application moderne de partage de musique qui permet aux utilisateurs de découvrir, écouter et partager leurs morceaux préférés avec leurs amis et la communauté.',
       technologies: [
