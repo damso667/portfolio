@@ -1,0 +1,78 @@
+<!-- ============================================================
+     messervices.component.html — Section "Mes Services"
+     
+     Carrousel infini de 8 cartes avec images floutées
+     et overlay thème-aware
+     ============================================================ -->
+
+<section id="services" class="services-section section">
+  <div class="container">
+
+    <!-- ── En-tête de section ── -->
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Services</span>
+      <h2 class="services-title">Mes Services</h2>
+      <p class="services-subtitle">
+        Des solutions sur mesure pour donner vie à vos projets numériques,
+        du développement au déploiement.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ── Carrousel (pleine largeur, déborde du container) ── -->
+  <div
+    class="carousel-wrapper animate-on-scroll"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()">
+
+    <!-- Masque dégradé gauche -->
+    <div class="carousel-fade carousel-fade--left"></div>
+
+    <!-- Piste de défilement -->
+    <div class="carousel-track" #carouselTrack>
+
+      <article
+        *ngFor="let service of carouselServices; let i = index"
+        class="service-card"
+        [attr.aria-label]="'Service : ' + service.title">
+
+        <!-- Image de fond floutée -->
+        <div class="card-bg">
+          <img
+            *ngIf="hasImage(service)"
+            [src]="service.image"
+            [alt]="''"
+            loading="lazy"
+            aria-hidden="true"
+            class="card-bg-img" />
+
+          <!-- Fond dégradé de fallback (si pas d'image) -->
+          <div
+            *ngIf="!hasImage(service)"
+            class="card-bg-gradient">
+          </div>
+
+          <!-- Overlay thème-aware pour le contraste -->
+          <div class="card-bg-overlay"></div>
+        </div>
+
+        <!-- Contenu de la carte -->
+        <div class="card-content">
+          <div class="card-icon-wrapper">
+            <i [class]="service.icon" class="card-icon"></i>
+          </div>
+          <h3 class="card-title">{{ service.title }}</h3>
+          <p class="card-description">{{ service.description }}</p>
+        </div>
+
+      </article>
+
+    </div>
+
+    <!-- Masque dégradé droit -->
+    <div class="carousel-fade carousel-fade--right"></div>
+
+  </div>
+
+</section>

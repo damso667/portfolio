@@ -23,6 +23,7 @@ import { HeaderComponent } from './header-component/header-component';
 import { HeroSectionComponent } from './hero-section/hero-section';
 import { AboutSectionComponent } from './about-section/about-section';
 import { ContactSectionComponent } from './contact-section/contact-section';
+import { Messervices } from './messervices/messervices';
 
 @Component({
   selector: 'app-root',         // Correspond à <app-root> dans index.html
@@ -33,6 +34,7 @@ import { ContactSectionComponent } from './contact-section/contact-section';
     HeroSectionComponent,
     AboutSectionComponent,
     ProjectsSection,
+    Messervices,
     ContactSectionComponent,
     FooterComponent,
   ],

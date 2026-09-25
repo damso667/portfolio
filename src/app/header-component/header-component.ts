@@ -49,6 +49,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { label: 'Accueil',  anchor: 'accueil' },
     { label: 'À propos', anchor: 'apropos' },
     { label: 'Projets',  anchor: 'projets' },
+    { label: 'Services', anchor: 'services' },
     { label: 'Contact',  anchor: 'contact' },
   ];
 
