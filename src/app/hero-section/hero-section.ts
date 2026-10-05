@@ -9,7 +9,7 @@
 //  - Afficher les liens vers les réseaux sociaux
 // ============================================================
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, HostListener, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,7 +19,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './hero-section.html',
   styleUrls: ['./hero-section.css'],
 })
-export class HeroSectionComponent implements OnInit, OnDestroy {
+export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  // ── Référence à l'élément hôte (pour la parallaxe) ──
+  private host = inject(ElementRef<HTMLElement>);
+
+  // true uniquement sur les appareils avec souris (pas de parallaxe tactile)
+  private finePointer = false;
 
   // ── Textes qui défilent en boucle (effet typewriter) ──
   // Modifie ce tableau pour changer les spécialités affichées
@@ -61,6 +67,32 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     setTimeout(() => this.startTypewriter(), 600);
+  }
+
+  ngAfterViewInit(): void {
+    // La parallaxe n'est activée que si l'appareil possède un pointeur précis
+    // (souris / trackpad) — sur mobile/tactile elle reste désactivée.
+    this.finePointer = window.matchMedia('(pointer: fine)').matches;
+  }
+
+  // ============================================================
+  // PARALLAXE SOURIS — l'arrière-plan suit doucement le curseur
+  // Les variables --px / --py sont lues par .hero-bg dans le CSS.
+  // ============================================================
+  @HostListener('mousemove', ['$event'])
+  onMouseMove(event: MouseEvent): void {
+    if (!this.finePointer) return;
+
+    const el = this.host.nativeElement;
+    const rect = el.getBoundingClientRect();
+
+    // Position relative du curseur dans la section (-0.5 → 0.5)
+    const relX = (event.clientX - rect.left) / rect.width - 0.5;
+    const relY = (event.clientY - rect.top) / rect.height - 0.5;
+
+    // Amplitude volontairement faible pour un effet subtil
+    el.style.setProperty('--px', `${(relX * -32).toFixed(1)}px`);
+    el.style.setProperty('--py', `${(relY * -22).toFixed(1)}px`);
   }
 
   ngOnDestroy(): void {

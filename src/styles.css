@@ -419,6 +419,66 @@ a:hover {
 }
 
 /* ============================================================
+   ANIMATIONS DYNAMIQUES — Couche "vie" du portfolio
+   (ajouts non intrusifs : aucune modification de layout)
+   ============================================================ */
+
+/* ── Boutons : balayage lumineux au survol ── */
+.btn-primary,
+.btn-secondary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after,
+.btn-secondary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(148, 163, 216, 0.35) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.btn-primary:hover::after,
+.btn-secondary:hover::after {
+  left: 130%;
+}
+
+/* ── Tags technologie : petit rebond au survol ── */
+.tech-tag {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.25s ease,
+              border-color 0.25s ease;
+}
+
+.tech-tag:hover {
+  transform: translateY(-3px);
+  color: var(--text-primary);
+  border-color: var(--accent-primary);
+}
+
+/* ── Icônes de compétences : pop au survol ── */
+.skill-item {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              filter 0.3s ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-6px) scale(1.15) rotate(-4deg);
+  filter: drop-shadow(0 6px 14px rgba(100, 130, 220, 0.35));
+}
+
+/* ============================================================
    ACCESSIBILITÉ — focus visible (WCAG 2.1 AA)
    ============================================================ */
 :focus-visible {

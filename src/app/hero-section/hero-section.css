@@ -21,6 +21,10 @@
   inset: 0;
   pointer-events: none;
   z-index: 0;
+  /* Parallaxe souris : --px / --py sont pilotées en JS (desktop uniquement) */
+  transform: translate(var(--px, 0px), var(--py, 0px));
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
 /* Lueur principale douce derrière la photo */
@@ -38,6 +42,23 @@
     transparent 70%
   );
   border-radius: 50%;
+  /* Dérive lente + respiration (les keyframes incluent le translateX(-50%)) */
+  animation: glow-drift 16s ease-in-out infinite;
+}
+
+@keyframes glow-drift {
+  0%, 100% {
+    transform: translateX(-50%) translate(0, 0) scale(1);
+    opacity: 0.85;
+  }
+  33% {
+    transform: translateX(-50%) translate(46px, 34px) scale(1.1);
+    opacity: 1;
+  }
+  66% {
+    transform: translateX(-50%) translate(-38px, 52px) scale(0.95);
+    opacity: 0.7;
+  }
 }
 
 /* Lueur secondaire pour profondeur */
@@ -54,6 +75,19 @@
     transparent 70%
   );
   border-radius: 50%;
+  /* Dérive en sens opposé pour créer de la profondeur */
+  animation: glow-drift-alt 20s ease-in-out infinite;
+}
+
+@keyframes glow-drift-alt {
+  0%, 100% {
+    transform: translateX(-50%) translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-50%) translate(-56px, -40px) scale(1.12);
+    opacity: 1;
+  }
 }
 
 /* Texture grain subtile */
@@ -688,6 +722,63 @@
 
   .info-text {
     font-size: 0.82rem;
+  }
+}
+
+/* ============================================================
+   PARTICULES FLOTTANTES — Pure CSS, aucune influence sur le layout
+   Chaque particule monte lentement en fondant (fade in/out).
+   ============================================================ */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  top: 75%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(140, 160, 220, 0.55);
+  box-shadow: 0 0 8px rgba(140, 160, 220, 0.4);
+  opacity: 0;
+  animation: particle-float 10s linear infinite;
+}
+
+/* Répartition horizontale + rythmes différents pour un effet naturel */
+.particle:nth-child(1) { left: 8%;  animation-duration: 11s; animation-delay: 0s;   }
+.particle:nth-child(2) { left: 22%; animation-duration: 9s;  animation-delay: 2.2s; width: 3px; height: 3px; }
+.particle:nth-child(3) { left: 36%; animation-duration: 13s; animation-delay: 4s;   width: 5px; height: 5px; }
+.particle:nth-child(4) { left: 50%; animation-duration: 8s;  animation-delay: 1s;   }
+.particle:nth-child(5) { left: 62%; animation-duration: 12s; animation-delay: 5.5s; width: 3px; height: 3px; }
+.particle:nth-child(6) { left: 74%; animation-duration: 10s; animation-delay: 3s;   }
+.particle:nth-child(7) { left: 86%; animation-duration: 14s; animation-delay: 6.5s; width: 5px; height: 5px; }
+.particle:nth-child(8) { left: 94%; animation-duration: 9s;  animation-delay: 7.8s; width: 3px; height: 3px; }
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(15vh) translateX(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  60% {
+    transform: translateY(-45vh) translateX(18px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-75vh) translateX(-14px);
+    opacity: 0;
+  }
+}
+
+/* Sur mobile : on garde seulement 4 particules pour préserver les perfs */
+@media (max-width: 900px) {
+  .particle:nth-child(n + 5) {
+    display: none;
   }
 }
 
