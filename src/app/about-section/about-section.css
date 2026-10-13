@@ -125,15 +125,13 @@
 
 /* Couleur de l'icône selon le type */
 .timeline-academic .timeline-icon {
-  color: #818cf8;
-  /* Violet pour académique */
-  border-color: rgba(129, 140, 248, 0.2);
+  color: var(--text-primary);
+  border-color: var(--accent-border);
 }
 
 .timeline-work .timeline-icon {
-  color: #4ade80;
-  /* Vert pour professionnel */
-  border-color: rgba(74, 222, 128, 0.2);
+  color: var(--text-primary);
+  border-color: var(--accent-border);
 }
 
 /* Ligne verticale entre les étapes */

@@ -24,12 +24,13 @@ import { HeroSectionComponent } from './hero-section/hero-section';
 import { AboutSectionComponent } from './about-section/about-section';
 import { ContactSectionComponent } from './contact-section/contact-section';
 import { Messervices } from './messervices/messervices';
-
+import { IntroLoader } from './intro-loader/intro-loader';
 @Component({
   selector: 'app-root',         // Correspond à <app-root> dans index.html
   standalone: true,             // Composant autonome (Angular 17+, sans NgModule)
   imports: [
     CommonModule,
+    IntroLoader,
     HeaderComponent,
     HeroSectionComponent,
     AboutSectionComponent,

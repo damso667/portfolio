@@ -1,0 +1,56 @@
+<!-- ============================================================
+     intro-loader.html — Terminal d'ouverture
+     ============================================================ -->
+@if (visible) {
+  <div class="intro" [class.leaving]="leaving" (click)="skip()"
+    role="dialog" aria-modal="true" aria-label="Introduction du portfolio">
+
+    <!-- Grille en perspective + lueur -->
+    <div class="intro-grid" aria-hidden="true"></div>
+    <div class="intro-glow" aria-hidden="true"></div>
+
+    <!-- Fenêtre de terminal -->
+    <div class="term">
+      <div class="term-bar">
+        <span class="term-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="term-title">visiteur&#64;noubam-dev: ~/portfolio</span>
+      </div>
+
+      <div class="term-body" aria-live="polite">
+        @for (line of lines; track $index) {
+          <div class="line" [class]="'line line-' + line.kind">
+            @switch (line.kind) {
+              @case ('cmd') {
+                <span class="prompt">❯</span> <span>{{ line.shown }}</span>
+              }
+              @case ('ok') {
+                <span class="tag-ok">[ OK ]</span> <span>{{ line.shown }}</span>
+              }
+              @case ('progress') {
+                <span class="muted">{{ line.shown }}</span>
+                <span class="bar">{{ progressBlocks(line) }}</span>
+                <span class="pct">{{ line.progress | number:'1.0-0' }}%</span>
+              }
+              @case ('welcome') {
+                <span class="welcome">{{ line.shown }}</span>
+              }
+              @default {
+                <span class="muted">{{ line.shown }}</span>
+              }
+            }
+            @if ($last && !line.done) {
+              <span class="caret" aria-hidden="true"></span>
+            }
+          </div>
+        }
+        @if (lines.length === 0) {
+          <div class="line"><span class="prompt">❯</span> <span class="caret" aria-hidden="true"></span></div>
+        }
+      </div>
+    </div>
+
+    <button type="button" class="intro-skip" (click)="skip(); $event.stopPropagation()">
+      Passer l'intro <kbd>Échap</kbd>
+    </button>
+  </div>
+}

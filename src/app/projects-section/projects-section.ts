@@ -10,6 +10,7 @@
 
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TiltDirective } from '../tilt/tilt.directive';
 
 // ── Interface décrivant la structure d'un projet ──
 interface Project {
@@ -30,7 +31,7 @@ interface Project {
 @Component({
   selector: 'app-projects-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TiltDirective],
   templateUrl: './projects-section.html',
   styleUrl: './projects-section.css',
 })

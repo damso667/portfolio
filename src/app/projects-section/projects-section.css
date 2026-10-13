@@ -478,3 +478,51 @@
     min-height: auto;
   }
 }
+
+/* ============================================================
+   INCLINAISON 3D + HALO (directive appTilt, souris uniquement)
+   ============================================================ */
+.project-card {
+  position: relative;
+}
+
+/* Une fois survolée, la carte suit le curseur sans le délai d'entrée */
+.project-card.visible.tilt-ready {
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  transition-delay: 0s;
+}
+
+.project-card.visible.tilt-active {
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-6px);
+  border-color: rgba(var(--code-accent-rgb), 0.45);
+  box-shadow: var(--shadow-hover), 0 0 40px rgba(var(--code-accent-rgb), 0.12);
+}
+
+/* Halo lumineux qui suit la souris */
+.project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(var(--code-accent-rgb), 0.12),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.project-card.tilt-active::after {
+  opacity: 1;
+}
+
+/* Badges techno en police "code" */
+.tech-name {
+  font-family: var(--font-mono);
+}

@@ -11,11 +11,13 @@
 
 import { Component, OnInit, AfterViewInit, OnDestroy, HostListener, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CodeField } from '../code-field/code-field';
+import { INTRO_DONE_EVENT } from '../intro-loader/intro-loader';
 
 @Component({
   selector: 'app-hero-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CodeField],
   templateUrl: './hero-section.html',
   styleUrls: ['./hero-section.css'],
 })
@@ -65,8 +67,47 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   ];
 
+  // ── Nom affiché avec effet de "décryptage" ──
+  readonly fullName = 'Noubam Adrien';
+  scrambledName = this.fullName;
+  private scrambleTimer: any;
+
   ngOnInit(): void {
+    // Si l'intro terminal est en cours, on attend sa fin pour animer le hero
+    if (document.documentElement.classList.contains('intro-running')) {
+      window.addEventListener(INTRO_DONE_EVENT, this.onIntroDone, { once: true });
+    } else {
+      this.onIntroDone();
+    }
+  }
+
+  private onIntroDone = (): void => {
+    setTimeout(() => this.scrambleName(), 350);
     setTimeout(() => this.startTypewriter(), 600);
+  };
+
+  // ── Les lettres défilent en caractères "code" puis se fixent de gauche à droite ──
+  private scrambleName(): void {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const glyphs = '<>/{}[]=+*_#01$;';
+    const target = this.fullName;
+    let frame = 0;
+    const totalFrames = 28;
+
+    this.scrambleTimer = setInterval(() => {
+      const revealed = Math.floor((frame / totalFrames) * target.length);
+      this.scrambledName = target
+        .split('')
+        .map((char, i) =>
+          i < revealed || char === ' ' ? char : glyphs[(Math.random() * glyphs.length) | 0])
+        .join('');
+
+      if (++frame > totalFrames) {
+        clearInterval(this.scrambleTimer);
+        this.scrambledName = target;
+      }
+    }, 38);
   }
 
   ngAfterViewInit(): void {
@@ -97,6 +138,8 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.typingInterval) clearInterval(this.typingInterval);
+    clearInterval(this.scrambleTimer);
+    window.removeEventListener(INTRO_DONE_EVENT, this.onIntroDone);
   }
 
   // ── Effet typewriter : écriture + effacement en boucle ──

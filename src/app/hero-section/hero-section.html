@@ -7,6 +7,8 @@
 
   <!-- ═══ Effets d'arrière-plan ═══ -->
   <div class="hero-bg" aria-hidden="true">
+    <div class="hero-bg-grid"></div>
+    <app-code-field></app-code-field>
     <div class="hero-bg-glow"></div>
     <div class="hero-bg-glow-secondary"></div>
 
@@ -42,9 +44,14 @@
         <!-- <div class="hero-accent-line"></div> -->
 
         <!-- Nom principal -->
-        <h1 class="hero-name animate-on-scroll anim-left">
-          Noubam Adrien<br />
-          <span class="hero-name-highlight"></span>
+        <!-- Petite ligne de code au-dessus du nom -->
+        <p class="hero-eyebrow" aria-hidden="true">
+          <span class="eyebrow-prompt">❯</span> const <span class="eyebrow-var">developpeur</span> =
+        </p>
+
+        <!-- Nom principal (effet de décryptage au chargement) -->
+        <h1 class="hero-name animate-on-scroll anim-left" [attr.aria-label]="fullName">
+          <span aria-hidden="true">{{ scrambledName }}</span>
         </h1>
 
         <!-- Slogan animé (typewriter) -->

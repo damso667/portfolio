@@ -37,8 +37,8 @@
   height: 600px;
   background: radial-gradient(
     ellipse,
-    rgba(100, 130, 220, 0.08) 0%,
-    rgba(80, 100, 180, 0.04) 40%,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 40%,
     transparent 70%
   );
   border-radius: 50%;
@@ -71,7 +71,7 @@
   height: 500px;
   background: radial-gradient(
     ellipse,
-    rgba(200, 200, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.03) 0%,
     transparent 70%
   );
   border-radius: 50%;
@@ -135,8 +135,8 @@
 
 /* ── Effets au survol de la photo ── */
 .hero-photo:hover {
-  filter: brightness(1.05) contrast(1.08) drop-shadow(0 0 30px rgba(100, 130, 220, 0.35)) drop-shadow(0 0 60px rgba(100, 130, 220, 0.15));
-  -webkit-filter: brightness(1.05) contrast(1.08) drop-shadow(0 0 30px rgba(100, 130, 220, 0.35)) drop-shadow(0 0 60px rgba(100, 130, 220, 0.15));
+  filter: brightness(1) contrast(1.08);
+  -webkit-filter: brightness(1) contrast(1.08);
   transform: scale(1.03) translateY(-6px);
 }
 
@@ -317,13 +317,13 @@
   height: 56px;
   border-radius: 50%;
   border: none;
-  background: #2563eb;
-  color: #fff;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   font-size: 1.15rem;
   cursor: pointer;
   box-shadow:
-    0 4px 24px rgba(37, 99, 235, 0.35),
-    0 0 0 0 rgba(37, 99, 235, 0.2);
+    0 4px 24px rgba(255, 255, 255, 0.35),
+    0 0 0 0 rgba(255, 255, 255, 0.2);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s ease,
               background 0.3s ease;
@@ -335,10 +335,10 @@
 
 .hero-scroll-btn:hover {
   transform: translateY(-3px) scale(1.06);
-  background: #3b82f6;
+  background: var(--btn-primary-bg);
   box-shadow:
-    0 8px 32px rgba(37, 99, 235, 0.45),
-    0 0 0 8px rgba(37, 99, 235, 0.08);
+    0 8px 32px rgba(255, 255, 255, 0.45),
+    0 0 0 8px rgba(255, 255, 255, 0.08);
 }
 
 .hero-scroll-btn:active {
@@ -348,13 +348,13 @@
 @keyframes scroll-pulse {
   0%, 100% {
     box-shadow:
-      0 4px 24px rgba(37, 99, 235, 0.35),
-      0 0 0 0 rgba(37, 99, 235, 0.2);
+      0 4px 24px rgba(255, 255, 255, 0.35),
+      0 0 0 0 rgba(255, 255, 255, 0.2);
   }
   50% {
     box-shadow:
-      0 4px 24px rgba(37, 99, 235, 0.35),
-      0 0 0 12px rgba(37, 99, 235, 0);
+      0 4px 24px rgba(255, 255, 255, 0.35),
+      0 0 0 12px rgba(255, 255, 255, 0);
   }
 }
 
@@ -741,8 +741,8 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: rgba(140, 160, 220, 0.55);
-  box-shadow: 0 0 8px rgba(140, 160, 220, 0.4);
+  background: rgba(var(--code-accent-rgb), 0.45);
+  box-shadow: 0 0 8px rgba(var(--code-accent-rgb), 0.3);
   opacity: 0;
   animation: particle-float 10s linear infinite;
 }
@@ -798,4 +798,59 @@
     width: 80%;
     max-width: 220px;
   }
+}
+/* ============================================================
+   UNIVERS DÉVELOPPEUR — grille, ligne de code, nom en dégradé
+   ============================================================ */
+
+/* Grille technique discrète, estompée vers les bords */
+.hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+}
+
+/* "❯ const developpeur =" au-dessus du nom */
+.hero-eyebrow {
+  margin: 0 0 6px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  animation: text-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+.eyebrow-prompt {
+  color: var(--term-green);
+  font-weight: 700;
+}
+
+.eyebrow-var {
+  color: var(--code-accent);
+}
+
+/* Nom : dégradé texte → accent */
+.hero-name span {
+  background: linear-gradient(100deg, var(--text-primary) 40%, var(--text-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-name {
+  text-shadow: none;
+}
+
+/* Le texte qui s'écrit prend la couleur "terminal" */
+.typewriter-text {
+  font-family: var(--font-mono);
+  color: var(--code-accent);
+}
+
+.typewriter-cursor {
+  color: var(--term-green);
 }
