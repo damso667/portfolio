@@ -5,11 +5,11 @@
 //  - Initialiser l'application
 //  - Gérer le thème (dark/light) via le service ThemeService
 //  - Orchestrer l'affichage des composants enfants
-//  - Initialiser l'animation au scroll (IntersectionObserver)
-//    avec délais échelonnés (stagger) par section
+//  - Initialiser la chorégraphie au scroll (GSAP ScrollTrigger)
+//    une fois l'intro terminal terminée
 // ============================================================
 
-import { Component, OnInit, AfterViewInit, Renderer2, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, Renderer2, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Import des composants enfants (standalone components Angular 17+)
@@ -24,13 +24,16 @@ import { HeroSectionComponent } from './hero-section/hero-section';
 import { AboutSectionComponent } from './about-section/about-section';
 import { ContactSectionComponent } from './contact-section/contact-section';
 import { Messervices } from './messervices/messervices';
-import { IntroLoader } from './intro-loader/intro-loader';
+import { IntroLoader, INTRO_DONE_EVENT } from './intro-loader/intro-loader';
+import { ScrollWorld } from './scroll-world/scroll-world';
+import { initScrollFx } from './scroll-world/scroll-fx';
 @Component({
   selector: 'app-root',         // Correspond à <app-root> dans index.html
   standalone: true,             // Composant autonome (Angular 17+, sans NgModule)
   imports: [
     CommonModule,
     IntroLoader,
+    ScrollWorld,
     HeaderComponent,
     HeroSectionComponent,
     AboutSectionComponent,
@@ -42,11 +45,13 @@ import { IntroLoader } from './intro-loader/intro-loader';
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // ── Injection du Renderer2 pour manipuler le DOM sans accès direct ──
   // Renderer2 est préféré à document.querySelector pour la compatibilité SSR
   private renderer = inject(Renderer2);
+  private zone = inject(NgZone);
+  private destroyScrollFx?: () => void;
 
   // ── Thème actif : 'dark' par défaut (inspiré de Codex OpenAI) ──
   currentTheme: 'dark' | 'light' = 'dark';
@@ -65,7 +70,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   // Appelé après le rendu initial du DOM
   // ============================================================
   ngAfterViewInit(): void {
-    this.initScrollAnimations(); // Lance l'observateur d'animations
+    this.initScrollAnimations(); // Lance la chorégraphie GSAP au scroll
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener(INTRO_DONE_EVENT, this.startScrollFx);
+    this.destroyScrollFx?.();
   }
 
   // ============================================================
@@ -121,65 +131,26 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   // ============================================================
-  // ANIMATIONS AU SCROLL — IntersectionObserver avec stagger
+  // ANIMATIONS AU SCROLL — GSAP ScrollTrigger (voir scroll-world/scroll-fx.ts)
   // ============================================================
 
   /**
-   * Initialise l'IntersectionObserver pour déclencher les animations
-   * avec un effet stagger : les éléments d'une même section
-   * apparaissent les uns après les autres avec un délai croissant.
-   *
-   * Le délai est appliqué via la custom property CSS --anim-delay
-   * qui est lue par la transition définie dans styles.css.
+   * Lance la chorégraphie GSAP une fois l'intro terminal terminée
+   * (sinon les apparitions du hero se joueraient derrière l'intro).
    */
   private initScrollAnimations(): void {
-    // Délai court pour s'assurer que tous les composants enfants sont rendus
-    setTimeout(() => {
-
-      // ── Étape 1 : Grouper les éléments par section parente ──
-      const animatedElements = document.querySelectorAll('.animate-on-scroll');
-      const sectionMap = new Map<Element, Element[]>();
-
-      animatedElements.forEach((el) => {
-        // On remonte au <section> ou au conteneur le plus proche
-        const section = el.closest('section, .hero-section, footer') || el.parentElement;
-        if (section) {
-          if (!sectionMap.has(section)) {
-            sectionMap.set(section, []);
-          }
-          sectionMap.get(section)!.push(el);
-        }
-      });
-
-      // ── Étape 2 : Assigner un délai échelonné (stagger) par groupe ──
-      const STAGGER_MS = 120; // Délai entre chaque élément d'un même groupe
-
-      sectionMap.forEach((elements) => {
-        elements.forEach((el, index) => {
-          (el as HTMLElement).style.setProperty('--anim-delay', `${index * STAGGER_MS}ms`);
-        });
-      });
-
-      // ── Étape 3 : Observer les éléments ──
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              // L'élément est visible → on ajoute .visible pour déclencher l'animation
-              entry.target.classList.add('visible');
-              // On arrête d'observer cet élément (l'animation ne se rejoue qu'une fois)
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        {
-          threshold: 0.08,    // Déclenche quand 8% de l'élément est visible
-          rootMargin: '0px 0px -60px 0px', // Marge pour un déclenchement élégant
-        }
-      );
-
-      animatedElements.forEach((el) => observer.observe(el));
-
-    }, 150);
+    if (document.documentElement.classList.contains('intro-running')) {
+      window.addEventListener(INTRO_DONE_EVENT, this.startScrollFx, { once: true });
+    } else {
+      // Délai court pour s'assurer que tous les composants enfants sont rendus
+      setTimeout(this.startScrollFx, 150);
+    }
   }
+
+  // GSAP tourne hors de la zone Angular : pas de change detection à chaque frame
+  private startScrollFx = (): void => {
+    this.zone.runOutsideAngular(() => {
+      this.destroyScrollFx = initScrollFx();
+    });
+  };
 }

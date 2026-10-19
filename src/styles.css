@@ -543,3 +543,156 @@ html.intro-running .hero-section *::after {
   background: rgba(var(--code-accent-rgb), 0.3);
   color: var(--text-primary);
 }
+
+/* ============================================================
+   VOYAGE AU SCROLL — GSAP + Three.js
+   (voir src/app/scroll-world/)
+   ============================================================ */
+
+/* Variables de déplacement animées par GSAP.
+   Non héritées : un parent animé ne décale pas ses enfants. */
+@property --fx-x {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fx-y {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fx-s {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+/* translate / scale individuels : se cumulent avec les `transform`
+   existants (animations CSS, tilt des cartes) sans les écraser */
+.gsap-on .fx {
+  translate: var(--fx-x, 0px) var(--fx-y, 0px);
+  scale: var(--fx-s, 1);
+}
+
+/* Fonds des sections légèrement translucides pour laisser
+   apparaître le décor 3D — mêmes couleurs que le thème */
+html.webgl-on .hero-section {
+  background-color: color-mix(in srgb, var(--bg-primary) 55%, transparent);
+}
+
+html.webgl-on .about-section,
+html.webgl-on .services-section,
+html.webgl-on .contact-section {
+  background-color: color-mix(in srgb, var(--bg-primary) 72%, transparent);
+}
+
+html.webgl-on .projects-section,
+html.webgl-on .footer {
+  background-color: color-mix(in srgb, var(--bg-secondary) 80%, transparent);
+}
+
+/* ── Hero : grandes lignes de texte qui passent derrière la photo ── */
+.hero-marquee {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* sous les colonnes (2) et la photo (3) */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-marquee-row,
+.fx-marquee {
+  width: max-content;
+  white-space: nowrap;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  will-change: transform;
+}
+
+.hero-marquee-row {
+  font-size: clamp(3.5rem, 11vw, 10rem);
+  color: rgba(var(--code-accent-rgb), 0.08);
+}
+
+.hero-marquee-row.is-outline,
+.fx-marquee {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(var(--code-accent-rgb), 0.2);
+}
+
+/* ── Sections : grand titre en contour qui défile en fond ── */
+.fx-marquee {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  z-index: 0;
+  font-size: clamp(4rem, 13vw, 11rem);
+  -webkit-text-stroke-color: rgba(var(--code-accent-rgb), 0.12);
+  pointer-events: none;
+}
+
+html.gsap-on main section > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Projets : piste horizontale (cartes sur une seule ligne) ── */
+html.gsap-on .projects-grid.is-track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 24px;
+  width: max-content;
+  will-change: transform;
+}
+
+html.gsap-on .projects-grid.is-track .project-card {
+  flex: 0 0 auto;
+  flex-direction: column;
+  width: min(520px, 82vw);
+}
+
+/* Dans la piste, la carte "projet phare" garde le même gabarit
+   que les autres pour que la ligne tienne dans l'écran */
+html.gsap-on .projects-grid.is-track .project-featured {
+  min-height: 0;
+}
+
+html.gsap-on .projects-grid.is-track .project-featured .project-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+html.gsap-on .projects-grid.is-track .project-featured .project-content {
+  padding: 26px;
+}
+
+html.gsap-on .projects-grid.is-track .project-featured .project-title {
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+
+@media (max-width: 900px) {
+  .hero-marquee {
+    z-index: 0;
+    /* derrière la photo, qui est dans le flux sur mobile */
+    justify-content: flex-start;
+    padding-top: 22vh;
+  }
+
+  .hero-marquee-row {
+    font-size: 4.5rem;
+  }
+
+  html.gsap-on .projects-grid.is-track {
+    gap: 16px;
+  }
+}

@@ -1,0 +1,48 @@
+/* ============================================================
+   scroll-world.css — Canvas 3D fixe + indicateur de chapitre
+   (monochrome, suit le thème)
+   ============================================================ */
+
+/* Canvas plein écran derrière le contenu */
+.world-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+/* Indicateur de chapitre façon terminal (bas gauche) */
+.world-chapter {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 50;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.chapter-index {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.chapter-label {
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* Petits écrans : l'indicateur gênerait la lecture */
+@media (max-width: 768px) {
+  .world-chapter {
+    display: none;
+  }
+}
