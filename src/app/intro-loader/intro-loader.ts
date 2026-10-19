@@ -49,7 +49,7 @@ export class IntroLoader implements OnInit, OnDestroy {
     { kind: 'out',      text: 'noubam_adrien — développeur full stack' },
     { kind: 'cmd',      text: 'cd ~/portfolio && npm run start' },
     { kind: 'progress', text: 'Compilation des modules' },
-    { kind: 'ok',       text: 'angular · spring-boot · laravel · flutter · mysql' },
+    { kind: 'ok',       text: 'angular · spring-boot · laravel · Nodejs · mysql · PostgreSQL'},
     { kind: 'out',      text: 'Serveur prêt — ouverture de l\'espace de travail…' },
     { kind: 'welcome',  text: 'Bienvenue dans mon univers.' },
   ];
