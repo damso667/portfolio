@@ -12,8 +12,9 @@
 //    démarrent quand l'intro se termine.
 // ============================================================
 
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { I18nService } from '../i18n/i18n.service';
 
 type LineKind = 'cmd' | 'out' | 'ok' | 'progress' | 'welcome';
 
@@ -43,16 +44,12 @@ export class IntroLoader implements OnInit, OnDestroy {
   leaving = false;
   lines: TermLine[] = [];
 
-  // ── Script de la séquence (modifie-le librement) ──
-  private readonly script: { kind: LineKind; text: string }[] = [
-    { kind: 'cmd',      text: 'whoami' },
-    { kind: 'out',      text: 'noubam_adrien — développeur full stack' },
-    { kind: 'cmd',      text: 'cd ~/portfolio && npm run start' },
-    { kind: 'progress', text: 'Compilation des modules' },
-    { kind: 'ok',       text: 'angular · spring-boot · laravel · Nodejs · mysql · PostgreSQL'},
-    { kind: 'out',      text: 'Serveur prêt — ouverture de l\'espace de travail…' },
-    { kind: 'welcome',  text: 'Bienvenue dans mon univers.' },
-  ];
+  readonly i18n = inject(I18nService);
+
+  // ── Script de la séquence : textes dans i18n/content.ts (intro.script) ──
+  private get script(): { kind: LineKind; text: string }[] {
+    return this.i18n.t().intro.script as { kind: LineKind; text: string }[];
+  }
 
   private timers: ReturnType<typeof setTimeout>[] = [];
   private finished = false;

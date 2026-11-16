@@ -20,14 +20,17 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { contenuPour, Lang, LANG_CHANGE_EVENT } from '../i18n/i18n.service';
+
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-// Mots qui traversent le hero (reprennent les infos du portfolio)
-const HERO_ROWS = [
-  'Angular — Spring Boot — Laravel — Flutter — ',
-  'Développeur Full Stack — Génie Logiciel — Yaoundé — ',
-];
+// Mots qui traversent le hero : textes dans i18n/content.ts (heroRows),
+// dans la langue posée sur <html lang> par I18nService
+function heroRows(): string[] {
+  const lang: Lang = document.documentElement.lang === 'en' ? 'en' : 'fr';
+  return contenuPour(lang).heroRows;
+}
 
 export function initScrollFx(): () => void {
   const root = document.documentElement;
@@ -73,13 +76,23 @@ export function initScrollFx(): () => void {
         const band = document.createElement('div');
         band.className = 'hero-marquee';
         band.setAttribute('aria-hidden', 'true');
-        const rows = HERO_ROWS.map((text, i) => {
+        const rows = heroRows().map((text, i) => {
           const row = document.createElement('div');
           row.className = `hero-marquee-row${i % 2 ? ' is-outline' : ''}`;
           row.textContent = text.repeat(3);
           band.appendChild(row);
           return row;
         });
+
+        // Changement de langue : on remplace le texte des lignes
+        const relabelHero = () => {
+          heroRows().forEach((text, i) => {
+            if (rows[i]) rows[i].textContent = text.repeat(3);
+          });
+          ScrollTrigger.refresh();
+        };
+        window.addEventListener(LANG_CHANGE_EVENT, relabelHero);
+        cleanups.push(() => window.removeEventListener(LANG_CHANGE_EVENT, relabelHero));
         hero.appendChild(band);
         cleanups.push(() => band.remove());
 
@@ -144,6 +157,15 @@ export function initScrollFx(): () => void {
         marquee.textContent = `${label} — `.repeat(6);
         section.prepend(marquee);
         cleanups.push(() => marquee.remove());
+
+        // Le libellé de section est traduit par Angular : on le relit
+        const relabel = () => {
+          const next = section.querySelector('.section-label')?.textContent?.trim();
+          if (next) marquee.textContent = `${next} — `.repeat(6);
+          ScrollTrigger.refresh();
+        };
+        window.addEventListener(LANG_CHANGE_EVENT, relabel);
+        cleanups.push(() => window.removeEventListener(LANG_CHANGE_EVENT, relabel));
 
         gsap.fromTo(
           marquee,

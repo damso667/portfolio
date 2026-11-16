@@ -14,7 +14,8 @@
 //  → Voir le guide d'installation fourni avec ce composant.
 // ============================================================
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { I18nService } from '../i18n/i18n.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 
@@ -40,6 +41,8 @@ type SendStatus = 'idle' | 'sending' | 'success' | 'error';
   styleUrls: ['./contact-section.css'],
 })
 export class ContactSectionComponent {
+
+  readonly i18n = inject(I18nService);
 
   // ============================================================
   // CONFIGURATION EMAILJS
@@ -71,39 +74,14 @@ export class ContactSectionComponent {
 
   // ── Informations de contact direct ──
   contactInfo = [
-    {
-      icon:  'fa-solid fa-envelope',
-      label: 'Email',
-      value: 'njassineadrien@gmail.com',
-      link:  'mailto:njassineadrien@gmail.com',
-    },
-    {
-      icon:  'fa-solid fa-location-dot',
-      label: 'Localisation',
-      value: 'Yaoundé, Cameroun',
-      link:  '',
-    },
-  ];
+    { icon: 'fa-solid fa-envelope',     labelKey: 'emailLabel',    value: 'njassineadrien@gmail.com', link: 'mailto:njassineadrien@gmail.com' },
+    { icon: 'fa-solid fa-location-dot', labelKey: 'locationLabel', value: '',                         link: '' },
+  ] as const;
 
-  // ── Liens vers les réseaux sociaux ──
   socialLinks = [
-    {
-      label:     'GitHub',
-      icon:      'fa-brands fa-github',
-      url:       'https://github.com/damso667',
-      ariaLabel: 'Voir mon profil GitHub',
-    },
-    {
-      label:     'LinkedIn',
-      icon:      'fa-brands fa-linkedin-in',
-      url:       'https://linkedin.com/in/adrien-njassine-0b75a839a',
-      ariaLabel: 'Voir mon profil LinkedIn',
-    },
-  ];
-
-  // ============================================================
-  // ENVOI DU FORMULAIRE
-  // ============================================================
+    { label: 'GitHub',   icon: 'fa-brands fa-github',      url: 'https://github.com/damso667',                         ariaKey: 'socialGithub' },
+    { label: 'LinkedIn', icon: 'fa-brands fa-linkedin-in', url: 'https://linkedin.com/in/adrien-njassine-0b75a839a', ariaKey: 'socialLinkedin' },
+  ] as const;
 
   /**
    * Soumet le formulaire via EmailJS.
@@ -122,7 +100,7 @@ export class ContactSectionComponent {
     // Vérifie que le SDK EmailJS est bien chargé (script CDN dans index.html)
     if (typeof emailjs === 'undefined') {
       this.sendStatus = 'error';
-      this.errorMessage = 'Le service d\'envoi n\'est pas chargé. Vérifie le script EmailJS dans index.html.';
+      this.errorMessage = this.i18n.t().contact.errService;
       return;
     }
 
@@ -150,7 +128,7 @@ export class ContactSectionComponent {
       .catch((error: any) => {
         console.error('Erreur EmailJS :', error);
         this.sendStatus = 'error';
-        this.errorMessage = 'Une erreur est survenue. Réessaie ou écris-moi directement par email.';
+        this.errorMessage = this.i18n.t().contact.errSend;
       });
   }
 

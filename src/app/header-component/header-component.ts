@@ -25,11 +25,15 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
+import { I18nService } from '../i18n/i18n.service';
+import { Content } from '../i18n/content';
 
 /** Un onglet du dock */
 interface NavLink {
-  label: string;
+  /** Clé du libellé dans les textes traduits (content.ts → nav) */
+  key: keyof Content['nav'];
   anchor: string;
   /** Classes Font Awesome — affichées seulement dans le dock bas mobile */
   icon: string;
@@ -52,16 +56,19 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   // ── Thème courant, reçu depuis AppComponent ──
   @Input() currentTheme: 'dark' | 'light' = 'dark';
 
+  // ── Langue (FR / EN) ──
+  readonly i18n = inject(I18nService);
+
   // ── Demande de bascule du thème vers AppComponent ──
   @Output() themeToggle = new EventEmitter<void>();
 
   // ── Sections du portfolio ──
   readonly navLinks: NavLink[] = [
-    { label: 'Accueil',  anchor: 'accueil',  icon: 'fa-solid fa-house' },
-    { label: 'À propos', anchor: 'apropos',  icon: 'fa-solid fa-user' },
-    { label: 'Projets',  anchor: 'projets',  icon: 'fa-solid fa-layer-group' },
-    { label: 'Services', anchor: 'services', icon: 'fa-solid fa-cube' },
-    { label: 'Contact',  anchor: 'contact',  icon: 'fa-solid fa-paper-plane' },
+    { key: 'home',     anchor: 'accueil',  icon: 'fa-solid fa-house' },
+    { key: 'about',    anchor: 'apropos',  icon: 'fa-solid fa-user' },
+    { key: 'projects', anchor: 'projets',  icon: 'fa-solid fa-layer-group' },
+    { key: 'services', anchor: 'services', icon: 'fa-solid fa-cube' },
+    { key: 'contact',  anchor: 'contact',  icon: 'fa-solid fa-paper-plane' },
   ];
 
   // ── Section actuellement visible ──
@@ -216,7 +223,14 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get themeLabel(): string {
-    return this.currentTheme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre';
+    const nav = this.i18n.t().nav;
+    return this.currentTheme === 'dark' ? nav.toLight : nav.toDark;
+  }
+
+  onLangToggle(): void {
+    this.i18n.toggle();
+    // Les libellés changent de largeur : on remesure le dock
+    setTimeout(() => this.scheduleMeasure());
   }
 
   private get isCompact(): boolean {

@@ -729,3 +729,25 @@ html.gsap-on .projects-grid.is-track .project-featured .project-title {
     gap: 16px;
   }
 }
+
+/* ============================================================
+   LOGOS DE MARQUE ABSENTS DE FONT AWESOME (Simple Icons)
+   Utilisation : <i class="si si-n8n"></i> — la couleur suit
+   `color` comme une icône Font Awesome.
+   ============================================================ */
+.si {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  background-color: currentColor;
+  -webkit-mask: var(--si) center / contain no-repeat;
+  mask: var(--si) center / contain no-repeat;
+}
+
+.si-n8n        { --si: url('/icons/n8n.svg'); }
+.si-flutter    { --si: url('/icons/flutter.svg'); }
+.si-postgresql { --si: url('/icons/postgresql.svg'); }
+.si-ionic      { --si: url('/icons/ionic.svg'); }
+.si-springboot { --si: url('/icons/springboot.svg'); }
+.si-laravel    { --si: url('/icons/laravel.svg'); }

@@ -1,78 +1,90 @@
 <!-- ============================================================
-     messervices.component.html — Section "Mes Services"
-     
-     Carrousel infini de 8 cartes avec images floutées
-     et overlay thème-aware
+     messervices.html — Section "Mes services"
+     Panneaux en accordéon : le service actif s'ouvre en grand,
+     les autres restent en bandes. Voir messervices.ts.
      ============================================================ -->
 
 <section id="services" class="services-section section">
   <div class="container">
 
-    <!-- ── En-tête de section ── -->
-    <div class="section-header animate-on-scroll">
-      <span class="section-label">Services</span>
-      <h2 class="services-title">Mes Services</h2>
-      <p class="services-subtitle">
-        Des solutions sur mesure pour donner vie à vos projets numériques,
-        du développement au déploiement.
-      </p>
+    <!-- ── En-tête + commandes ── -->
+    <div class="svc-top">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">{{ i18n.t().services.label }}</span>
+        <h2 class="services-title">{{ i18n.t().services.title }}</h2>
+        <p class="services-subtitle">{{ i18n.t().services.subtitle }}</p>
+      </div>
+
+      <div class="svc-controls animate-on-scroll">
+        <span class="svc-counter" aria-hidden="true">
+          <span class="svc-counter-now">{{ pad(active() + 1) }}</span>
+          <span class="svc-counter-sep"></span>
+          <span>{{ pad(services().length) }}</span>
+        </span>
+
+        <button type="button" class="svc-btn" (click)="prev()" [attr.aria-label]="i18n.t().services.prev">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="svc-btn" (click)="next()" [attr.aria-label]="i18n.t().services.next">
+          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </button>
+        @if (!reducedMotion) {
+          <button type="button" class="svc-btn" (click)="togglePause()"
+            [attr.aria-label]="userPaused() ? i18n.t().services.play : i18n.t().services.pause"
+            [attr.aria-pressed]="userPaused()">
+            <i [class]="userPaused() ? 'fa-solid fa-play' : 'fa-solid fa-pause'" aria-hidden="true"></i>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- ── Panneaux ── -->
+    <div class="svc-panels animate-on-scroll"
+      [class.is-running]="running()"
+      (mouseenter)="hovered.set(true)"
+      (mouseleave)="hovered.set(false)"
+      (focusin)="onFocusIn($event)"
+      (focusout)="onFocusOut($event)"
+      (keydown)="onKey($event)">
+
+      @for (service of services(); track $index; let i = $index) {
+        <article class="svc-panel" [class.is-active]="i === active()" [style.--i]="i">
+
+          <!-- Fond : image en niveaux de gris, couleur sur le panneau ouvert -->
+          <img class="svc-img" [src]="service.image" alt="" loading="lazy" aria-hidden="true" />
+          <div class="svc-shade" aria-hidden="true"></div>
+
+          <!-- Zone cliquable de la bande -->
+          <button type="button" class="svc-trigger"
+            (click)="select(i)"
+            [attr.aria-expanded]="i === active()"
+            [attr.aria-controls]="'svc-body-' + i">
+            <span class="svc-strip">
+              <i [class]="service.icon + ' svc-strip-icon'" aria-hidden="true"></i>
+              <span class="svc-strip-title">{{ service.title }}</span>
+              <span class="svc-strip-num" aria-hidden="true">{{ pad(i + 1) }}</span>
+            </span>
+          </button>
+
+          <!-- Contenu du panneau ouvert -->
+          <div class="svc-body" [id]="'svc-body-' + i" [attr.aria-hidden]="i !== active()">
+            <span class="svc-icon" aria-hidden="true"><i [class]="service.icon"></i></span>
+            <h3 class="svc-title">{{ service.title }}</h3>
+            <p class="svc-desc">{{ service.description }}</p>
+            <ul class="svc-tags">
+              @for (tag of service.tags; track tag) {
+                <li>{{ tag }}</li>
+              }
+            </ul>
+          </div>
+
+          <!-- Progression avant le panneau suivant -->
+          <span class="svc-progress" aria-hidden="true">
+            <span class="svc-progress-bar" (animationend)="onProgressEnd(i)"></span>
+          </span>
+        </article>
+      }
     </div>
 
   </div>
-
-  <!-- ── Carrousel (pleine largeur, déborde du container) ── -->
-  <div
-    class="carousel-wrapper animate-on-scroll"
-    (mouseenter)="onMouseEnter()"
-    (mouseleave)="onMouseLeave()">
-
-    <!-- Masque dégradé gauche -->
-    <div class="carousel-fade carousel-fade--left"></div>
-
-    <!-- Piste de défilement -->
-    <div class="carousel-track" #carouselTrack>
-
-      <article
-        *ngFor="let service of carouselServices; let i = index"
-        class="service-card"
-        [attr.aria-label]="'Service : ' + service.title">
-
-        <!-- Image de fond floutée -->
-        <div class="card-bg">
-          <img
-            *ngIf="hasImage(service)"
-            [src]="service.image"
-            [alt]="''"
-            loading="lazy"
-            aria-hidden="true"
-            class="card-bg-img" />
-
-          <!-- Fond dégradé de fallback (si pas d'image) -->
-          <div
-            *ngIf="!hasImage(service)"
-            class="card-bg-gradient">
-          </div>
-
-          <!-- Overlay thème-aware pour le contraste -->
-          <div class="card-bg-overlay"></div>
-        </div>
-
-        <!-- Contenu de la carte -->
-        <div class="card-content">
-          <div class="card-icon-wrapper">
-            <i [class]="service.icon" class="card-icon"></i>
-          </div>
-          <h3 class="card-title">{{ service.title }}</h3>
-          <p class="card-description">{{ service.description }}</p>
-        </div>
-
-      </article>
-
-    </div>
-
-    <!-- Masque dégradé droit -->
-    <div class="carousel-fade carousel-fade--right"></div>
-
-  </div>
-
 </section>

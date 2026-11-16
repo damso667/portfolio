@@ -16,17 +16,18 @@ import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild, inj
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { ScrollScene } from './scroll-scene';
+import { I18nService } from '../i18n/i18n.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
 // Logo 3D de chaque section (0 = Angular, 1 = Java) et son placement (desktop / mobile)
 const CHAPTERS = [
-  { id: 'accueil', label: 'Accueil', logo: 0, desktop: { x: 3.4, y: 0.2, s: 1 }, mobile: { x: 0, y: 2.2, s: 0.7 } },
-  { id: 'apropos', label: 'À propos', logo: 1, desktop: { x: -3.6, y: 0, s: 0.85 }, mobile: { x: 1.6, y: 2.6, s: 0.55 } },
-  { id: 'projets', label: 'Projets', logo: 0, desktop: { x: 3.8, y: -0.6, s: 0.75 }, mobile: { x: -1.6, y: 2.8, s: 0.5 } },
-  { id: 'services', label: 'Services', logo: 1, desktop: { x: 0, y: 2.4, s: 0.65 }, mobile: { x: 0, y: 3, s: 0.5 } },
-  { id: 'contact', label: 'Contact', logo: 0, desktop: { x: -3.4, y: -0.2, s: 1.1 }, mobile: { x: 0, y: 2.6, s: 0.65 } },
-];
+  { id: 'accueil', key: 'home', logo: 0, desktop: { x: 3.4, y: 0.2, s: 1 }, mobile: { x: 0, y: 2.2, s: 0.7 } },
+  { id: 'apropos', key: 'about', logo: 1, desktop: { x: -3.6, y: 0, s: 0.85 }, mobile: { x: 1.6, y: 2.6, s: 0.55 } },
+  { id: 'projets', key: 'projects', logo: 0, desktop: { x: 3.8, y: -0.6, s: 0.75 }, mobile: { x: -1.6, y: 2.8, s: 0.5 } },
+  { id: 'services', key: 'services', logo: 1, desktop: { x: 0, y: 2.4, s: 0.65 }, mobile: { x: 0, y: 3, s: 0.5 } },
+  { id: 'contact', key: 'contact', logo: 0, desktop: { x: -3.4, y: -0.2, s: 1.1 }, mobile: { x: 0, y: 2.6, s: 0.65 } },
+] as const;
 
 @Component({
   selector: 'app-scroll-world',
@@ -36,7 +37,7 @@ const CHAPTERS = [
     <div class="world-chapter" aria-hidden="true">
       <span class="chapter-index">{{ '0' + (chapterIndex + 1) }}</span>
       <span class="chapter-sep">/ 0{{ chapters.length }}</span>
-      <span class="chapter-label">{{ chapters[chapterIndex].label }}</span>
+      <span class="chapter-label">{{ i18n.t().nav[chapters[chapterIndex].key] }}</span>
     </div>
   `,
   styleUrls: ['./scroll-world.css'],
@@ -46,6 +47,7 @@ export class ScrollWorld implements AfterViewInit, OnDestroy {
   @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
 
   private zone = inject(NgZone);
+  readonly i18n = inject(I18nService);
   private scene?: ScrollScene;
   private gsapContext?: gsap.Context;
   private themeObserver?: MutationObserver;

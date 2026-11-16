@@ -1,5 +1,7 @@
 <!-- ============================================================
-     projects-section.component.html — Section "Mes réalisations"
+     projects-section.html — Section "Mes réalisations"
+     Une carte = un projet. Cliquer sur la carte (ou sur
+     "Voir le détail") ouvre la fenêtre de détail.
      ============================================================ -->
 
 <section id="projets" class="projects-section section">
@@ -7,93 +9,102 @@
 
     <!-- ── En-tête de section ── -->
     <div class="section-header animate-on-scroll">
-      <span class="section-label">Portfolio</span>
-      <h2 class="section-title">Mes réalisations</h2>
-      <p class="section-subtitle">
-        Une sélection de projets reflétant mes compétences en développement
-        Full Stack, de la conception à la mise en production.
-      </p>
+      <span class="section-label">{{ i18n.t().projects.label }}</span>
+      <h2 class="section-title">{{ i18n.t().projects.title }}</h2>
+      <p class="section-subtitle">{{ i18n.t().projects.subtitle }}</p>
     </div>
 
     <!-- ── Grille de projets ── -->
     <div class="projects-grid">
 
-      <article *ngFor="let project of projects" appTilt class="project-card animate-on-scroll anim-scale"
-        [class.project-featured]="project.featured">
+      @for (project of projets(); track project.id) {
+        <article appTilt class="project-card animate-on-scroll anim-scale"
+          [class.project-featured]="project.enAvant"
+          (click)="open(project)">
 
-        <!-- ── Visuel du projet ── -->
-        <div class="project-image">
+          <!-- ── Visuel du projet ── -->
+          <div class="project-image">
+            @if (project.image) {
+              <img [src]="project.image" [alt]="i18n.t().projects.imageAlt + ' ' + project.titre" loading="lazy" />
+            } @else {
+              <div class="project-image-placeholder">
+                <i class="fa-solid fa-code placeholder-icon" aria-hidden="true"></i>
+              </div>
+            }
 
-          <!-- Si une image est fournie -->
-          <img *ngIf="hasImage(project)" [src]="project.image" [alt]="'Capture d\'écran du projet ' + project.title"
-            loading="lazy" />
+            <!-- Invitation à ouvrir le détail (survol souris) -->
+            <div class="project-overlay" aria-hidden="true">
+              <span class="overlay-open">
+                <i class="fa-solid fa-expand"></i>
+                {{ i18n.t().projects.details }}
+              </span>
+            </div>
 
-          <!-- Placeholder si aucune image (dégradé + icône) -->
-          <div class="project-image-placeholder" *ngIf="!hasImage(project)">
-            <i class="fa-solid fa-code placeholder-icon"></i>
-            <span class="placeholder-text"></span>
+            @if (project.enAvant) {
+              <span class="featured-badge">
+                <i class="fa-solid fa-star" aria-hidden="true"></i> {{ i18n.t().projects.featured }}
+              </span>
+            }
           </div>
 
-          <!-- Overlay avec liens rapides au survol -->
-          <div class="project-overlay">
-            <a *ngIf="hasLink(project.demoUrl)" [href]="project.demoUrl" target="_blank" rel="noopener noreferrer"
-              class="overlay-link" [attr.aria-label]="'Voir la démo de ' + project.title">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              <span>Démo</span>
-            </a>
-            <a *ngIf="hasLink(project.githubUrl)" [href]="project.githubUrl" target="_blank" rel="noopener noreferrer"
-              class="overlay-link" [attr.aria-label]="'Voir le code source de ' + project.title">
-              <i class="fa-brands fa-github"></i>
-              <span>Code</span>
-            </a>
+          <!-- ── Contenu textuel ── -->
+          <div class="project-content">
+
+            <h3 class="project-title">{{ project.titre }}</h3>
+
+            <p class="project-description">{{ project.resume }}</p>
+
+            <div class="project-tech-list">
+              @for (tech of project.technos; track tech.nom) {
+                <span class="tech-badge">
+                  <i [class]="tech.icone" [style.color]="tech.couleur" aria-hidden="true"></i>
+                  <span class="tech-name">{{ tech.nom }}</span>
+                </span>
+              }
+            </div>
+
+            <!-- Liens en bas de carte : ils n'ouvrent pas la fenêtre -->
+            <div class="project-links">
+              <button type="button" class="project-link project-link--open"
+                (click)="open(project); $event.stopPropagation()"
+                [attr.aria-label]="i18n.t().projects.openAria + ' ' + project.titre"
+                aria-haspopup="dialog">
+                {{ i18n.t().projects.details }}
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </button>
+
+              @if (hasLink(project.demo)) {
+                <a [href]="project.demo" target="_blank" rel="noopener noreferrer" class="project-link"
+                  (click)="$event.stopPropagation()"
+                  [attr.aria-label]="i18n.t().projects.demoAria + ' ' + project.titre">
+                  <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                  {{ i18n.t().projects.demo }}
+                </a>
+              }
+              @if (hasLink(project.code)) {
+                <a [href]="project.code" target="_blank" rel="noopener noreferrer" class="project-link"
+                  (click)="$event.stopPropagation()"
+                  [attr.aria-label]="i18n.t().projects.codeAria + ' ' + project.titre">
+                  <i class="fa-brands fa-github" aria-hidden="true"></i>
+                  {{ i18n.t().projects.code }}
+                </a>
+              }
+              @if (!hasLink(project.demo) && !hasLink(project.code)) {
+                <span class="project-link-disabled">{{ i18n.t().projects.noLinks }}</span>
+              }
+            </div>
+
           </div>
 
-          <!-- Badge "Projet phare" -->
-          <span class="featured-badge" *ngIf="project.featured">
-            <i class="fa-solid fa-star"></i> Projet phare
-          </span>
-
-        </div>
-
-        <!-- ── Contenu textuel ── -->
-        <div class="project-content">
-
-          <h3 class="project-title">{{ project.title }}</h3>
-
-          <p class="project-description">{{ project.description }}</p>
-
-          <!-- Liste des technologies -->
-          <div class="project-tech-list">
-            <span *ngFor="let tech of project.technologies" class="tech-badge" [attr.aria-label]="tech.name">
-              <i [class]="tech.icon" [style.color]="tech.color"></i>
-              <span class="tech-name">{{ tech.name }}</span>
-            </span>
-          </div>
-
-          <!-- Liens en bas de carte -->
-          <div class="project-links">
-            <a *ngIf="hasLink(project.demoUrl)" [href]="project.demoUrl" target="_blank" rel="noopener noreferrer"
-              class="project-link">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              Voir la démo
-            </a>
-            <a *ngIf="hasLink(project.githubUrl)" [href]="project.githubUrl" target="_blank" rel="noopener noreferrer"
-              class="project-link">
-              <i class="fa-brands fa-github"></i>
-              Code source
-            </a>
-            <!-- Message si aucun lien n'est encore disponible -->
-            <span class="project-link-disabled" *ngIf="!hasLink(project.demoUrl) && !hasLink(project.githubUrl)">
-              <i class="fa-solid fa-lock"></i>
-              Liens à venir
-            </span>
-          </div>
-
-        </div>
-
-      </article>
+        </article>
+      }
 
     </div>
 
   </div>
+
+  <!-- ── Fenêtre de détail ── -->
+  @if (selected(); as project) {
+    <app-project-modal [project]="project" (closed)="close()" />
+  }
 </section>

@@ -345,3 +345,24 @@
     gap: 10px;
   }
 }
+/* ============================================================
+   TEXTES JUSTIFIÉS (uniquement ceux qui ne sont pas centrés)
+   ============================================================ */
+.about-bio p,
+.timeline-desc,
+.card-body p {
+  text-align: justify;
+  /* Césure automatique (suit <html lang>) : évite les grands blancs */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  text-wrap: pretty;
+}
+
+/* Colonnes trop étroites sur téléphone : la justification y creuse
+   de grands blancs, on garde un alignement à gauche */
+@media (max-width: 480px) {
+  .timeline-desc,
+  .card-body p {
+    text-align: left;
+  }
+}

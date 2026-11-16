@@ -526,3 +526,92 @@
 .tech-name {
   font-family: var(--font-mono);
 }
+
+/* ============================================================
+   CARTE CLIQUABLE → FENÊTRE DE DÉTAIL
+   ============================================================ */
+.project-card {
+  cursor: pointer;
+}
+
+/* Invitation "Voir le détail" au survol de l'image */
+.overlay-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f5f5f5;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transform: translateY(8px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card:hover .overlay-open {
+  transform: translateY(0);
+}
+
+/* Le bouton "Voir le détail" reprend le style des liens de carte */
+.project-link--open {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-right: auto;
+}
+
+.project-link--open i {
+  transition: transform 0.25s ease;
+}
+
+.project-card:hover .project-link--open i {
+  transform: translateX(3px);
+}
+
+.project-links {
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.project-link {
+  min-height: 44px;
+}
+
+.project-link:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Écran tactile : pas de survol, l'invitation reste discrète */
+@media (hover: none) {
+  .project-overlay {
+    display: none;
+  }
+}
+
+/* ============================================================
+   TEXTES JUSTIFIÉS (uniquement ceux qui ne sont pas centrés)
+   ============================================================ */
+.project-description {
+  text-align: justify;
+  /* Césure automatique (suit <html lang>) : évite les grands blancs */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  text-wrap: pretty;
+}
+
+/* L'en-tête n'est aligné à gauche qu'au-dessus de 900px */
+@media (min-width: 901px) {
+  .section-subtitle {
+    text-align: justify;
+    hyphens: auto;
+  }
+}

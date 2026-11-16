@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="bg" cx="62%" cy="38%" r="80%">
+      <stop offset="0" stop-color="#2a1420"/>
+      <stop offset="0.55" stop-color="#120c12"/>
+      <stop offset="1" stop-color="#070708"/>
+    </radialGradient>
+    <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.4" fill="#ffffff" fill-opacity="0.07"/>
+    </pattern>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <linearGradient id="wire" x1="0" x2="1">
+      <stop offset="0" stop-color="#ea4b71" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ff8aa6" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+
+  <!-- Liaisons entre les nœuds -->
+  <g fill="none" stroke="url(#wire)" stroke-width="4" stroke-linecap="round">
+    <path d="M330 300 C 460 300, 460 300, 590 300"/>
+    <path d="M730 300 C 850 300, 850 180, 970 180"/>
+    <path d="M730 300 C 850 300, 850 430, 970 430"/>
+    <path d="M1110 180 C 1210 180, 1210 300, 1310 300"/>
+    <path d="M1110 430 C 1210 430, 1210 300, 1310 300"/>
+    <path d="M730 300 C 830 300, 780 620, 970 640" stroke-opacity="0.45" stroke-dasharray="2 14"/>
+  </g>
+
+  <!-- Halo derrière le nœud central -->
+  <circle cx="660" cy="300" r="90" fill="#ea4b71" fill-opacity="0.35" filter="url(#glow)"/>
+
+  <!-- Nœuds -->
+  <g stroke="#ffffff" stroke-opacity="0.18" stroke-width="2">
+    <rect x="190" y="230" width="140" height="140" rx="28" fill="#1b1b1f"/>
+    <rect x="590" y="230" width="140" height="140" rx="28" fill="#2a1520" stroke="#ea4b71" stroke-opacity="0.8"/>
+    <rect x="970" y="110" width="140" height="140" rx="28" fill="#1b1b1f"/>
+    <rect x="970" y="360" width="140" height="140" rx="28" fill="#1b1b1f"/>
+    <rect x="1310" y="230" width="140" height="140" rx="28" fill="#1b1b1f"/>
+    <rect x="970" y="570" width="140" height="140" rx="28" fill="#141416" stroke-dasharray="6 8"/>
+  </g>
+
+  <!-- Points d'entrée / sortie -->
+  <g fill="#ea4b71">
+    <circle cx="330" cy="300" r="7"/>
+    <circle cx="590" cy="300" r="7"/>
+    <circle cx="730" cy="300" r="7"/>
+    <circle cx="970" cy="180" r="7"/>
+    <circle cx="970" cy="430" r="7"/>
+    <circle cx="1110" cy="180" r="7"/>
+    <circle cx="1110" cy="430" r="7"/>
+    <circle cx="1310" cy="300" r="7"/>
+  </g>
+
+  <!-- Pictogrammes simplifiés dans les nœuds -->
+  <g fill="none" stroke="#f5f5f5" stroke-opacity="0.75" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- éclair : déclencheur -->
+    <path d="M268 270 L240 306 H262 L252 332 L282 292 H260 Z"/>
+    <!-- engrenage simplifié : traitement -->
+    <circle cx="660" cy="300" r="22"/>
+    <path d="M660 262 V274 M660 326 V338 M622 300 H634 M686 300 H698"/>
+    <!-- enveloppe : email -->
+    <rect x="1010" y="158" width="60" height="44" rx="6"/>
+    <path d="M1010 162 L1040 184 L1070 162"/>
+    <!-- base de données -->
+    <ellipse cx="1040" cy="410" rx="28" ry="10"/>
+    <path d="M1012 410 V450 C1012 460, 1068 460, 1068 450 V410"/>
+    <!-- coche : fin -->
+    <path d="M1352 302 L1372 322 L1410 282"/>
+  </g>
+</svg>

@@ -1,0 +1,110 @@
+<dialog #dialog class="pm" [class.is-closing]="closing()"
+  aria-labelledby="pm-title"
+  (cancel)="onCancel($event)"
+  (click)="onBackdrop($event)">
+
+  <div class="pm-sheet">
+
+    <!-- ── En-tête ── -->
+    <header class="pm-head">
+      <h2 id="pm-title" class="pm-title">{{ project().titre }}</h2>
+      <button type="button" class="pm-close" (click)="close()" [attr.aria-label]="i18n.t().modal.close">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </header>
+
+    <div class="pm-body">
+
+      <!-- ── Visuels ── -->
+      @if (images().length) {
+        <div class="pm-media">
+          <div class="pm-stage" tabindex="0" (keydown)="onMediaKey($event)"
+            [attr.aria-label]="i18n.t().modal.gallery + ' ' + (current() + 1) + ' / ' + images().length">
+            @for (src of images(); track src; let i = $index) {
+              <img [src]="src" [alt]="i18n.t().projects.imageAlt + ' ' + project().titre + ' (' + (i + 1) + ')'"
+                class="pm-shot" [class.is-active]="i === current()" [class.is-portrait]="isPortrait(src)"
+                [attr.aria-hidden]="i === current() ? null : 'true'"
+                [attr.loading]="i === 0 ? 'eager' : 'lazy'" />
+            }
+
+            @if (images().length > 1) {
+              <button type="button" class="pm-nav pm-nav--prev" (click)="show(current() - 1)"
+                [attr.aria-label]="i18n.t().modal.prevImage">
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+              </button>
+              <button type="button" class="pm-nav pm-nav--next" (click)="show(current() + 1)"
+                [attr.aria-label]="i18n.t().modal.nextImage">
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              </button>
+              <span class="pm-count" aria-hidden="true">{{ current() + 1 }} / {{ images().length }}</span>
+            }
+          </div>
+
+          @if (images().length > 1) {
+            <div class="pm-thumbs">
+              @for (src of images(); track src; let i = $index) {
+                <button type="button" class="pm-thumb" [class.is-active]="i === current()"
+                  (click)="show(i)" [attr.aria-label]="i18n.t().modal.showImage + ' ' + (i + 1)"
+                  [attr.aria-current]="i === current() ? 'true' : null">
+                  <img [src]="src" alt="" loading="lazy" />
+                </button>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      <!-- ── Informations ── -->
+      <div class="pm-info">
+        <p class="pm-summary">{{ project().resume }}</p>
+
+        @if (project().contexte || project().role) {
+          <dl class="pm-facts">
+            @if (project().contexte) {
+              <div>
+                <dt>{{ i18n.t().modal.context }}</dt>
+                <dd>{{ project().contexte }}</dd>
+              </div>
+            }
+            @if (project().role) {
+              <div>
+                <dt>{{ i18n.t().modal.role }}</dt>
+                <dd>{{ project().role }}</dd>
+              </div>
+            }
+          </dl>
+        }
+
+        <h3 class="pm-subtitle">{{ i18n.t().modal.features }}</h3>
+        <ul class="pm-features">
+          @for (feature of project().fonctionnalites; track $index) {
+            <li>{{ feature }}</li>
+          }
+        </ul>
+
+        <h3 class="pm-subtitle">{{ i18n.t().modal.stack }}</h3>
+        <div class="pm-stack">
+          @for (tech of project().technos; track tech.nom) {
+            <span class="pm-chip">
+              <i [class]="tech.icone" [style.color]="tech.couleur" aria-hidden="true"></i>
+              {{ tech.nom }}
+            </span>
+          }
+        </div>
+
+        @if (links().length) {
+          <div class="pm-links">
+            @for (link of links(); track link.url; let first = $first) {
+              <a [href]="link.url" target="_blank" rel="noopener noreferrer"
+                class="pm-link" [class.pm-link--primary]="first">
+                <i [class]="link.icon" aria-hidden="true"></i>
+                {{ link.label }}
+              </a>
+            }
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+</dialog>

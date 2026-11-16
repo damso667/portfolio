@@ -250,3 +250,13 @@
     align-self: flex-end;
   }
 }
+/* ============================================================
+   TEXTES JUSTIFIÉS (uniquement ceux qui ne sont pas centrés)
+   ============================================================ */
+.footer-tagline {
+  text-align: justify;
+  /* Césure automatique (suit <html lang>) : évite les grands blancs */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  text-wrap: pretty;
+}

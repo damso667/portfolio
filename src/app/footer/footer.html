@@ -10,24 +10,21 @@
 
       <!-- ── Colonne 1 : Logo + description ── -->
       <div class="footer-brand">
-        <button class="footer-logo" (click)="scrollToTop()" aria-label="Retour en haut de la page">
+        <button class="footer-logo" (click)="scrollToTop()" [attr.aria-label]="i18n.t().footer.backTop">
           <span class="logo-first">Noubam Adrien</span>
           <!-- <span class="logo-last">Adrien</span> -->
           <!-- <span class="logo-dot"></span> -->
         </button>
-        <p class="footer-tagline">
-          Développeur Full Stack.
-          Créateur d'expériences numériques performantes et élégantes.
-        </p>
+        <p class="footer-tagline">{{ i18n.t().footer.tagline }}</p>
       </div>
 
       <!-- ── Colonne 2 : Navigation rapide ── -->
       <div class="footer-links">
-        <h4 class="footer-heading">Navigation</h4>
+        <h4 class="footer-heading">{{ i18n.t().footer.navTitle }}</h4>
         <ul class="footer-link-list">
           <li *ngFor="let link of quickLinks">
             <button class="footer-link" (click)="navigateTo(link.anchor)">
-              {{ link.label }}
+              {{ i18n.t().nav[link.key] }}
             </button>
           </li>
         </ul>
@@ -35,7 +32,7 @@
 
       <!-- ── Colonne 3 : Réseaux sociaux ── -->
       <div class="footer-socials">
-        <h4 class="footer-heading">Me retrouver</h4>
+        <h4 class="footer-heading">{{ i18n.t().footer.findMe }}</h4>
         <div class="footer-social-list">
           <a
             *ngFor="let social of socialLinks"
@@ -43,7 +40,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="footer-social-link"
-            [attr.aria-label]="social.ariaLabel">
+            [attr.aria-label]="i18n.t().hero[social.ariaKey]">
             <i [class]="social.icon"></i>
           </a>
         </div>
@@ -59,14 +56,14 @@
 
       <!-- Copyright avec année dynamique -->
       <p class="footer-copyright">
-        © {{ currentYear }} Noubam Adrien. Tous droits réservés.
+        © {{ currentYear }} Noubam Adrien. {{ i18n.t().footer.rights }}
       </p>
 
       <!-- Lien politique de confidentialité (placeholder) -->
-      <a href="#" class="footer-legal">Politique de confidentialité</a>
+      <a href="#" class="footer-legal">{{ i18n.t().footer.privacy }}</a>
 
       <!-- Bouton retour en haut -->
-      <button class="back-to-top" (click)="scrollToTop()" aria-label="Retour en haut de la page">
+      <button class="back-to-top" (click)="scrollToTop()" [attr.aria-label]="i18n.t().footer.backTop">
         <i class="fa-solid fa-arrow-up"></i>
       </button>
 

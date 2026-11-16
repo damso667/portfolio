@@ -8,8 +8,15 @@
   inset: 0;
   z-index: 2000;
   display: grid;
+  /* minmax(0, 1fr) : sans ça, la colonne prend la largeur max du
+     contenu et le terminal déborde à droite sur mobile */
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
-  padding: 16px;
+  padding:
+    max(16px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(88px, calc(env(safe-area-inset-bottom) + 80px))
+    max(16px, env(safe-area-inset-left));
   background: #050505;
   color: #e6e6e6;
   font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
@@ -67,7 +74,9 @@
 /* ── Fenêtre de terminal ── */
 .term {
   position: relative;
-  width: min(640px, 100%);
+  width: 100%;
+  max-width: 640px;
+  min-width: 0;
   border-radius: 12px;
   background: rgba(14, 14, 14, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -132,9 +141,9 @@
   from { opacity: 0; transform: translateY(4px); }
 }
 
-.prompt   { color: #ffffff; font-weight: 700; }
+.prompt   { color: #ffffff; font-weight: 700; margin-right: 0.6ch; }
 .muted    { color: #9a9a9a; }
-.tag-ok   { color: #ffffff; font-weight: 700; }
+.tag-ok   { color: #ffffff; font-weight: 700; margin-right: 0.6ch; }
 .bar      { color: #f0f0f0; margin: 0 10px; letter-spacing: -1px; }
 .pct      { color: #e6e6e6; }
 
@@ -198,8 +207,32 @@
 }
 
 @media (max-width: 600px) {
-  .term-body { font-size: 0.78rem; min-height: 230px; padding: 16px; }
-  .bar { display: block; margin: 0; }
-  .intro-skip { right: 16px; bottom: 16px; }
+  .term-bar { padding: 10px 12px; gap: 8px; }
+  .term-title { margin-right: 0; text-align: left; font-size: 0.7rem; }
+  .term-body { font-size: 0.75rem; line-height: 1.75; min-height: 240px; padding: 14px; }
+  /* La barre ASCII passe sous son libellé et rétrécit avec l'écran */
+  .bar {
+    display: block;
+    margin: 2px 0;
+    font-size: clamp(0.6rem, 2.9vw, 0.75rem);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .welcome { font-size: 1.5rem; }
+  .intro-skip {
+    left: 50%;
+    right: auto;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+  }
   .intro-skip kbd { display: none; }
+  /* Sol en grille moins large : pas de défilement horizontal fantôme */
+  .intro-grid { left: -20%; right: -20%; }
+}
+
+/* Écrans très bas (téléphone à l'horizontale) */
+@media (max-height: 480px) {
+  .intro { padding-bottom: 72px; }
+  .term-body { min-height: 0; padding: 12px 16px; line-height: 1.6; }
+  .intro-skip { bottom: 12px; }
 }

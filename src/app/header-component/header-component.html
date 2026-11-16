@@ -18,7 +18,7 @@
       type="button"
       class="hud-island hud-brand"
       (click)="navigateTo('accueil')"
-      aria-label="Retour à l'accueil">
+      [attr.aria-label]="i18n.t().nav.brandAria">
 
       <!-- Monogramme : jeton biseauté (même découpe que les îlots)
            contenant une invite de commande. -->
@@ -34,7 +34,7 @@
     </button>
 
     <!-- ══════════ ÎLOT 2 — DOCK DES SECTIONS ══════════ -->
-    <nav class="hud-island hud-dock" aria-label="Navigation principale">
+    <nav class="hud-island hud-dock" [attr.aria-label]="i18n.t().nav.aria">
 
       <!-- Marqueur qui glisse jusqu'à la section visible (PC) -->
       <span
@@ -55,7 +55,7 @@
               [attr.aria-current]="isActive(link.anchor) ? 'true' : null"
               (click)="navigateTo(link.anchor)">
               <i class="nav-icon {{ link.icon }}" aria-hidden="true"></i>
-              <span class="nav-label">{{ link.label }}</span>
+              <span class="nav-label">{{ i18n.t().nav[link.key] }}</span>
             </button>
           </li>
         }
@@ -70,12 +70,40 @@
         href="/CV%20dev.pdf"
         download
         class="hud-action hud-cv"
-        aria-label="Télécharger le CV de Noubam Adrien">
+        [attr.aria-label]="i18n.t().nav.cvAria">
         <i class="fa-solid fa-download" aria-hidden="true"></i>
         <span class="hud-action-label">CV</span>
       </a>
 
       <span class="hud-split" aria-hidden="true"></span>
+
+      <!-- Bascule de la langue : affiche la langue vers laquelle on passe -->
+      <button
+        type="button"
+        class="hud-action hud-lang"
+        (click)="onLangToggle()"
+        [attr.aria-label]="i18n.t().nav.langSwitch"
+        [attr.title]="i18n.t().nav.langSwitch"
+        [attr.lang]="i18n.lang() === 'fr' ? 'en' : 'fr'">
+        <!-- Les deux drapeaux : celui de la langue active est mis en avant -->
+        <span class="flag" [class.is-on]="i18n.lang() === 'fr'" aria-hidden="true">
+          <svg viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <rect width="1" height="2" fill="#002395" />
+            <rect x="1" width="1" height="2" fill="#ffffff" />
+            <rect x="2" width="1" height="2" fill="#ed2939" />
+          </svg>
+        </span>
+        <span class="flag" [class.is-on]="i18n.lang() === 'en'" aria-hidden="true">
+          <svg viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <clipPath id="uk-diag"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z" /></clipPath>
+            <rect width="60" height="30" fill="#012169" />
+            <path d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6" />
+            <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#uk-diag)" stroke="#c8102e" stroke-width="4" />
+            <path d="M30,0 v30 M0,15 h60" stroke="#ffffff" stroke-width="10" />
+            <path d="M30,0 v30 M0,15 h60" stroke="#c8102e" stroke-width="6" />
+          </svg>
+        </span>
+      </button>
 
       <!-- Bascule du thème -->
       <button

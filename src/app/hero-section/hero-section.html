@@ -33,7 +33,7 @@
         <!-- Nom principal -->
         <!-- Petite ligne de code au-dessus du nom -->
         <p class="hero-eyebrow" aria-hidden="true">
-          <span class="eyebrow-prompt">❯</span> const <span class="eyebrow-var">developpeur</span> =
+          <span class="eyebrow-prompt">❯</span> const <span class="eyebrow-var">{{ i18n.t().hero.codeVar }}</span> =
         </p>
 
         <!-- Nom principal (effet de décryptage au chargement) -->
@@ -48,25 +48,20 @@
         </div>
 
         <!-- Description courte -->
-        <p class="hero-description animate-on-scroll">
-          Étudiant en <strong>Génie Logiciel</strong> à l'ISMAT de Yaoundé,
-          je conçois des applications web et mobiles robustes avec
-          <strong>Angular</strong>, <strong>Spring Boot</strong>, <strong>Laravel</strong>, et <strong>Flutter</strong>.
-          Passionné par la création d'expériences numériques élégantes et performantes.
-        </p>
+        <p class="hero-description animate-on-scroll" [innerHTML]="i18n.t().hero.description"></p>
 
         <!-- Boutons CTA -->
         <div class="hero-ctas animate-on-scroll anim-scale">
           <!-- Télécharger le CV -->
-          <a href="/CV%20dev.pdf" download class="btn-primary" aria-label="Télécharger le CV de Noubam Adrien">
-            <i class="fa-solid fa-download"></i>
-            Télécharger le CV
+          <a href="/CV%20dev.pdf" download class="btn-primary" [attr.aria-label]="i18n.t().hero.cvAria">
+            <i class="fa-solid fa-download" aria-hidden="true"></i>
+            {{ i18n.t().hero.cv }}
           </a>
 
           <!-- Explorer les projets -->
-          <button class="btn-secondary" (click)="scrollToProjects()" aria-label="Voir mes projets">
-            <i class="fa-solid fa-arrow-down"></i>
-            Explorer les projets
+          <button class="btn-secondary" (click)="scrollToProjects()" [attr.aria-label]="i18n.t().hero.exploreAria">
+            <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+            {{ i18n.t().hero.explore }}
           </button>
         </div>
 
@@ -86,35 +81,29 @@
 
         <!-- Bloc À propos -->
         <div class="hero-info-block">
-          <h3 class="info-title">À PROPOS</h3>
-          <p class="info-text">
-            Passionné par le développement logiciel, je transforme les idées en
-            applications concrètes et impactantes qui allient performance et design.
-          </p>
-          <a class="info-link" (click)="scrollToAbout()">
-            EN SAVOIR PLUS <i class="fa-solid fa-arrow-right"></i>
+          <h3 class="info-title">{{ i18n.t().hero.aboutTitle }}</h3>
+          <p class="info-text">{{ i18n.t().hero.aboutText }}</p>
+          <a class="info-link" href="#apropos" (click)="$event.preventDefault(); scrollToAbout()">
+            {{ i18n.t().hero.aboutLink }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
           </a>
         </div>
 
         <!-- Bloc Mon travail -->
         <div class="hero-info-block">
-          <h3 class="info-title">MON TRAVAIL</h3>
-          <p class="info-text">
-            Applications web et mobiles développées avec Angular, Spring Boot,
-            Laravel et Flutter chaque projet pensé pour être robuste et élégant.
-          </p>
-          <a class="info-link" (click)="scrollToProjects()">
-            EXPLORER LE PORTFOLIO <i class="fa-solid fa-arrow-right"></i>
+          <h3 class="info-title">{{ i18n.t().hero.workTitle }}</h3>
+          <p class="info-text">{{ i18n.t().hero.workText }}</p>
+          <a class="info-link" href="#projets" (click)="$event.preventDefault(); scrollToProjects()">
+            {{ i18n.t().hero.workLink }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
           </a>
         </div>
 
         <!-- Bloc Suivez-moi -->
         <div class="hero-follow-block">
-          <h3 class="info-title">SUIVEZ-MOI</h3>
+          <h3 class="info-title">{{ i18n.t().hero.followTitle }}</h3>
           <div class="hero-socials">
             <a *ngFor="let social of socialLinks" [href]="social.url" target="_blank" rel="noopener noreferrer"
-              class="social-link" [attr.aria-label]="social.ariaLabel">
-              <i [class]="social.icon"></i>
+              class="social-link" [attr.aria-label]="i18n.t().hero[social.key]">
+              <i [class]="social.icon" aria-hidden="true"></i>
             </a>
           </div>
         </div>

@@ -337,3 +337,13 @@
     justify-content: center;
   }
 }
+/* ============================================================
+   TEXTES JUSTIFIÉS (uniquement ceux qui ne sont pas centrés)
+   ============================================================ */
+.contact-info-text {
+  text-align: justify;
+  /* Césure automatique (suit <html lang>) : évite les grands blancs */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  text-wrap: pretty;
+}

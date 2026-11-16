@@ -797,3 +797,18 @@
 .typewriter-cursor {
   color: var(--term-green);
 }
+
+/* ============================================================
+   TEXTES JUSTIFIÉS (uniquement ceux qui ne sont pas centrés)
+   ============================================================ */
+/* Sous 900px le hero passe au centre : on ne justifie qu'au-dessus */
+@media (min-width: 901px) {
+  .hero-description,
+  .info-text {
+    text-align: justify;
+    /* Césure automatique (suit <html lang>) : évite les grands blancs */
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    text-wrap: pretty;
+  }
+}

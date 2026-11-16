@@ -3,7 +3,7 @@
      ============================================================ -->
 @if (visible) {
   <div class="intro" [class.leaving]="leaving" (click)="skip()"
-    role="dialog" aria-modal="true" aria-label="Introduction du portfolio">
+    role="dialog" aria-modal="true" [attr.aria-label]="i18n.t().intro.aria">
 
     <!-- Grille en perspective + lueur -->
     <div class="intro-grid" aria-hidden="true"></div>
@@ -13,7 +13,7 @@
     <div class="term">
       <div class="term-bar">
         <span class="term-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span class="term-title">visiteur&#64;noubam-dev: ~/portfolio</span>
+        <span class="term-title">{{ i18n.t().intro.prompt }}</span>
       </div>
 
       <div class="term-body" aria-live="polite">
@@ -50,7 +50,7 @@
     </div>
 
     <button type="button" class="intro-skip" (click)="skip(); $event.stopPropagation()">
-      Passer l'intro <kbd>Échap</kbd>
+      {{ i18n.t().intro.skip }} <kbd>{{ i18n.t().intro.skipKey }}</kbd>
     </button>
   </div>
 }

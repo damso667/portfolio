@@ -12,6 +12,7 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, HostListener, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { INTRO_DONE_EVENT } from '../intro-loader/intro-loader';
+import { I18nService } from '../i18n/i18n.service';
 
 @Component({
   selector: 'app-hero-section',
@@ -30,11 +31,12 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // ── Textes qui défilent en boucle (effet typewriter) ──
   // Modifie ce tableau pour changer les spécialités affichées
-  typedTexts = [
-    'Développeur Full Stack',
-    'Passionné par Angular & Spring Boot',
-    "Créateur d'expériences numériques",
-  ];
+  // (textes dans i18n/content.ts → hero.typed, suivent la langue active)
+  readonly i18n = inject(I18nService);
+
+  get typedTexts(): string[] {
+    return this.i18n.t().hero.typed;
+  }
 
   // ── Texte actuellement affiché ──
   displayedText = '';
@@ -46,25 +48,10 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // ── Liens réseaux sociaux ──
   socialLinks = [
-    {
-      label:     'GitHub',
-      icon:      'fa-brands fa-github',
-      url:       'https://github.com/damso667',
-      ariaLabel: 'Voir mon profil GitHub',
-    },
-    {
-      label:     'LinkedIn',
-      icon:      'fa-brands fa-linkedin-in',
-      url:       'https://linkedin.com/in/adrien-njassine-0b75a839a',
-      ariaLabel: 'Voir mon profil LinkedIn',
-    },
-    {
-      label:     'Email',
-      icon:      'fa-solid fa-envelope',
-      url:       'mailto:njassineadrien@gmail.com',
-      ariaLabel: "M'envoyer un email",
-    },
-  ];
+    { key: 'socialGithub',   icon: 'fa-brands fa-github',      url: 'https://github.com/damso667' },
+    { key: 'socialLinkedin', icon: 'fa-brands fa-linkedin-in', url: 'https://linkedin.com/in/adrien-njassine-0b75a839a' },
+    { key: 'socialEmail',    icon: 'fa-solid fa-envelope',     url: 'mailto:njassineadrien@gmail.com' },
+  ] as const;
 
   // ── Nom affiché avec effet de "décryptage" ──
   readonly fullName = 'Noubam Adrien';
@@ -144,7 +131,11 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   // ── Effet typewriter : écriture + effacement en boucle ──
   private startTypewriter(): void {
     this.typingInterval = setInterval(() => {
-      const currentText = this.typedTexts[this.currentTextIndex];
+      const texts = this.typedTexts;
+      this.currentTextIndex %= texts.length;
+      const currentText = texts[this.currentTextIndex];
+      // Changement de langue en pleine frappe : on repart du texte actuel
+      this.currentCharIndex = Math.min(this.currentCharIndex, currentText.length);
 
       if (this.isTyping) {
         if (this.currentCharIndex < currentText.length) {

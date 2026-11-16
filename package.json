@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "traduire": "node --no-warnings scripts/traduire.mjs",
+    "prestart": "npm run traduire",
     "start": "ng serve",
+    "prebuild": "npm run traduire",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
