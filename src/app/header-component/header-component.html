@@ -1,96 +1,96 @@
 <!-- ============================================================
-     header.component.html — Template de la barre de navigation
+     header-component.html — HUD de navigation
+
+     Trois îlots flottants, détachés du bord de l'écran :
+       1. la marque           (coin gauche)
+       2. le dock des sections (centre sur PC, bas d'écran sur mobile)
+       3. les actions          (coin droit)
+
+     Le header lui-même ne capte aucun pointeur : le décor 3D
+     reste sensible au curseur entre les îlots.
      ============================================================ -->
 
-<!-- 
-  [class.scrolled]     : ajoute la classe .scrolled quand l'utilisateur scrolle
-  [class.menu-open]    : ajoute la classe .menu-open quand le menu mobile est ouvert
--->
-<header class="header" [class.scrolled]="isScrolled" [class.menu-open]="isMobileMenuOpen">
-  <div class="header-inner">
+<header class="hud" [class.is-scrolled]="isScrolled">
+  <div class="hud-row">
 
-    <!-- ── Logo / Nom ── -->
-    <button class="logo" (click)="navigateTo('accueil')" aria-label="Retour à l'accueil">
-      <span class="logo-first">QALF Dev</span>
-      <!-- <span class="logo-last"></span>
-      <span class="logo-dot"></span> -->
+    <!-- ══════════ ÎLOT 1 — MARQUE ══════════ -->
+    <button
+      type="button"
+      class="hud-island hud-brand"
+      (click)="navigateTo('accueil')"
+      aria-label="Retour à l'accueil">
+
+      <!-- Monogramme : jeton biseauté (même découpe que les îlots)
+           contenant une invite de commande. -->
+      <svg class="brand-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M6 2h16v16l-4 4H2V6z" />
+        <path d="m9.6 9.2 2.9 2.9-2.9 2.9" />
+        <path d="M14.6 15.1h3.8" />
+      </svg>
+
+      <span class="brand-word">
+        <span class="brand-name">QALF</span><span class="brand-suffix">Dev</span>
+      </span>
     </button>
 
-    <!-- ── Navigation desktop ── -->
-    <nav class="nav-desktop" role="navigation" aria-label="Navigation principale">
-      <ul class="nav-list">
-        <li *ngFor="let link of navLinks">
-          <button
-            class="nav-link"
-            [class.active]="isActive(link.anchor)"
-            (click)="navigateTo(link.anchor)"
-            [attr.aria-current]="isActive(link.anchor) ? 'page' : null">
-            {{ link.label }}
-          </button>
-        </li>
+    <!-- ══════════ ÎLOT 2 — DOCK DES SECTIONS ══════════ -->
+    <nav class="hud-island hud-dock" aria-label="Navigation principale">
+
+      <!-- Marqueur qui glisse jusqu'à la section visible (PC) -->
+      <span
+        class="nav-marker"
+        [class.is-ready]="markerReady"
+        [style.transform]="'translate3d(' + markerX + 'px, 0, 0)'"
+        [style.width.px]="markerW"
+        aria-hidden="true"></span>
+
+      <ul #rail class="nav-rail">
+        @for (link of navLinks; track link.anchor) {
+          <li>
+            <button
+              #tab
+              type="button"
+              class="nav-tab"
+              [class.is-active]="isActive(link.anchor)"
+              [attr.aria-current]="isActive(link.anchor) ? 'true' : null"
+              (click)="navigateTo(link.anchor)">
+              <i class="nav-icon {{ link.icon }}" aria-hidden="true"></i>
+              <span class="nav-label">{{ link.label }}</span>
+            </button>
+          </li>
+        }
       </ul>
     </nav>
 
-    <!-- ── Actions : bouton thème + CTA ── -->
-    <div class="header-actions">
+    <!-- ══════════ ÎLOT 3 — ACTIONS ══════════ -->
+    <div class="hud-island hud-actions">
 
-      <!-- Bouton télécharger CV -->
+      <!-- Télécharger le CV -->
       <a
         href="/CV%20dev.pdf"
         download
-        class="btn-cv"
+        class="hud-action hud-cv"
         aria-label="Télécharger le CV de Noubam Adrien">
-        <i class="fa-solid fa-download"></i>
-        <span>CV</span>
+        <i class="fa-solid fa-download" aria-hidden="true"></i>
+        <span class="hud-action-label">CV</span>
       </a>
 
-      <!-- Bouton toggle thème (icône soleil / lune) -->
-      <button
-        class="theme-toggle"
-        (click)="onThemeToggle()"
-        [attr.aria-label]="currentTheme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'">
-        <!-- Lune : visible en mode sombre -->
-        <i class="fa-solid fa-moon"  *ngIf="currentTheme === 'dark'"></i>
-        <!-- Soleil : visible en mode clair -->
-        <i class="fa-solid fa-sun"   *ngIf="currentTheme === 'light'"></i>
-      </button>
+      <span class="hud-split" aria-hidden="true"></span>
 
-      <!-- Bouton hamburger (mobile uniquement) -->
+      <!-- Bascule du thème -->
       <button
-        class="hamburger"
-        (click)="toggleMobileMenu()"
-        [attr.aria-expanded]="isMobileMenuOpen"
-        aria-label="Ouvrir le menu de navigation">
-        <span class="bar" [class.open]="isMobileMenuOpen"></span>
-        <span class="bar" [class.open]="isMobileMenuOpen"></span>
-        <span class="bar" [class.open]="isMobileMenuOpen"></span>
+        type="button"
+        class="hud-action hud-theme"
+        (click)="onThemeToggle()"
+        [attr.aria-label]="themeLabel">
+        @if (currentTheme === 'dark') {
+          <i class="fa-solid fa-moon" aria-hidden="true"></i>
+        } @else {
+          <i class="fa-solid fa-sun" aria-hidden="true"></i>
+        }
       </button>
 
     </div>
+
   </div>
-
-  <!-- ── Menu mobile (affiché uniquement sur petits écrans) ── -->
-  <nav
-    class="nav-mobile"
-    [class.open]="isMobileMenuOpen"
-    role="navigation"
-    aria-label="Navigation mobile">
-    <ul class="nav-mobile-list">
-      <li *ngFor="let link of navLinks">
-        <button
-          class="nav-mobile-link"
-          [class.active]="isActive(link.anchor)"
-          (click)="navigateTo(link.anchor)">
-          {{ link.label }}
-        </button>
-      </li>
-      <!-- Lien CV dans le menu mobile -->
-      <li>
-        <a href="/CV%20dev.pdf" download class="nav-mobile-link nav-mobile-cv">
-          <i class="fa-solid fa-download"></i> Télécharger le CV
-        </a>
-      </li>
-    </ul>
-  </nav>
-
 </header>

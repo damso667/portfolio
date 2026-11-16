@@ -202,6 +202,13 @@
    RESPONSIVE — TABLETTE
    ============================================================ */
 @media (max-width: 768px) {
+
+  /* Le dock de navigation est fixé en bas de l'écran : on lui
+     laisse la place pour ne rien recouvrir en fin de page. */
+  .footer {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+
   .footer-top {
     grid-template-columns: 1fr 1fr;
     /* Deux colonnes */
@@ -223,7 +230,7 @@
    ============================================================ */
 @media (max-width: 480px) {
   .footer {
-    padding: 48px 0 24px;
+    padding: 48px 0 calc(92px + env(safe-area-inset-bottom, 0px));
   }
 
   .footer-top {

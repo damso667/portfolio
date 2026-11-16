@@ -510,6 +510,39 @@ a:hover {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* Le défilement lissé global fait aussi partie du mouvement */
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   HUD DE NAVIGATION — dégagements que le dock impose à la page
+   (voir src/app/header-component/)
+   ============================================================ */
+
+/* Un lien d'ancre ou une cible de focus ne doit pas finir
+   sous les îlots du haut (WCAG 2.2 — focus non masqué). */
+html {
+  scroll-padding-top: 96px;
+}
+
+@media (max-width: 768px) {
+
+  /* Sur mobile, le dock des sections occupe le bas de l'écran */
+  html {
+    scroll-padding-top: 72px;
+    scroll-padding-bottom: 92px;
+  }
+
+  /* Un champ a le focus : le dock s'efface pour ne masquer ni le
+     formulaire ni la zone du clavier. */
+  body:has(input:focus, textarea:focus, select:focus) .hud-dock {
+    transform: translateY(150%);
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 /* ============================================================
    UNIVERS DÉVELOPPEUR — éléments globaux

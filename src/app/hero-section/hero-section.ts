@@ -11,13 +11,12 @@
 
 import { Component, OnInit, AfterViewInit, OnDestroy, HostListener, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CodeField } from '../code-field/code-field';
 import { INTRO_DONE_EVENT } from '../intro-loader/intro-loader';
 
 @Component({
   selector: 'app-hero-section',
   standalone: true,
-  imports: [CommonModule, CodeField],
+  imports: [CommonModule],
   templateUrl: './hero-section.html',
   styleUrls: ['./hero-section.css'],
 })

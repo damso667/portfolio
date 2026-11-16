@@ -1,111 +1,229 @@
 // ============================================================
-// header.component.ts — Composant de navigation
+// header-component.ts — HUD de navigation
 //
 // Rôle :
-//  - Afficher la barre de navigation fixe en haut de la page
-//  - Gérer le menu mobile (hamburger)
-//  - Détecter la section active au scroll (highlighting des liens)
-//  - Émettre l'événement de changement de thème vers AppComponent
-//  - Appliquer un fond flouté quand l'utilisateur scrolle
+//  - Afficher trois îlots flottants au-dessus du décor 3D :
+//      marque (gauche) · dock des sections (centre) · actions (droite)
+//  - Sur mobile, le dock des sections descend en bas de l'écran,
+//    à portée du pouce : la section visible s'élargit pour afficher
+//    son libellé, les autres restent en icône. Plus de hamburger.
+//  - Détecter la section visible (IntersectionObserver) et y faire
+//    glisser le marqueur du dock (desktop).
+//  - Émettre le changement de thème vers AppComponent.
 // ============================================================
 
 import {
+  AfterViewInit,
   Component,
-  Input,
-  Output,
+  ElementRef,
   EventEmitter,
-  OnInit,
-  OnDestroy,
   HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
+/** Un onglet du dock */
+interface NavLink {
+  label: string;
+  anchor: string;
+  /** Classes Font Awesome — affichées seulement dans le dock bas mobile */
+  icon: string;
+}
+
+/** Géométrie d'un onglet dans le dock, mesurée une seule fois */
+interface TabMetric {
+  x: number;
+  w: number;
+}
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './header-component.html',
   styleUrl: './header-component.css',
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  // ── Reçoit le thème actuel depuis AppComponent ──
+  // ── Thème courant, reçu depuis AppComponent ──
   @Input() currentTheme: 'dark' | 'light' = 'dark';
 
-  // ── Émet un signal vers AppComponent pour basculer le thème ──
+  // ── Demande de bascule du thème vers AppComponent ──
   @Output() themeToggle = new EventEmitter<void>();
 
-  // ── État du menu mobile (ouvert/fermé) ──
-  isMobileMenuOpen = false;
-
-  // ── Indique si l'utilisateur a scrollé (pour l'effet de fond) ──
-  isScrolled = false;
+  // ── Sections du portfolio ──
+  readonly navLinks: NavLink[] = [
+    { label: 'Accueil',  anchor: 'accueil',  icon: 'fa-solid fa-house' },
+    { label: 'À propos', anchor: 'apropos',  icon: 'fa-solid fa-user' },
+    { label: 'Projets',  anchor: 'projets',  icon: 'fa-solid fa-layer-group' },
+    { label: 'Services', anchor: 'services', icon: 'fa-solid fa-cube' },
+    { label: 'Contact',  anchor: 'contact',  icon: 'fa-solid fa-paper-plane' },
+  ];
 
   // ── Section actuellement visible ──
   activeSection = 'accueil';
 
-  // ── Liste des liens de navigation ──
-  navLinks = [
-    { label: 'Accueil',  anchor: 'accueil' },
-    { label: 'À propos', anchor: 'apropos' },
-    { label: 'Projets',  anchor: 'projets' },
-    { label: 'Services', anchor: 'services' },
-    { label: 'Contact',  anchor: 'contact' },
-  ];
+  // ── Le HUD se resserre dès que la page défile ──
+  isScrolled = false;
 
-  private sectionObserver!: IntersectionObserver;
+  // ── Position et largeur du marqueur glissant (desktop) ──
+  markerX = 0;
+  markerW = 0;
 
+  // ── Le premier placement du marqueur ne doit pas s'animer ──
+  markerReady = false;
+
+  // La piste et ses onglets, pour mesurer leur géométrie
+  @ViewChild('rail') private rail?: ElementRef<HTMLElement>;
+  @ViewChildren('tab') private tabs!: QueryList<ElementRef<HTMLElement>>;
+
+  // L'état actif ne change ni la graisse ni la taille des onglets :
+  // leur géométrie ne bouge donc qu'avec la largeur de la piste.
+  private metrics: TabMetric[] = [];
+
+  private sectionObserver?: IntersectionObserver;
+  private railObserver?: ResizeObserver;
+  private measureFrame = 0;
+
+  // ============================================================
+  // CYCLE DE VIE
+  // ============================================================
   ngOnInit(): void {
-    this.initSectionObserver();
+    this.observeSections();
   }
 
-  ngOnDestroy(): void {
-    if (this.sectionObserver) {
-      this.sectionObserver.disconnect();
+  ngAfterViewInit(): void {
+    // La largeur des onglets dépend de la police : tant qu'Inter n'a
+    // pas remplacé la police de secours, toute mesure est périmée.
+    // On observe donc la piste au lieu de mesurer une seule fois.
+    const rail = this.rail?.nativeElement;
+    if (rail) {
+      this.railObserver = new ResizeObserver(() => this.scheduleMeasure());
+      this.railObserver.observe(rail);
+    } else {
+      this.scheduleMeasure();
     }
   }
 
-  @HostListener('window:scroll')
-  onScroll(): void {
-    this.isScrolled = window.scrollY > 20;
+  ngOnDestroy(): void {
+    cancelAnimationFrame(this.measureFrame);
+    this.sectionObserver?.disconnect();
+    this.railObserver?.disconnect();
   }
 
-  private initSectionObserver(): void {
+  // ============================================================
+  // ÉTAT AU SCROLL
+  // ============================================================
+  @HostListener('window:scroll')
+  onScroll(): void {
+    const scrolled = window.scrollY > 24;
+    if (scrolled !== this.isScrolled) this.isScrolled = scrolled;
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.scheduleMeasure();
+  }
+
+  // ============================================================
+  // MARQUEUR GLISSANT
+  // ============================================================
+  private scheduleMeasure(): void {
+    cancelAnimationFrame(this.measureFrame);
+    this.measureFrame = requestAnimationFrame(() => {
+      this.measure();
+      // Une frame de plus avant d'autoriser la transition
+      requestAnimationFrame(() => (this.markerReady = true));
+    });
+  }
+
+  private measure(): void {
+    if (!this.tabs) return;
+    // offsetLeft est relatif au dock, qui est le parent positionné :
+    // le marqueur partage donc le même repère.
+    this.metrics = this.tabs.map(({ nativeElement }) => ({
+      x: nativeElement.offsetLeft,
+      w: nativeElement.offsetWidth,
+    }));
+    this.placeMarker();
+  }
+
+  private placeMarker(): void {
+    const metric = this.metrics[this.activeIndex];
+    if (!metric) return;
+    this.markerX = metric.x;
+    this.markerW = metric.w;
+  }
+
+  get activeIndex(): number {
+    const index = this.navLinks.findIndex((link) => link.anchor === this.activeSection);
+    return index < 0 ? 0 : index;
+  }
+
+  // ============================================================
+  // SECTION VISIBLE
+  // ============================================================
+  private observeSections(): void {
+    // Les sections sont montées par AppComponent : on laisse un tour
     setTimeout(() => {
-      const sections = document.querySelectorAll('section[id]');
+      const sections = document.querySelectorAll<HTMLElement>('section[id]');
+      if (!sections.length) return;
+
       this.sectionObserver = new IntersectionObserver(
         (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              this.activeSection = entry.target.id;
-            }
-          });
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            this.activeSection = entry.target.id;
+            this.placeMarker();
+          }
         },
-        { rootMargin: '-30% 0px -70% 0px' }
+        // Bande de détection étroite, au tiers haut de l'écran
+        { rootMargin: '-30% 0px -65% 0px' },
       );
-      sections.forEach((section) => this.sectionObserver.observe(section));
+
+      sections.forEach((section) => this.sectionObserver!.observe(section));
     }, 300);
+  }
+
+  // ============================================================
+  // ACTIONS
+  // ============================================================
+  navigateTo(anchor: string): void {
+    const target = document.getElementById(anchor);
+    if (!target) return;
+
+    // Desktop : le HUD est en haut, on dégage sa hauteur.
+    // Mobile : le dock est en bas, il ne masque pas le haut de section.
+    const offset = this.isCompact ? 28 : 96;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+
+    window.scrollTo({
+      top,
+      behavior: this.prefersReducedMotion ? 'auto' : 'smooth',
+    });
   }
 
   onThemeToggle(): void {
     this.themeToggle.emit();
   }
 
-  toggleMobileMenu(): void {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-  }
-
-  navigateTo(anchor: string): void {
-    this.isMobileMenuOpen = false;
-    const target = document.getElementById(anchor);
-    if (target) {
-      const headerHeight = 72;
-      const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight;
-      window.scrollTo({ top: targetTop, behavior: 'smooth' });
-    }
-  }
-
   isActive(anchor: string): boolean {
     return this.activeSection === anchor;
+  }
+
+  get themeLabel(): string {
+    return this.currentTheme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre';
+  }
+
+  private get isCompact(): boolean {
+    return window.matchMedia('(max-width: 768px)').matches;
+  }
+
+  private get prefersReducedMotion(): boolean {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 }

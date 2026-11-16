@@ -1,347 +1,549 @@
 /* ============================================================
-   header.component.css — Styles de la barre de navigation
-   Toutes les couleurs viennent des variables CSS de styles.css
+   header-component.css — HUD de navigation
+
+   Trois îlots de verre biseauté posés au-dessus du décor 3D.
+   La découpe à 45° (coin haut-gauche / coin bas-droit) est le
+   seul motif de forme : îlots, lavis au survol et marqueur la
+   partagent, à deux échelles.
+
+   Toutes les couleurs viennent des variables de styles.css.
    ============================================================ */
 
-/* ── Conteneur principal du header ── */
-.header {
+:host {
+  /* ── Gabarit ── */
+  --hud-top: 20px;
+  --hud-h: 54px;
+  --tab-h: 36px;
+
+  /* ── Taille du biseau ── */
+  --ch: 12px;
+  --ch-sm: 8px;
+
+  /* Découpe des îlots : haut-gauche et bas-droit coupés à 45° */
+  --chamfer: polygon(
+    var(--ch) 0,
+    100% 0,
+    100% calc(100% - var(--ch)),
+    calc(100% - var(--ch)) 100%,
+    0 100%,
+    0 var(--ch)
+  );
+
+  /* Même découpe, à l'échelle d'un onglet */
+  --chamfer-sm: polygon(
+    var(--ch-sm) 0,
+    100% 0,
+    100% calc(100% - var(--ch-sm)),
+    calc(100% - var(--ch-sm)) 100%,
+    0 100%,
+    0 var(--ch-sm)
+  );
+
+  /* Arête des îlots : dérivée du texte, donc lisible dans les deux thèmes */
+  --hud-edge: color-mix(in srgb, var(--text-primary) 16%, transparent);
+  --hud-edge-hot: color-mix(in srgb, var(--text-primary) 34%, transparent);
+
+  /* Sortie exponentielle : départ rapide, arrivée posée */
+  --hud-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   CADRE DU HUD
+   ============================================================ */
+.hud {
   position: fixed;
-  /* Fixe en haut, même au scroll */
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  /* Au-dessus de tout le contenu */
-  height: 72px;
-  /* Hauteur du header (multiple de 8px) */
+  padding-top: var(--hud-top);
 
-  /* Fond transparent par défaut */
-  background: transparent;
-  border-bottom: 1px solid transparent;
+  /* Le header ne capte rien : seuls les îlots sont cliquables, et
+     le décor 3D reste sensible au curseur entre eux. */
+  pointer-events: none;
 
-  /* Transition fluide lors du scroll */
-  transition:
-    background 0.3s ease,
-    border-color 0.3s ease,
-    backdrop-filter 0.3s ease;
+  transition: padding-top 0.45s var(--hud-ease);
 }
 
-/* ── État scrollé : fond flouté (glassmorphism) ── */
-.header.scrolled {
-  background: var(--nav-bg);
-  border-bottom-color: var(--nav-border);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+/* Au scroll, le HUD se resserre vers le bord */
+.hud.is-scrolled {
+  --hud-top: 12px;
+  --hud-h: 48px;
 }
 
-/* ── Conteneur intérieur : flexbox centré ── */
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
+.hud-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 16px;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
 /* ============================================================
-   LOGO
+   ÎLOT — le verre biseauté commun aux trois blocs
+
+   Deux couches superposées : l'arête d'abord, puis le verre en
+   retrait de 1px. C'est ce qui donne un filet net sur les
+   diagonales, qu'une simple bordure ne sait pas suivre.
+   Les enfants ne sont jamais découpés : les anneaux de focus
+   restent entiers.
    ============================================================ */
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  font-family: 'Inter', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  transition: opacity 0.2s ease;
-}
-
-.logo:hover {
-  opacity: 0.75;
-}
-
-/* Prénom en couleur primaire */
-.logo-first {
-  color: var(--text-primary);
-}
-
-/* Nom de famille légèrement atténué */
-.logo-last {
-  color: var(--text-secondary);
-}
-
-/* Point décoratif après le nom */
-.logo-dot {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--text-primary);
-  margin-left: 2px;
-  margin-bottom: 2px;
-  /* Aligne visuellement avec la baseline */
-}
-
-/* ============================================================
-   NAVIGATION DESKTOP
-   ============================================================ */
-.nav-desktop {
-  display: flex;
-  /* Visible sur desktop */
-}
-
-/* Supprime les puces de la liste */
-.nav-list {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  list-style: none;
-}
-
-/* ── Lien de navigation ── */
-.nav-link {
+.hud-island {
   position: relative;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  padding: 8px 14px;
-  border-radius: 8px;
-  transition: color 0.2s ease, background 0.2s ease;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  height: var(--hud-h);
+  pointer-events: auto;
+  box-shadow: var(--shadow-card);
+  transition: height 0.45s var(--hud-ease);
+
+  /* Les îlots se posent à l'ouverture (voir l'intro terminale plus bas) */
+  animation: hud-land 0.9s var(--hud-ease) both;
 }
 
-.nav-link:hover {
-  color: var(--text-primary);
-  background: var(--accent-glow);
-}
-
-/* ── Lien actif (section visible) ── */
-.nav-link.active {
-  color: var(--text-primary);
-}
-
-/* Indicateur de soulignement animé sous le lien actif */
-.nav-link.active::after {
+.hud-island::before,
+.hud-island::after {
   content: '';
   position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 16px;
-  height: 1px;
-  background: var(--text-primary);
-  border-radius: 1px;
+  inset: 0;
+  z-index: -1;
+  clip-path: var(--chamfer);
 }
 
-/* ============================================================
-   ACTIONS (bouton CV + toggle thème + hamburger)
-   ============================================================ */
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* L'arête */
+.hud-island::before {
+  background: var(--hud-edge);
+  transition: background 0.3s ease;
 }
 
-/* ── Bouton CV ── */
-.btn-cv {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 16px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-  font-family: 'Inter', sans-serif;
-}
-
-.btn-cv:hover {
-  background: var(--accent-glow);
-  border-color: var(--accent-primary);
-  transform: translateY(-1px);
-  opacity: 1;
-  /* Écrase le style global du a:hover */
-}
-
-.btn-cv i {
-  font-size: 0.75rem;
-}
-
-/* ── Bouton toggle thème ── */
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 8px;
-  cursor: pointer;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-}
-
-.theme-toggle:hover {
-  color: var(--text-primary);
-  background: var(--accent-glow);
-  transform: rotate(15deg);
-  /* Rotation subtile au survol */
-}
-
-/* ── Bouton hamburger (mobile) ── */
-.hamburger {
-  display: none;
-  /* Masqué sur desktop */
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  width: 38px;
-  height: 38px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 8px;
-  cursor: pointer;
-  padding: 8px;
-}
-
-/* ── Barres du hamburger ── */
-.bar {
-  display: block;
-  width: 18px;
-  height: 1.5px;
-  background: var(--text-primary);
-  border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  transform-origin: center;
-}
-
-/* Animation : transformation en croix quand le menu est ouvert */
-.hamburger .bar:nth-child(1).open {
-  transform: translateY(6.5px) rotate(45deg);
-}
-
-.hamburger .bar:nth-child(2).open {
-  opacity: 0;
-  transform: scaleX(0);
-}
-
-.hamburger .bar:nth-child(3).open {
-  transform: translateY(-6.5px) rotate(-45deg);
-}
-
-/* ============================================================
-   MENU MOBILE
-   ============================================================ */
-.nav-mobile {
-  display: none;
-  /* Masqué sur desktop */
-  overflow: hidden;
-  max-height: 0;
-  /* Fermé par défaut */
-  transition: max-height 0.35s ease, padding 0.35s ease;
+/* Le verre */
+.hud-island::after {
+  inset: 1px;
   background: var(--nav-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border-top: 1px solid var(--nav-border);
+  /* Liseré de lumière sur l'arête haute : le verre prend du corps */
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text-primary) 9%, transparent);
 }
 
-.nav-mobile.open {
-  max-height: 400px;
-  /* Ouvert : hauteur suffisante pour les liens */
-  padding: 8px 0 16px;
+.hud-brand {
+  justify-self: start;
+  gap: 10px;
+  padding: 0 16px 0 13px;
+  animation-delay: 0.05s;
 }
 
-.nav-mobile-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  padding: 0 16px;
+.hud-dock {
+  justify-self: center;
+  padding: 0 8px;
+  animation-delay: 0.15s;
+}
+
+.hud-actions {
+  justify-self: end;
   gap: 4px;
+  padding: 0 7px;
+  animation-delay: 0.25s;
 }
 
-/* ── Lien mobile ── */
-.nav-mobile-link {
-  display: block;
-  width: 100%;
-  text-align: left;
+@keyframes hud-land {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+/* L'intro terminale garde le HUD en réserve jusqu'à sa sortie */
+:host-context(html.intro-running) .hud-island {
+  animation-play-state: paused;
+}
+
+/* ============================================================
+   ÎLOT 1 — MARQUE
+   ============================================================ */
+.hud-brand {
   background: none;
   border: none;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  padding: 12px 16px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: color 0.2s ease, background 0.2s ease;
-}
-
-.nav-mobile-link:hover,
-.nav-mobile-link.active {
   color: var(--text-primary);
-  background: var(--accent-glow);
 }
 
-/* Lien CV dans le menu mobile */
-.nav-mobile-cv {
+.brand-glyph {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  transition: transform 0.5s var(--hud-ease);
+}
+
+.brand-word {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-  border-top: 1px solid var(--accent-border);
-  padding-top: 16px !important;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.brand-name {
+  color: var(--text-primary);
+}
+
+/* Suffixe en monospace : il étiquette le métier, il ne décore pas */
+.brand-suffix {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
 }
 
 /* ============================================================
-   RESPONSIVE — MOBILE
+   ÎLOT 2 — DOCK DES SECTIONS
    ============================================================ */
-@media (max-width: 768px) {
+.nav-rail {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
-  /* Masquer la nav desktop et le bouton CV sur mobile */
-  .nav-desktop {
-    display: none;
+.nav-tab {
+  position: relative;
+  isolation: isolate;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--tab-h);
+  padding: 0 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--text-secondary);
+  transition: color 0.25s ease;
+}
+
+/* Lavis biseauté au survol — même découpe que les îlots */
+.nav-tab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  clip-path: var(--chamfer-sm);
+  background: transparent;
+  transition: background 0.25s ease;
+}
+
+/* L'état actif ne change ni la graisse ni la taille : la géométrie
+   du dock reste stable, et le marqueur n'a qu'un calcul à faire. */
+.nav-tab.is-active {
+  color: var(--text-primary);
+}
+
+/* Icônes : réservées au dock bas mobile */
+.nav-icon {
+  display: none;
+  font-size: 0.95rem;
+}
+
+/* ── Marqueur qui glisse jusqu'à la section visible ── */
+.nav-marker {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 0;
+  height: var(--tab-h);
+  margin-top: calc(var(--tab-h) / -2);
+  background: var(--accent-glow);
+  clip-path: var(--chamfer-sm);
+  pointer-events: none;
+}
+
+/* La barre d'état, sous l'onglet */
+.nav-marker::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 2px;
+  background: var(--text-primary);
+}
+
+/* Pas de transition au tout premier placement */
+.nav-marker.is-ready {
+  transition:
+    transform 0.55s var(--hud-ease),
+    width 0.55s var(--hud-ease);
+}
+
+/* ============================================================
+   ÎLOT 3 — ACTIONS
+   ============================================================ */
+.hud-action {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: var(--tab-h);
+  padding: 0 13px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: color 0.25s ease;
+}
+
+.hud-action::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  clip-path: var(--chamfer-sm);
+  background: transparent;
+  transition: background 0.25s ease;
+}
+
+.hud-action i {
+  font-size: 0.72rem;
+}
+
+.hud-theme {
+  width: var(--tab-h);
+  padding: 0;
+}
+
+.hud-theme i {
+  font-size: 0.85rem;
+  transition: transform 0.45s var(--hud-ease);
+}
+
+/* Filet de séparation entre les deux actions */
+.hud-split {
+  width: 1px;
+  height: 18px;
+  background: var(--hud-edge);
+}
+
+/* ============================================================
+   SURVOL — seulement là où un vrai curseur existe
+   ============================================================ */
+@media (hover: hover) {
+  .hud-brand:hover::before,
+  .hud-dock:hover::before,
+  .hud-actions:hover::before {
+    background: var(--hud-edge-hot);
   }
 
-  .btn-cv {
-    display: none;
+  .hud-brand:hover .brand-glyph {
+    transform: translateX(2px);
   }
 
-  /* Afficher le hamburger */
-  .hamburger {
-    display: flex;
+  .nav-tab:hover {
+    color: var(--text-primary);
   }
 
-  /* Afficher le menu mobile */
-  .nav-mobile {
-    display: block;
+  .nav-tab:hover::after {
+    background: var(--accent-glow);
   }
 
-  .header-inner {
-    padding: 0 16px;
+  .hud-action:hover {
+    color: var(--text-primary);
+    /* Écrase le a:hover global */
+    opacity: 1;
+  }
+
+  .hud-action:hover::after {
+    background: var(--accent-glow);
+  }
+
+  .hud-theme:hover i {
+    transform: rotate(-20deg);
   }
 }
 
-@media (max-width: 480px) {
-  .logo {
-    font-size: 0.95rem;
+/* ============================================================
+   MOBILE — le dock des sections descend à portée du pouce
+
+   Plus de hamburger : les cinq sections restent visibles, la
+   section courante s'élargit pour afficher son nom, les autres
+   tiennent en icône. Naviguer coûte un geste au lieu de deux.
+   ============================================================ */
+@media (max-width: 768px) {
+  :host {
+    --hud-top: 12px;
+    --hud-h: 44px;
+    --ch: 10px;
+  }
+
+  .hud.is-scrolled {
+    --hud-top: 10px;
+    --hud-h: 42px;
+  }
+
+  .hud-row {
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    padding: 0 14px;
+  }
+
+  .hud-brand {
+    gap: 8px;
+    padding: 0 13px 0 11px;
+  }
+
+  .brand-glyph {
+    width: 19px;
+    height: 19px;
+  }
+
+  .brand-word {
+    font-size: 0.88rem;
+  }
+
+  .brand-suffix {
+    font-size: 0.7rem;
+  }
+
+  /* ── Le dock quitte la ligne du haut et se fixe en bas ── */
+  .hud-dock {
+    position: fixed;
+    /* Sans cela, le justify-self du desktop ferait rétrécir le dock
+       sur sa largeur de contenu au lieu de le tendre d'un bord à l'autre. */
+    justify-self: stretch;
+    left: 12px;
+    right: 12px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    height: 58px;
+    padding: 0 7px;
+    animation-name: dock-rise;
+    animation-delay: 0.3s;
+    transition:
+      transform 0.4s var(--hud-ease),
+      opacity 0.3s ease;
+  }
+
+  .nav-rail {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Le marqueur glissant n'a plus de sens ici : la largeur des
+     onglets change avec la section active. */
+  .nav-marker {
+    display: none;
+  }
+
+  .nav-tab {
+    min-width: 44px;
+    height: 46px;
+    padding: 0 7px;
+    transition:
+      color 0.3s ease,
+      padding 0.45s var(--hud-ease);
+  }
+
+  .nav-icon {
+    display: block;
+  }
+
+  /* Le libellé n'apparaît que pour la section visible. Il reste
+     dans le DOM, donc lisible par les lecteurs d'écran. */
+  .nav-label {
+    max-width: 0;
+    margin-left: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      max-width 0.45s var(--hud-ease),
+      margin-left 0.45s var(--hud-ease),
+      opacity 0.3s ease;
+  }
+
+  .nav-tab.is-active {
+    padding: 0 14px;
+  }
+
+  .nav-tab.is-active::after {
+    background: var(--accent-glow);
+    /* Barre d'état en haut de la pastille */
+    box-shadow: inset 0 2px 0 var(--text-primary);
+  }
+
+  .nav-tab.is-active .nav-label {
+    max-width: 10ch;
+    margin-left: 9px;
+    opacity: 1;
+  }
+}
+
+/* Le dock monte depuis le bas, pas depuis le haut */
+@keyframes dock-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* ── Petits téléphones : on resserre, rien ne se tronque ── */
+@media (max-width: 380px) {
+  .hud-dock {
+    left: 10px;
+    right: 10px;
+    height: 54px;
+    padding: 0 5px;
+  }
+
+  .nav-tab {
+    min-width: 40px;
+    padding: 0 5px;
+  }
+
+  .nav-tab.is-active {
+    padding: 0 11px;
+  }
+
+  .nav-tab.is-active .nav-label {
+    margin-left: 7px;
+  }
+
+  /* L'icône de téléchargement suffit : le nom accessible reste
+     porté par l'aria-label du lien. */
+  .hud-cv {
+    width: var(--tab-h);
+    padding: 0;
+  }
+
+  .hud-action-label {
+    display: none;
+  }
+
+  .hud-split {
+    display: none;
   }
 }
