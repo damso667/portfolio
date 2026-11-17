@@ -91,16 +91,28 @@ const fr = {
     journeyTitle: 'Mon parcours',
     timeline: [
       {
+        period: 'Juin 2026 - Sept 2026',
+        title: 'Stage Profetionnel - Développeur Backend',
+        organization: 'NCL Unlimited, Yaoundé',
+        description: 'Participation à la conception backend de lapplication mobile HEMLE, avec Express et PostgreSQL(Supabase) et Mise en place d\'automatisation de flux de travail avec n8n pour la gestion des données et des notifications.',
+      },
+      {
+        period: 'Juin 2026 - Sept 2026',
+        title: 'Stage Profetionnel - Développeur Backend',
+        organization: 'Stevo Digital, Yaoundé',
+        description: 'Participation à la conception backend d’une application web Affricaine AfriConnect, avec Express et PostgreSQL(Supabase) et Mise en place d\'automatisation de flux de travail avec n8n pour la gestion des données et des notifications.',
+      },
+      {
         period: '2026',
         title: 'BTS Génie Logiciel',
         organization: 'ISMAT, Yaoundé (Cameroun)',
         description: 'Développement logiciel, algorithmique, bases de données, réseaux et gestion de projet.',
       },
       {
-        period: '2025',
-        title: 'Développeur full stack (stage)',
+        period: 'Juin 2025 - Sept 2025',
+        title: 'Stage Academique- Développeur web',
         organization: 'MCA Conseils Sarl, Yaoundé',
-        description: 'Application de gestion de laboratoire hospitalier avec Spring Boot, Angular et MySQL.',
+        description: 'Développement d’une application de gestion de laboratoire hospitalier, avec Spring Boot, Angular et PostgreSQL.',
       },
       {
         period: '2024',
