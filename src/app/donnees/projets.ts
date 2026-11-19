@@ -89,7 +89,7 @@ export const PROJETS: Projet[] = [
       'Rapports de présence exportables en PDF et en Word.',
       "Authentification JWT avec un jeton de rafraîchissement à usage unique, lié à l'appareil.",
     ],
-    image: '/presencencl/dashboard.jpg',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR98xHGfliuVutoC8tye96ECwTBMQTt1vnvx8zohLoFSA&s=10',
     galerie: [
       '/presencencl/dashboard.jpg',
       '/presencencl/borne.jpg',
@@ -151,8 +151,8 @@ export const PROJETS: Projet[] = [
       "Nom, slogan, couleur et logo de la boutique modifiables depuis le back-office, sans redéploiement, jusqu'à l'icône de l'application installée.",
       "L'interface prévient quand le serveur gratuit se réveille au lieu de laisser croire à une panne.",
     ],
-    image: '/qalf-shop/accueil.jpg',
-    galerie: ['/qalf-shop/accueil.jpg', '/qalf-shop/mobile-accueil.jpg'],
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBkOWYyuFQLEclfzXak-If3s6DCX-FPcILBKJn2ddorA&s=10',
+    galerie: ['/qalf-shop/image.png', '/qalf-shop/image2.png'],
     demo: 'https://qalf-shop.vercel.app',
     code: 'https://github.com/damso667/e-commerceFront',
     autresLiens: [
