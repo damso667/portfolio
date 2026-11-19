@@ -138,6 +138,37 @@ export const PROJETS: Projet[] = [
 
   // ────────────────────────────────────────────────────────────
   {
+    id: 'qalf-shop',
+    titre: 'QALF SHOP',
+    resume:
+      "Boutique en ligne avec paiement mobile money (MTN Mobile Money et Orange Money). Application installable sur téléphone (PWA), pensée pour Android et une connexion irrégulière, avec un back-office complet.",
+    role: 'Conception et développement complets : interface Angular 20, API Spring Boot 4, base PostgreSQL et déploiement.',
+    fonctionnalites: [
+      'Catalogue, recherche, fiche article, panier, commande et compte client.',
+      'Paiement mobile money MTN et Orange avec suivi du statut et historique des commandes.',
+      "Paiements idempotents : un double-clic, un rechargement ou une nouvelle tentative réseau ne débite jamais deux fois.",
+      'Back-office : tableau de bord, paiements et remboursements, catalogue et stock, commandes, clients, modération des avis et journal d\'audit.',
+      "Nom, slogan, couleur et logo de la boutique modifiables depuis le back-office, sans redéploiement, jusqu'à l'icône de l'application installée.",
+      "L'interface prévient quand le serveur gratuit se réveille au lieu de laisser croire à une panne.",
+    ],
+    image: '/qalf-shop/accueil.jpg',
+    galerie: ['/qalf-shop/accueil.jpg', '/qalf-shop/mobile-accueil.jpg'],
+    demo: 'https://qalf-shop.vercel.app',
+    code: 'https://github.com/damso667/e-commerceFront',
+    autresLiens: [
+      { libelle: 'e-commerceBd (API)', url: 'https://github.com/damso667/e-commerceBd', icone: 'fa-brands fa-github' },
+    ],
+    technos: [
+      ANGULAR,
+      SPRING,
+      { icone: 'si si-postgresql', nom: 'PostgreSQL', couleur: '#4169e1' },
+      { icone: 'fa-solid fa-mobile-screen-button', nom: 'PWA', couleur: '#5a0fc8' },
+      { icone: 'fa-solid fa-money-bill-wave', nom: 'Mobile Money', couleur: '#ffcc00' },
+    ],
+  },
+
+  // ────────────────────────────────────────────────────────────
+  {
     id: 'banque',
     titre: 'Mini gestion bancaire',
     resume:
